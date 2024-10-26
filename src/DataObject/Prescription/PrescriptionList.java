@@ -1,11 +1,13 @@
 package DataObject.Prescription;
 
-
 class PrescriptionNode {
     Prescription prescription;
     PrescriptionNode nextNode;
 }
 
+/**
+ * A linked list of prescription that stores in ascending order
+ */
 public class PrescriptionList {
 
     // Private attributes
@@ -19,6 +21,9 @@ public class PrescriptionList {
     // Public methods
     public int getCount() {return count;}
 
+    /**
+     * Prints out all the prescription in its list
+     */
     public void print(){
         PrescriptionNode curRef = this.headRef;
         while (curRef != null) {
@@ -27,6 +32,10 @@ public class PrescriptionList {
         }
     }
 
+    /**
+     * Adds prescription into the list in ascending order
+     * @param prescription
+     */
     public void addPrescription(Prescription prescription) {
         PrescriptionNode insert = new PrescriptionNode();
         insert.prescription = prescription;
@@ -49,6 +58,11 @@ public class PrescriptionList {
         this.count++;
     }
 
+    /**
+     * Removes the prescription by index starting from 0
+     * @param index
+     * @return
+     */
     public int removePrescription(int index){ // Remove by index return 0 if successful -1 if unsuccessful
         if (count == 0 || index < 0 || index >= count) return -1;
         if (index == 0) {
@@ -65,7 +79,12 @@ public class PrescriptionList {
         return 0;
     }
 
-    public Prescription findPrescription(String medicineName) { // Takes medicine name and returns the prescription object (Assuming no duplicate)
+    /**
+     * Find and returns prescription based on the medicine name
+     * @param medicineName
+     * @return
+     */
+    public Prescription getPrescription(String medicineName) { // Takes medicine name and returns the prescription object (Assuming no duplicate)
         PrescriptionNode curRef = this.headRef;
         while (curRef != null) {
             if (curRef.prescription.getMedicineName().compareTo(medicineName) == 0) return curRef.prescription;
@@ -74,16 +93,26 @@ public class PrescriptionList {
         return null; // Return null if target medicine not prescribed
     }
 
-    public Prescription findPrescription(int index) { // Takes index and returns the prescription object (Assuming no duplicate)
+    /**
+     * Find and returns prescription based on the index starting from 0
+     * @param index
+     * @return
+     */
+    public Prescription getPrescription(int index) { // Takes index and returns the prescription object (Assuming no duplicate)
         if (index >= count) return null;
         PrescriptionNode curRef = this.headRef;
         while (index > 0) {
             curRef = curRef.nextNode;
             index--;
         }
-        return curRef.prescription; // Return null if target medicine not prescribed
+        return curRef.prescription;
     }
 
+    /**
+     * Convert list to string by concatenating each prescription separated by the delimiter
+     * @param delimiter
+     * @return
+     */
     public String DataSave(String delimiter){
         String output = "";
         PrescriptionNode curRef = headRef;

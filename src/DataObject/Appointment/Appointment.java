@@ -5,6 +5,9 @@ import DataObject.Prescription.*;
 import java.util.Date;
 import java.util.Scanner;
 
+/**
+ * A class that stores the information of an appointment
+ */
 public class Appointment implements Comparable<Appointment> {
 
     // Private attributes
@@ -17,6 +20,10 @@ public class Appointment implements Comparable<Appointment> {
     private PrescriptionList prescriptionList;
 
     // Constructor
+
+    /**
+     * Creates appointment object and prompts input
+     */
     public Appointment() {
         Scanner sc = new Scanner(System.in);
 
@@ -33,6 +40,16 @@ public class Appointment implements Comparable<Appointment> {
         this.prescriptionList = new PrescriptionList();
     }
 
+    /**
+     * Creates appointment object with given input
+     * @param status PENDING, APPORVED, REJECTED, CANCELLED, COMPLETED
+     * @param nameOfApt Name of the appointment
+     * @param patientID
+     * @param doctorID
+     * @param date serialised string (e.g. YYYY-MM-DD-HH-MM)
+     * @param notes
+     * @param prescriptionList List of all the prescription
+     */
     public Appointment(APT_STATUS status, String nameOfApt, int patientID, int doctorID, String date, String notes, PrescriptionList prescriptionList ) {
         this.status = status;
         this.nameOfApt = nameOfApt;
@@ -43,6 +60,10 @@ public class Appointment implements Comparable<Appointment> {
         this.prescriptionList = prescriptionList;
     }
 
+    /**
+     * Creates appointment object from serialised data
+     * @param DataInput
+     */
     public Appointment(String DataInput){
         // Sample 0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10
         String[] Inputs = DataInput.split("[/,]"); // Removed "-" to keep Date and DataObject.Prescription data intact
@@ -69,6 +90,14 @@ public class Appointment implements Comparable<Appointment> {
     }
 
     // Public methods
+
+    public PrescriptionList getPrescriptionList() {return prescriptionList;}
+
+    /**
+     * Prints out a formatted appointment block
+     * With either PatientID/DoctorID base on the boolean input
+     * @param Patient
+     */
     public void print(boolean Patient) {
         System.out.println("______________________________");
         System.out.printf("|%-8s:%-20s|\n", "Event", this.nameOfApt);
@@ -82,16 +111,36 @@ public class Appointment implements Comparable<Appointment> {
         System.out.println("______________________________");
     }
 
+    /**
+     * Prints its prescriptions
+     */
     public void printPrescription() { this.prescriptionList.print();}
 
+    /**
+     * Returns the serialised data
+     * @return
+     */
     public String getDataSave() {return DataSave();}
 
+    /**
+     * Compares the current appointment with the argument appointment
+     * It returns the value 0 if the argument Date is equal to this Date.
+     * It returns a value less than 0 if this Date is before the Date argument.
+     * It returns a value greater than 0 if this Date is after the Date argument.
+     * @param o the object to be compared.
+     * @return
+     */
     @Override
     public int compareTo(Appointment o) {
         return this.appointmentTime.compareTo(o.appointmentTime);
     }
 
     // Private methods
+
+    /**
+     * To convert the object into string for data storing
+     * @return
+     */
     private String DataSave(){
         // Sample 0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10
         String[] outputList = new String[] {
@@ -103,6 +152,11 @@ public class Appointment implements Comparable<Appointment> {
         return output;
     }
 
+    /**
+     * To covert the formatted Date string to Date object
+     * @param string
+     * @return
+     */
     private Date StrToDate (String string) {
         String[] Inputs = string.split("[-/,]");
         try {
@@ -129,6 +183,12 @@ public class Appointment implements Comparable<Appointment> {
             return new Date(year-1900,month,day,hours,minutes);
         }
     }
+
+    /**
+     * To convert Date object to formatted Date string
+     * @param date
+     * @return
+     */
     private String DateToStr (Date date) {
         // Sample 2024-08-21-16-00
         String[] output = new String[]
@@ -137,6 +197,12 @@ public class Appointment implements Comparable<Appointment> {
         return convertStrArrayToStr(output, "-");
     }
 
+    /**
+     * Concatenate all the string in the argument array with the delimiter
+     * @param strArr
+     * @param delimiter
+     * @return
+     */
     private String convertStrArrayToStr(String[] strArr, String delimiter) {
         StringBuilder sb = new StringBuilder();
         for (String str : strArr)

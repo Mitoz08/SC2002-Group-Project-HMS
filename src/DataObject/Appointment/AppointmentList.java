@@ -5,19 +5,35 @@ class AppointmentNode {
     AppointmentNode nextNode;
 }
 
+/**
+ * A linked list of appointments
+ */
 public class AppointmentList {
 
     // Private attributes
     private AppointmentNode headRef;
     private AppointmentNode tailRef;
     private int count;
+    private boolean ascending;
 
     // Constructor
-    // Default
+
+    /**
+     * Creates AppointmentList object sorted in ascending if argument is true
+     * @param ascending
+     */
+    public AppointmentList(boolean ascending) {
+        this.ascending = ascending;
+    }
 
     // Public methods
     public int getCount() {return count;}
 
+    /**
+     * Prints out every appointment in the list
+     * With either PatientID/DoctorID base on the boolean input
+     * @param Patient
+     */
     public void print(boolean Patient) {
         AppointmentNode curRef = this.headRef;
         while (curRef != null) {
@@ -26,6 +42,10 @@ public class AppointmentList {
         }
     }
 
+    /**
+     * Adds appointment into the list in ascending/descending order
+     * @param appointment
+     */
     public void addAppointment(Appointment appointment) {
         AppointmentNode insert = new AppointmentNode();
         insert.appointment = appointment;
@@ -33,7 +53,7 @@ public class AppointmentList {
         if (this.headRef == null) {
             this.headRef = insert;
             this.tailRef = insert;
-        } else {
+        } else if (ascending){
             AppointmentNode curRef = headRef;
             if (appointment.compareTo(curRef.appointment) < 0) { // If it should be in spot 0
                 insert.nextNode = curRef;
@@ -44,10 +64,26 @@ public class AppointmentList {
             if (curRef.nextNode == null) this.tailRef = insert;
             insert.nextNode = curRef.nextNode;
             curRef.nextNode = insert;
+        } else {
+            AppointmentNode curRef = headRef;
+            if (appointment.compareTo(curRef.appointment) > 0) { // If it should be in spot 0
+                insert.nextNode = curRef;
+                this.headRef = insert;
+                return;
+            }
+            while (curRef.nextNode != null && appointment.compareTo(curRef.nextNode.appointment) < 0) curRef = curRef.nextNode; // Traverse to the n-1 node to insert the n node
+            if (curRef.nextNode == null) this.tailRef = insert;
+            insert.nextNode = curRef.nextNode;
+            curRef.nextNode = insert;
         }
         this.count++;
     }
 
+    /**
+     * Removes the prescription by index starting from 0
+     * @param index
+     * @return
+     */
     public int removeAppointment(int index){ // Remove by index return 0 if successful -1 if unsuccessful
         if (count == 0 || index < 0 || index >= count) return -1;
         if (index == 0) {
@@ -64,16 +100,25 @@ public class AppointmentList {
         return 0;
     }
 
-    public Appointment findAppointment(int index) { // Takes index and returns the appointment object (Assuming no duplicate)
-        if (index >= count) return null;
+    /**
+     * Find and returns prescription based on the medicine name
+     * @param index
+     * @return
+     */
+    public Appointment getAppointment(int index) { // Takes index and returns the appointment object (Assuming no duplicate)
+        if (index >= this.count) return null;
         AppointmentNode curRef = this.headRef;
         while (index > 0) {
             curRef = curRef.nextNode;
             index--;
         }
-        return curRef.appointment; // Return null if target medicine not prescribed
+        return curRef.appointment;
     }
 
+    /**
+     * Yet to implement
+     * Currently prints out every appointments' serialised data
+     */
     public void DataSave() {
         AppointmentNode curRef = headRef;
         while (curRef != null) {
