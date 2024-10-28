@@ -46,16 +46,16 @@ public class Appointment implements Comparable<Appointment> {
      * @param nameOfApt Name of the appointment
      * @param patientID
      * @param doctorID
-     * @param date serialised string (e.g. YYYY-MM-DD-HH-MM)
+     * @param date date object  (e.g. Date(YYYY,MM,DD,HH,MM)
      * @param notes
      * @param prescriptionList List of all the prescription
      */
-    public Appointment(APT_STATUS status, String nameOfApt, int patientID, int doctorID, String date, String notes, PrescriptionList prescriptionList ) {
+    public Appointment(APT_STATUS status, String nameOfApt, int patientID, int doctorID, Date date, String notes, PrescriptionList prescriptionList ) {
         this.status = status;
         this.nameOfApt = nameOfApt;
         this.patientID = patientID;
         this.doctorID = doctorID;
-        this.appointmentTime = StrToDate(date);
+        this.appointmentTime = date;
         this.notes = notes;
         this.prescriptionList = prescriptionList;
     }
@@ -90,8 +90,13 @@ public class Appointment implements Comparable<Appointment> {
     }
 
     // Public methods
-
-    public PrescriptionList getPrescriptionList() {return prescriptionList;}
+    public APT_STATUS getStatus() {return this.status;}
+    public String getNameOfApt() {return this.nameOfApt;}
+    public int getPatientID() {return this.patientID;}
+    public int getDoctorID() {return this.doctorID;}
+    public Date getAppointmentTime() {return this.appointmentTime;}
+    public String getNotes() {return this.notes;}
+    public PrescriptionList getPrescriptionList() {return this.prescriptionList;}
 
     /**
      * Prints out a formatted appointment block
@@ -105,6 +110,21 @@ public class Appointment implements Comparable<Appointment> {
             System.out.printf("|%-8s:%03d%-17s|\n", "Doctor", this.doctorID, ""); // Need to change to name of doctor once classes are made
         else
             System.out.printf("|%-8s:%04d%-16s|\n", "Patient", this.patientID, ""); // Need to change to name of doctor once classes are made
+        System.out.printf("|%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth(), this.appointmentTime.getYear(), "");
+        System.out.printf("|%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
+        if (!this.notes.equals("Empty")) System.out.printf("|%-8s:%-20s|\n", "Notes", this.notes);
+        System.out.println("______________________________");
+    }
+
+    /**
+     * Prints out a formatted appointment block of all the data
+     */
+    public void print() {
+        System.out.println("______________________________");
+        System.out.printf("|%-8s:%-20s|\n", "Status", this.status);
+        System.out.printf("|%-8s:%-20s|\n", "Event", this.nameOfApt);
+        System.out.printf("|%-8s:%03d%-17s|\n", "Doctor", this.doctorID, ""); // Need to change to name of doctor once classes are made
+        System.out.printf("|%-8s:%04d%-16s|\n", "Patient", this.patientID, ""); // Need to change to name of doctor once classes are made
         System.out.printf("|%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth(), this.appointmentTime.getYear(), "");
         System.out.printf("|%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
         if (!this.notes.equals("Empty")) System.out.printf("|%-8s:%-20s|\n", "Notes", this.notes);
@@ -154,6 +174,7 @@ public class Appointment implements Comparable<Appointment> {
 
     /**
      * To covert the formatted Date string to Date object
+     * To be deleted
      * @param string
      * @return
      */
@@ -186,6 +207,7 @@ public class Appointment implements Comparable<Appointment> {
 
     /**
      * To convert Date object to formatted Date string
+     * To be deleted
      * @param date
      * @return
      */
@@ -199,6 +221,7 @@ public class Appointment implements Comparable<Appointment> {
 
     /**
      * Concatenate all the string in the argument array with the delimiter
+     * To be deleted
      * @param strArr
      * @param delimiter
      * @return
