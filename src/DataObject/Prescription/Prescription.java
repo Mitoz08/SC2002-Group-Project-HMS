@@ -29,11 +29,11 @@ public class Prescription implements Comparable<Prescription> {
 
     /**
      * Creates prescription object with given input
+     * @param status Prescribed or not
      * @param medicineName Name of medicine
      * @param amount Amount of medicine
-     * @param status Prescribed or not
      */
-    public Prescription (String medicineName, int amount, MED_STATUS status) {
+    public Prescription (MED_STATUS status ,String medicineName, int amount) {
         this.status = status;
         this.medicineName = medicineName;
         this.amount = amount;
@@ -117,6 +117,7 @@ public class Prescription implements Comparable<Prescription> {
 
     /**
      * To convert the object into string for data storing
+     * To be deleted
      * @return
      */
     private String DataSave () {
