@@ -77,12 +77,13 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "Pharmacist",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/65841/OneDrive/Desktop/IdeaProjects/SC2002 Group Project HMS/src/Prescription",
+    "last_opened_file_path": "C:/Users/Juanl/IdeaProjects/SC2002-Group-Project-HMS/.idea",
     "onboarding.tips.debug.path": "C:/Users/65841/OneDrive/Desktop/IdeaProjects/SC2002 Group Project HMS/src/Main.java"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Juanl\IdeaProjects\SC2002-Group-Project-HMS\.idea" />
       <recent name="C:\Users\65841\OneDrive\Desktop\IdeaProjects\SC2002 Group Project HMS\src\Prescription" />
       <recent name="C:\Users\65841\OneDrive\Desktop\IdeaProjects\SC2002 Group Project HMS\src\Appointment" />
     </key>
@@ -131,32 +132,12 @@
       <option name="project" value="LOCAL" />
       <updated>1730122290308</updated>
     </task>
-    <task id="LOCAL-00005" summary="Added DataEncryption class that uses Vigenre ciphering">
-      <option name="closed" value="true" />
-      <created>1730154450441</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1730154450441</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="5" />
     <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit" />
     <MESSAGE value="print for Patient.java" />
-    <MESSAGE value="Added DataEncryption class that uses Vigenre ciphering" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added DataEncryption class that uses Vigenre ciphering" />
+    <option name="LAST_COMMIT_MESSAGE" value="print for Patient.java" />
   </component>
 </project>
