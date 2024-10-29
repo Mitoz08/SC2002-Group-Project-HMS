@@ -90,14 +90,6 @@ public class Prescription implements Comparable<Prescription> {
     }
 
     /**
-     * Returns the serialised data
-     * @return
-     */
-    public String getDataSave() {
-        return DataSave();
-    }
-
-    /**
      * Compares the current prescription with the argument prescription
      * when current medicine is smaller than the argument medicine (alphabetically) returns less than 0
      * when current medicine is larger than the argument medicine (alphabetically) returns more than 0
@@ -114,14 +106,4 @@ public class Prescription implements Comparable<Prescription> {
     }
 
     // Private method
-
-    /**
-     * To convert the object into string for data storing
-     * To be deleted
-     * @return
-     */
-    private String DataSave () {
-        // Sample 0-MedicineName1-10
-        return this.status.ordinal() + "-" + this.medicineName + "-" + this.amount; // Separated by '-' so that each prescription is stored in a cell
-    }
 }
