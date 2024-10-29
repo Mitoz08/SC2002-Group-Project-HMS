@@ -1,6 +1,7 @@
 package DataObject.Appointment;
 
 import DataObject.Prescription.*;
+import Serialisation.DataSerialisation;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -14,11 +15,17 @@ public class Appointment implements Comparable<Appointment> {
     private APT_STATUS status;
     private String nameOfApt;
     private int patientID;
+    private String patientName;
     private int doctorID;
+    private String doctorname;
     private Date appointmentTime;
     private String notes;
     private PrescriptionList prescriptionList;
+    private String appointmentID;
 
+    private static int lastID = 0;
+    private static final int IDLength = 10;
+    private static final String IDPrefix = "APT";
     // Constructor
 
     /**
@@ -32,79 +39,102 @@ public class Appointment implements Comparable<Appointment> {
         this.nameOfApt = sc.nextLine();
         System.out.print("Enter patient's hosptial ID: ");
         this.patientID = sc.nextInt();
+        sc.nextLine();
+        this.patientName = "patientName"; //To be added, maybe a database function that returns name when given the ID
         System.out.print("Enter doctors's hosptial ID: ");
         this.doctorID = sc.nextInt();
+        sc.nextLine();
+        this.doctorname = "doctorName"; //To be added, maybe a database function that returns name when given the ID
         System.out.print("Enter YYYY-MM-DD-HH-MM: ");
-        this.appointmentTime = StrToDate(sc.nextLine());
+        this.appointmentTime = DataSerialisation.DeserialiseDate(sc.nextLine());
         this.notes = "Empty";
         this.prescriptionList = new PrescriptionList();
+        this.appointmentID = AppointmentIDGenerator();
     }
 
     /**
      * Creates appointment object with given input
-     * @param status PENDING, APPORVED, REJECTED, CANCELLED, COMPLETED
-     * @param nameOfApt Name of the appointment
+     *
+     * @param status           PENDING, APPORVED, REJECTED, CANCELLED, COMPLETED
+     * @param nameOfApt        Name of the appointment
      * @param patientID
      * @param doctorID
-     * @param date date object  (e.g. Date(YYYY,MM,DD,HH,MM)
+     * @param date             date object  (e.g. Date(YYYY,MM,DD,HH,MM)
      * @param notes
      * @param prescriptionList List of all the prescription
      */
-    public Appointment(APT_STATUS status, String nameOfApt, int patientID, int doctorID, Date date, String notes, PrescriptionList prescriptionList ) {
+    public Appointment(APT_STATUS status, String nameOfApt, int patientID, int doctorID, Date date, String notes, PrescriptionList prescriptionList) {
         this.status = status;
         this.nameOfApt = nameOfApt;
         this.patientID = patientID;
+        this.patientName = "patientName"; //To be added, maybe a database function that returns name when given the ID
         this.doctorID = doctorID;
+        this.doctorname = "doctorName"; //To be added, maybe a database function that returns name when given the ID
         this.appointmentTime = date;
         this.notes = notes;
         this.prescriptionList = prescriptionList;
+        this.appointmentID = AppointmentIDGenerator();
     }
 
     /**
-     * Creates appointment object from serialised data
-     * @param DataInput
+     * Creates appointment object with given input
+     *
+     * @param status           PENDING, APPORVED, REJECTED, CANCELLED, COMPLETED
+     * @param nameOfApt        Name of the appointment
+     * @param patientID
+     * @param doctorID
+     * @param date             date object  (e.g. Date(YYYY,MM,DD,HH,MM)
+     * @param notes
+     * @param prescriptionList List of all the prescription
+     * @param appointmentID Appointment ID loaded from file
      */
-    public Appointment(String DataInput){
-        // Sample 0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10
-        String[] Inputs = DataInput.split("[/,]"); // Removed "-" to keep Date and DataObject.Prescription data intact
-        this.prescriptionList = new PrescriptionList();
-        try {
-            int index = 0;
-            this.status = APT_STATUS.values()[Integer.parseInt(Inputs[index++])];
-            this.nameOfApt = Inputs[index++];
-            this.patientID = Integer.parseInt(Inputs[index++]);
-            this.doctorID = Integer.parseInt(Inputs[index++]);
-            this.appointmentTime = StrToDate(Inputs[index++]);
-            this.notes = Inputs[index++];
-            while (true) {
-                try {
-                    Prescription prescription = new Prescription(Inputs[index++]);
-                    this.prescriptionList.addPrescription(prescription);
-                } catch (IndexOutOfBoundsException e) {
-                    break;
-                }
-            }
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Incorrect data input");
-        }
+    public Appointment(APT_STATUS status, String nameOfApt, int patientID, int doctorID, Date date, String notes, PrescriptionList prescriptionList, String appointmentID) {
+        this.status = status;
+        this.nameOfApt = nameOfApt;
+        this.patientID = patientID;
+        this.patientName = "patientName"; //To be added, maybe a database function that returns name when given the ID
+        this.doctorID = doctorID;
+        this.doctorname = "doctorName"; //To be added, maybe a database function that returns name when given the ID
+        this.appointmentTime = date;
+        this.notes = notes;
+        this.prescriptionList = prescriptionList;
+        this.appointmentID = appointmentID;
     }
 
     // Public methods
     public APT_STATUS getStatus() {return this.status;}
     public String getNameOfApt() {return this.nameOfApt;}
     public int getPatientID() {return this.patientID;}
+    public String getPatientName() {return this.patientName;}
     public int getDoctorID() {return this.doctorID;}
+    public String getDoctorname() {return this.doctorname;}
     public Date getAppointmentTime() {return this.appointmentTime;}
-    public String getNotes() {return this.notes;}
-    public PrescriptionList getPrescriptionList() {return this.prescriptionList;}
+    public String getNotes() {return this.notes; }
+    public PrescriptionList getPrescriptionList() {return this.prescriptionList; }
+    public String getAppointmentID() {return this.appointmentID;}
+
+    /**
+     * Used at the start to reload the last unused ID
+     * @param newlastID
+     */
+    public static void setLastID(int newlastID) {lastID = newlastID;}
+
+    /**
+     * Used at the end to save the last unused ID
+     * @return
+     */
+    public static int getLastID() {return lastID;}
 
     /**
      * Prints out a formatted appointment block
      * With either PatientID/DoctorID base on the boolean input
+     *
      * @param Patient
      */
     public void print(boolean Patient) {
         System.out.println("______________________________");
+        System.out.printf("|%-8s:%-20s|\n", "APT ID", this.appointmentID);
+        System.out.printf("|%-8s:%-20s|\n", "Status", this.status);
         System.out.printf("|%-8s:%-20s|\n", "Event", this.nameOfApt);
         if (Patient)
             System.out.printf("|%-8s:%03d%-17s|\n", "Doctor", this.doctorID, ""); // Need to change to name of doctor once classes are made
@@ -121,6 +151,7 @@ public class Appointment implements Comparable<Appointment> {
      */
     public void print() {
         System.out.println("______________________________");
+        System.out.printf("|%-8s:%-20s|\n", "APT ID", this.appointmentID);
         System.out.printf("|%-8s:%-20s|\n", "Status", this.status);
         System.out.printf("|%-8s:%-20s|\n", "Event", this.nameOfApt);
         System.out.printf("|%-8s:%03d%-17s|\n", "Doctor", this.doctorID, ""); // Need to change to name of doctor once classes are made
@@ -134,19 +165,14 @@ public class Appointment implements Comparable<Appointment> {
     /**
      * Prints its prescriptions
      */
-    public void printPrescription() { this.prescriptionList.print();}
-
-    /**
-     * Returns the serialised data
-     * @return
-     */
-    public String getDataSave() {return DataSave();}
+    public void printPrescription() {this.prescriptionList.print();}
 
     /**
      * Compares the current appointment with the argument appointment
      * It returns the value 0 if the argument Date is equal to this Date.
      * It returns a value less than 0 if this Date is before the Date argument.
      * It returns a value greater than 0 if this Date is after the Date argument.
+     *
      * @param o the object to be compared.
      * @return
      */
@@ -157,79 +183,16 @@ public class Appointment implements Comparable<Appointment> {
 
     // Private methods
 
-    /**
-     * To convert the object into string for data storing
-     * @return
-     */
-    private String DataSave(){
-        // Sample 0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10
-        String[] outputList = new String[] {
-                String.valueOf(this.status.ordinal()), this.nameOfApt, String.valueOf(this.patientID),
-                String.valueOf(this.doctorID), DateToStr(this.appointmentTime), this.notes
-        };
-        String output = convertStrArrayToStr(outputList, "/");
-        output += prescriptionList.DataSave("/");
-        return output;
-    }
+    public static String AppointmentIDGenerator() {
+        StringBuilder str = new StringBuilder();
+        String IDStr = String.valueOf(lastID);
 
-    /**
-     * To covert the formatted Date string to Date object
-     * To be deleted
-     * @param string
-     * @return
-     */
-    private Date StrToDate (String string) {
-        String[] Inputs = string.split("[-/,]");
-        try {
-            Date date = new Date(Integer.parseInt(Inputs[0]),
-                                Integer.parseInt(Inputs[1]),
-                                Integer.parseInt(Inputs[2]),
-                                Integer.parseInt(Inputs[3]),
-                                Integer.parseInt(Inputs[4]));
-            return date;
-        } catch (IndexOutOfBoundsException e) {
-            Scanner sc = new Scanner(System.in);
-
-            System.out.println("Incorrect data input - manual input");
-            System.out.print("Enter year: ");
-            int year = sc.nextInt();
-            System.out.print("Enter month: ");
-            int month = sc.nextInt();
-            System.out.print("Enter day: ");
-            int day = sc.nextInt();
-            System.out.print("Enter hours: ");
-            int hours = sc.nextInt();
-            System.out.print("Enter minutes: ");
-            int minutes = sc.nextInt();
-            return new Date(year-1900,month,day,hours,minutes);
+        str.append(IDPrefix);
+        for (int i = 0; i < IDLength-IDPrefix.length()-IDStr.length(); i++) {
+            str.append('0');
         }
-    }
-
-    /**
-     * To convert Date object to formatted Date string
-     * To be deleted
-     * @param date
-     * @return
-     */
-    private String DateToStr (Date date) {
-        // Sample 2024-08-21-16-00
-        String[] output = new String[]
-                {String.valueOf(date.getYear()), String.valueOf(date.getMonth()), String.valueOf(date.getDate()),
-                String.valueOf(date.getHours()), String.valueOf(date.getMinutes())};
-        return convertStrArrayToStr(output, "-");
-    }
-
-    /**
-     * Concatenate all the string in the argument array with the delimiter
-     * To be deleted
-     * @param strArr
-     * @param delimiter
-     * @return
-     */
-    private String convertStrArrayToStr(String[] strArr, String delimiter) {
-        StringBuilder sb = new StringBuilder();
-        for (String str : strArr)
-            sb.append(str).append(delimiter);
-        return sb.substring(0, sb.length() - 1);
+        str.append(IDStr);
+        lastID++;
+        return str.toString();
     }
 }

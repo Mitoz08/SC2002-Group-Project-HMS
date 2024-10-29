@@ -107,22 +107,4 @@ public class PrescriptionList {
         }
         return curRef.prescription;
     }
-
-    /**
-     * Convert list to string by concatenating each prescription separated by the delimiter
-     * @param delimiter
-     * @return
-     */
-    public String DataSave(String delimiter){
-        String output = "";
-        PrescriptionNode curRef = headRef;
-        while (curRef != null) {
-            output += curRef.prescription.getDataSave();
-            curRef = curRef.nextNode;
-            if (curRef == null) break;
-            output += delimiter;
-        }
-        return output;
-    }
-
 }
