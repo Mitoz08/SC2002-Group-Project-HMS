@@ -114,16 +114,4 @@ public class AppointmentList {
         }
         return curRef.appointment;
     }
-
-    /**
-     * Yet to implement
-     * Currently prints out every appointments' serialised data
-     */
-    public void DataSave() {
-        AppointmentNode curRef = headRef;
-        while (curRef != null) {
-            System.out.println(curRef.appointment.getDataSave());
-            curRef = curRef.nextNode;
-        }
-    }
 }

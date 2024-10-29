@@ -38,14 +38,15 @@ public class DataSerialisation {
     }
 
     /**
-     * To serialise appointment object to e.g. 0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10
+     * To serialise appointment object to e.g. APT000001/0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10
      * @param apt
      * @return
      */
     public static String SerialiseAppointment(Appointment apt) {
         String[] StringArray = new String[] {
+                apt.getAppointmentID(),
                 String.valueOf(apt.getStatus().ordinal()), apt.getNameOfApt(), String.valueOf(apt.getPatientID()),
-                String.valueOf(apt.getDoctorID()), SerialiseDate(apt.getAppointmentTime()), apt.getNotes(), SerialisePrescriptionList(apt.getPrescriptionList())
+                String.valueOf(apt.getDoctorID()), SerialiseDate(apt.getAppointmentTime()), apt.getNotes(), SerialisePrescriptionList(apt.getPrescriptionList()),
         };
         return convertStringArraytoString(StringArray, "/");
     }
@@ -98,6 +99,7 @@ public class DataSerialisation {
     public static Appointment DeserialiseAppointment(String Serialised) {
         int index = 0;
         String[] Data = Serialised.split("/");
+        String aptID = Data[index++];
         APT_STATUS status = APT_STATUS.values()[Integer.parseInt(Data[index++])];
         String nameOfApt = Data[index++];
         int patientID = Integer.parseInt(Data[index++]);
@@ -113,7 +115,7 @@ public class DataSerialisation {
                 break;
             }
         }
-        return new Appointment(status, nameOfApt, patientID, doctorID, appointmentTime, notes, list);
+        return new Appointment(status, nameOfApt, patientID, doctorID, appointmentTime, notes, list, aptID );
     }
 
     /**
