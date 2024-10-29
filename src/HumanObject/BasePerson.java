@@ -8,4 +8,11 @@ public class BasePerson {
     protected Date DOB;
     protected Boolean Gender;
     protected ROLE role;
+
+    public BasePerson(int ID, String Name, Date DOB, Boolean Gender){
+        this.ID = ID;
+        this.Name= Name;
+        this.DOB = DOB;
+        this.Gender = Gender;
+    }
 }
