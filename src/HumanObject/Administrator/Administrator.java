@@ -15,10 +15,10 @@ public class Administrator extends BasePerson {
         return this.ID;
     }
     public String getName(){
-        return this.Name;
+        return this.name;
     }
     public Boolean getGender(){
-        return this.Gender;
+        return this.gender;
     }
     public Date getDOB(){
         return this.DOB;
