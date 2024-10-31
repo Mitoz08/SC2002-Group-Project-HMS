@@ -74,11 +74,11 @@ public class Prescription implements Comparable<Prescription> {
      * Prints out a formatted prescription block
      */
     public void print() {
-        System.out.println("______________________________");
+        System.out.println("_______________________________");
         System.out.printf("|%-8s:%-20s|\n", "Medicine", this.medicineName);
         System.out.printf("|%-8s:%-20d|\n", "Amount", this.amount);
         System.out.printf("|%-8s:%-20s|\n", "Status", this.status);
-        System.out.println("______________________________");
+        System.out.println("_______________________________");
     }
 
     /**
@@ -86,7 +86,12 @@ public class Prescription implements Comparable<Prescription> {
      */
     public void prescribed() {
         this.status = MED_STATUS.PRESCRIBED;
+        System.out.printf("Prescribed %d %s\n",this.amount,this.medicineName);
         // More code can be added if necessary
+    }
+
+    public boolean isPrescribed() {
+        return this.status == MED_STATUS.PRESCRIBED;
     }
 
     /**

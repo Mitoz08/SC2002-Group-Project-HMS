@@ -1,5 +1,7 @@
 package DataObject.Prescription;
 
+import java.util.Iterator;
+
 class PrescriptionNode {
     Prescription prescription;
     PrescriptionNode nextNode;
@@ -8,7 +10,7 @@ class PrescriptionNode {
 /**
  * A linked list of prescription that stores in ascending order
  */
-public class PrescriptionList {
+public class PrescriptionList implements Iterable<Prescription> {
 
     // Private attributes
     private PrescriptionNode headRef;
@@ -20,6 +22,7 @@ public class PrescriptionList {
 
     // Public methods
     public int getCount() {return count;}
+    public PrescriptionNode getHeadRef(){ return headRef;}
 
     /**
      * Prints out all the prescription in its list
@@ -106,5 +109,30 @@ public class PrescriptionList {
             index--;
         }
         return curRef.prescription;
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new PrescriptionIterator(this);
+    }
+}
+
+class PrescriptionIterator implements Iterator<Prescription> {
+    PrescriptionNode current;
+
+    PrescriptionIterator (PrescriptionList list) {
+        current = list.getHeadRef();
+    }
+
+    @Override
+    public boolean hasNext() {
+        return current != null;
+    }
+
+    @Override
+    public Prescription next() {
+        Prescription output = current.prescription;
+        current = current.nextNode;
+        return output;
     }
 }

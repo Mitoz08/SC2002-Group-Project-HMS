@@ -12,16 +12,20 @@ public class BasePerson {
     protected int ID;
     protected String name;
     protected Date DOB;
-    protected Boolean gender;
+    protected Boolean gender; // True(Male) False(Female)
     protected ROLE role;
 
     private static final int IDLength = 6;
     private static final String[] IDPrefix = new String[] { "PA", "DR", "PH", "AD"};
 
     public BasePerson() {
-        this.name = Input.ScanString("Enter name");
-        this.DOB = DataSerialisation.DeserialiseDate(Input.ScanString("Enter date of birth in this format YYYY-MM-DD-HH-MM"));
-        this.gender = Input.ScanBoolean("Is it male (1) or female (0)");
+        this.name = Input.ScanString("Enter name:");
+        this.DOB = DataSerialisation.DeserialiseDate(Input.ScanString("Enter date of birth in this format YYYY-MM-DD-HH-MM:"));
+        while (true) {
+            char c = Input.ScanChar("Is it male(m) or female(f):");
+            if (c != 'm' && c != 'f') continue;
+            this.gender = c == 'm';
+        }
     }
 
     public BasePerson(int ID, String Name, Date DOB, Boolean Gender){
@@ -30,6 +34,13 @@ public class BasePerson {
         this.DOB = DOB;
         this.gender = Gender;
     }
+
+    public int getID() {return this.ID;}
+    public String getName() {return this.name;}
+    public Date getDOB() {return this.DOB;}
+    public Boolean getGender() {return this.gender;}
+    public ROLE getRole() {return this.role;}
+
 
     public String getStrID() {
         StringBuilder str = new StringBuilder();
