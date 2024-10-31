@@ -1,5 +1,9 @@
 import DataObject.Appointment.Appointment;
+import HumanObject.ROLE;
+import InputHandler.Input;
 import Serialisation.DataSerialisation;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,6 +19,5 @@ public class Main {
 //        Appointment apt = DataSerialisation.DeserialiseAppointment("APT0001/3/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10");
 //        apt.print();
 //        System.out.println(DataSerialisation.SerialiseAppointment(apt));
-
     }
 }
