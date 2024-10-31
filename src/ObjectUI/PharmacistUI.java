@@ -87,6 +87,7 @@ public class PharmacistUI {
                     break;
                 case 3:
                     pharmacy.viewStock();
+                    Input.ScanString("Press enter to continue...");
                     break;
                 case 4:
                     break;
