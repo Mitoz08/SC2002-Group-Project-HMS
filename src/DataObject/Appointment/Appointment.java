@@ -181,6 +181,13 @@ public class Appointment implements Comparable<Appointment> {
         return this.appointmentTime.compareTo(o.appointmentTime);
     }
 
+    public boolean isPrescribed() {
+        for (Prescription o: prescriptionList) {
+            if (!o.isPrescribed()) return false;
+        }
+        return true;
+    }
+
     // Private methods
 
     public static String AppointmentIDGenerator() {

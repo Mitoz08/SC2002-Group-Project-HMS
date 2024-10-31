@@ -35,6 +35,7 @@ public class Pharmacist extends BasePerson {
         this.role = ROLE.PHARMACIST;
     }
 
+
     /**
      * To be used during initialisation to ensure there is unique ID for each pharmacist
      * @param lastID1

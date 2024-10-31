@@ -1,5 +1,9 @@
 package DataObject.Appointment;
 
+import DataObject.Prescription.Prescription;
+
+import java.util.Iterator;
+
 class AppointmentNode {
     Appointment appointment;
     AppointmentNode nextNode;
@@ -8,7 +12,7 @@ class AppointmentNode {
 /**
  * A linked list of appointments
  */
-public class AppointmentList {
+public class AppointmentList implements Iterable<Appointment> {
 
     // Private attributes
     private AppointmentNode headRef;
@@ -28,6 +32,7 @@ public class AppointmentList {
 
     // Public methods
     public int getCount() {return count;}
+    public AppointmentNode getHeadRef() {return headRef;}
 
     /**
      * Prints out every appointment in the list
@@ -113,5 +118,30 @@ public class AppointmentList {
             index--;
         }
         return curRef.appointment;
+    }
+
+    @Override
+    public Iterator<Appointment> iterator() {
+        return null;
+    }
+}
+
+class AppointmentIterator implements Iterator<Appointment> {
+    AppointmentNode current;
+
+    public AppointmentIterator(AppointmentList list) {
+        current = list.getHeadRef();
+    }
+
+    @Override
+    public boolean hasNext() {
+        return current != null;
+    }
+
+    @Override
+    public Appointment next() {
+        Appointment output = current.appointment;
+        current = current.nextNode;
+        return output;
     }
 }
