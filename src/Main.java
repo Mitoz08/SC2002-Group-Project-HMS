@@ -1,6 +1,4 @@
 import DataObject.Appointment.Appointment;
-import HumanObject.ROLE;
-import InputHandler.Input;
 import Serialisation.DataSerialisation;
 
 import java.util.Scanner;
