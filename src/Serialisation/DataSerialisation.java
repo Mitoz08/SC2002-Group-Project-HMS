@@ -5,8 +5,15 @@ import DataObject.Appointment.Appointment;
 import DataObject.Prescription.MED_STATUS;
 import DataObject.Prescription.Prescription;
 import DataObject.Prescription.PrescriptionList;
+import DepartmentObject.UserInfoDatabase;
+import HumanObject.Administrator.Administrator;
+import HumanObject.BasePerson;
+import HumanObject.Patient.Patient;
+import HumanObject.Pharmacist.Pharmacist;
+import HumanObject.ROLE;
 
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -145,6 +152,44 @@ public class DataSerialisation {
         for (String str : StringArray)
             sb.append(str).append(delimiter);
         return sb.substring(0, sb.length() - 1);
+    }
+
+    /*
+    public static BasePerson createPerson (String str){
+
+        String[] split = DataSerialisation.parseData(str);
+        String role = split[5];
+        switch(role){
+            case "DR": //Doctor
+                return new Doctor();
+                break;
+            case "PH": // Pharmacist
+                return new Pharmacist();
+                break;
+            case "PA": // patient
+                return new Patient();
+                break;
+            case "AD": // Administrator
+                Date date = new SimpleDateFormat("yyyy-MM-dd").parse(DataEncryption.Decrypt(split[3]));
+                return new Administrator(Integer.parseInt(split[1]), split[2], split[2],split[3]);
+                break;
+            default:
+                System.out.println("There isn't such a role in this Hospital");
+                break;
+        }
+    }
+    */
+
+
+
+    //class method to turn an encrypted String to an String Array of user info
+    private static String[] parseData (String encryptedString){
+
+        String[] info = new String[6];
+        String str = DataEncryption.Decrypt(encryptedString);
+        String[] parts = str.split("[*&%#!$]");
+        return info;
+
     }
 
 

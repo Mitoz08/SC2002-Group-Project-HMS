@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3061fe7d-6704-4287-8374-a956470b7d76" name="Changes" comment="First commit">
-      <change afterPath="$PROJECT_DIR$/src/HumanObject/Pharmacist/Pharmacist.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/HMS.txt" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/HMS.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataObject/Appointment/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataObject/Appointment/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataObject/Appointment/AppointmentTesting.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataObject/Prescription/Prescription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataObject/Prescription/Prescription.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataObject/Prescription/PrescriptionList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataObject/Prescription/PrescriptionList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DepartmentObject/Pharmacy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DepartmentObject/Pharmacy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DepartmentObject/UserInfoDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DepartmentObject/UserInfoDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HumanObject/Administrator/Administrator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HumanObject/Administrator/Administrator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Serialisation/DataSerialisation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Serialisation/DataSerialisation.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -75,7 +70,7 @@
   "keyToString": {
     "Application.Main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Pharmacist",
+    "git-widget-placeholder": "DatabaseScheduleAppointment",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Juanl/IdeaProjects/SC2002-Group-Project-HMS/.idea",
     "onboarding.tips.debug.path": "C:/Users/65841/OneDrive/Desktop/IdeaProjects/SC2002 Group Project HMS/src/Main.java"
