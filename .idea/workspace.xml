@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3061fe7d-6704-4287-8374-a956470b7d76" name="Changes" comment="Added createPerson in DataSerialisation">
+    <list default="true" id="3061fe7d-6704-4287-8374-a956470b7d76" name="Changes" comment="Commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DepartmentObject/AccountInfoDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DepartmentObject/AccountInfoDatabase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DepartmentObject/UserInfoDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DepartmentObject/UserInfoDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Serialisation/DataSerialisation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Serialisation/DataSerialisation.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +39,7 @@
     </excluded-from-favorite>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="DatabaseScheduleAppointment" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -53,6 +56,9 @@
     &quot;accountId&quot;: &quot;18f654cd-6420-4db6-8427-7f5566d2eac4&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -62,16 +68,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Juanl/IdeaProjects/SC2002-Group-Project-HMS/.idea",
-    "onboarding.tips.debug.path": "C:/Users/65841/OneDrive/Desktop/IdeaProjects/SC2002 Group Project HMS/src/Main.java"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;AdminMethods&amp;&amp;UserInfoMethods&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Juanl/IdeaProjects/SC2002-Group-Project-HMS/.idea&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/65841/OneDrive/Desktop/IdeaProjects/SC2002 Group Project HMS/src/Main.java&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Juanl\IdeaProjects\SC2002-Group-Project-HMS\.idea" />
@@ -131,13 +137,38 @@
       <option name="project" value="LOCAL" />
       <updated>1730442690794</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added createPerson in DataSerialisation">
+      <option name="closed" value="true" />
+      <created>1730443057406</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1730443057406</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Commit">
+      <option name="closed" value="true" />
+      <created>1730443136123</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1730443136123</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Commit">
+      <option name="closed" value="true" />
+      <created>1730472014668</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1730472014668</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit" />
     <MESSAGE value="print for Patient.java" />
     <MESSAGE value="Added createPerson in DataSerialisation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added createPerson in DataSerialisation" />
+    <MESSAGE value="Commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit" />
   </component>
 </project>
