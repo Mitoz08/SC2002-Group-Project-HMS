@@ -74,6 +74,7 @@ public class UserInfoDatabase {
     }
     /*
     serialiseData (for Patients) will have the following String
+    serialiseData is being called in updateFile()
     There are 11 parts of info in this string
     Role*id*Name*DOB*Gender*BloodType*Contact|Contact*doctor|doctor|doctor|...*apt|apt|apt|...|apt*apt|apt|apt|apt|...|apt*pre|pre|pre|...|pre|*
 
