@@ -24,4 +24,17 @@ public class Administrator extends BasePerson {
         return this.DOB;
     }
 
+    //function to add a new patient and increment
+    // but why so long winded
+
+    public void addPatient(){
+
+    }
+    public void addStaff(){
+
+    }
+    public void fireStaff(){
+
+    }
+
 }

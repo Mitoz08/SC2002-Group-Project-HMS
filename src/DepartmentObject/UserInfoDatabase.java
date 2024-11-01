@@ -1,20 +1,24 @@
 package DepartmentObject;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import DataObject.Appointment.Appointment;
+import DataObject.Appointment.AppointmentList;
+import DataObject.Prescription.Prescription;
+import DataObject.Prescription.PrescriptionList;
 import HumanObject.ROLE;
 import Serialisation.DataEncryption;
+import Serialisation.DataSerialisation;
 
 public class UserInfoDatabase {
 
-    public static ArrayList<String> readFile(){
+    //Class method to read file and turn it into an ArrayList to be used
+    private static ArrayList<String> readFile(){
         int i=0;
         ArrayList<String>strArray = new ArrayList<>();
         try {
@@ -30,90 +34,134 @@ public class UserInfoDatabase {
         return strArray;
 
     }
-
-
-    public static String serialiseData(String username,int id, String name, Date DOB, Boolean Gender, ROLE role){
-        StringBuilder str = new StringBuilder();
-        str.append(username).append("*");
-        str.append(id).append("&");
-        str.append(name).append("%");
-        str.append(id).append("#");
-        str.append(id).append("!");
-        str.append(id).append("$");
-
-        return str.toString();
-
-    }
-    public static void getAllData(String username){
-        //check if user not in AccountDatabase, !AccountDatabase.search(), dont do anything
-        //else below
-
-
-
-
-
-    return;//output is a ArrayList<String> that is the userinfo
-
-    }
-    public static void getID(String username){
-
-        return; //output is an int id
-    }
-    public static void getName(String username){
-
-        return; //output is a String name
-    }
-    public static void getDOB(String username){
-
-        return;//output is a Date
-    }
-    public static void getGender(String username){
-
-        return;//output is a boolean
-    }
-    public static void getRole(String username){
-
-        return;//output is a String
-    }
-
     public static void getStaffList() throws ParseException {
         int j =0;
+        String[] parts = new String[11];
         ArrayList<String> strArray = new ArrayList<String>();
         strArray = UserInfoDatabase.readFile();
         //To parse the data into separate ArrayList
-        ArrayList<String> username = new ArrayList<String>();
-        ArrayList<Integer> id = new ArrayList<Integer>();
-        ArrayList<String> names = new ArrayList<String>();
-        ArrayList<Date> DOB = new ArrayList<Date>();
-        ArrayList<Boolean> Gender = new ArrayList<Boolean>();
-        ArrayList<ROLE> role = new ArrayList<ROLE>();
-        for (String str: strArray){
-            String[] parts = str.split("[*&%#!$]");
-            if (parts.length == 6){
-                username.add(DataEncryption.Decrypt(parts[0]));
-                id.add(Integer.parseInt(DataEncryption.Decrypt(parts[1]))); //Decrypts them and adds them into its respective ArrayList
-                names.add(DataEncryption.Decrypt(parts[2]));
-                Date date = new SimpleDateFormat("yyyy-MM-dd").parse(DataEncryption.Decrypt(parts[3]));
-                DOB.add(date);
-                Gender.add(DataEncryption.Decrypt(parts[4]).equals("1"));
-                role.add(ROLE.valueOf(DataEncryption.Decrypt(parts[5])));
-            }
-            else {
-                System.out.println("Out of bounds error"); //debug
-            }
-            while (!id.isEmpty()){
-                if (role.get(j).equals(ROLE.DOCTOR) || role.get(j).equals(ROLE.ADMINISTRATOR) || role.get(j).equals(ROLE.PHARMACIST)){
-                    System.out.println("Name: " + names.get(j) + ", Role: " + role.get(j));
 
-                }
+        // Only outputs id, names and role
+        ArrayList<ROLE> role = new ArrayList<ROLE>(); // parts[0]
+        ArrayList<Integer> id = new ArrayList<Integer>(); // parts[1]
+        ArrayList<String> names = new ArrayList<String>(); // parts[2]
+
+        for (String str: strArray){
+            parts = str.split("[*]");
+            role.add(ROLE.valueOf(DataEncryption.Decrypt(parts[0])));
+            id.add(Integer.parseInt(DataEncryption.Decrypt(parts[1])));
+            names.add(DataEncryption.Decrypt(parts[2]));
+
+        }
+        while (!id.isEmpty()) {
+            if (role.get(j).equals(ROLE.DOCTOR) || role.get(j).equals(ROLE.ADMINISTRATOR) || role.get(j).equals(ROLE.PHARMACIST)) {
+                System.out.println("Name: " + names.get(j) + ", ID: " + id.get(j) + ", Role: " + role.get(j));
+                j++;
+                //could have a possible error of not printing as when Decrypting we set everything to UPPERCASE
             }
         }
         return;
 
     }
-    public static void getAllAppointment(){
+    public static void scheduleApt(Appointment apt){
 
-        return;
     }
+    public static void rescheduleApt(Appointment newApt, Appointment oldApt){
+
+    }
+    public static void cancelApt(Appointment toCancelApt){
+
+    }
+    /*
+    serialiseData (for Patients) will have the following String
+    There are 11 parts of info in this string
+    Role*id*Name*DOB*Gender*BloodType*Contact|Contact*doctor|doctor|doctor|...*apt|apt|apt|...|apt*apt|apt|apt|apt|...|apt*pre|pre|pre|...|pre|*
+
+    private static String serialiseData(ROLE role, int id, String name, Date DOB, Boolean Gender, String BloodType, String[] Contact, ArrayList<String> DoctorAssigned, AppointmentList onGoingAptList, AppointmentList completeAptList, PrescriptionList prescripList){
+        StringBuilder str = new StringBuilder();
+        str.append(role).append("*");
+        str.append(id).append("*");
+        str.append(name).append("*");
+        str.append(DOB).append("*");
+        str.append(Gender).append("*");
+        str.append(BloodType).append("*");
+        for (String contact: Contact){
+            str.append(contact).append("|");
+        }
+        str.append("*");
+        for (String doctor: DoctorAssigned){
+            str.append(doctor).append("|");
+        }
+        str.append("*");
+        for (Appointment apt: onGoingAptList){
+            str.append(apt).append("|");
+        }
+        str.append("*");
+        for (Appointment apt: completeAptList){
+            str.append(apt).append("|");
+        }
+        str.append("*");
+        for (Prescription pre: prescripList){
+            str.append(pre).append("|");
+        }
+        str.append("*");
+        return str.toString();
+
+    }
+     */
+    /*serialiseData (for doctors)  will have the following string
+    There are 8 parts to the string
+    Role*id*Name*DOB*Gender*BloodType*apt|apt|apt|...|apt*apt|apt|apt|apt|...|apt*availability|availability|...availability|*
+    private static String serialiseData(ROLE role, int id, String name, Date DOB, Boolean Gender, AppointmentList onGoingAptList, AppointmentList completeAptList){
+        StringBuilder str = new StringBuilder();
+        str.append(role).append("*");
+        str.append(id).append("*");
+        str.append(name).append("*");
+        str.append(DOB).append("*");
+        str.append(Gender).append("*");
+        for (Appointment apt: onGoingAptList){
+            String aptTemp = DataSerialisation.SerialiseAppointment(apt);
+            str.append(aptTemp).append("|");
+        }
+        str.append("*");
+        for (Appointment apt: completeAptList){
+            String aptTemp = DataSerialisation.SerialiseAppointment(apt);
+            str.append(aptTemp).append("|");
+        }
+        str.append("*");
+
+        Have to add the boolean availability 7x5 matrix
+
+        str.append("*");
+        return str.toString();
+
+    }
+
+    serialiseData (for administrators and pharmacists) will have the following string
+    Role*id*Name*DOB*Gender*
+    private static String serialiseData(ROLE role, int id, String name, Date DOB, Boolean Gender){
+        StringBuilder str = new StringBuilder();
+        str.append(role).append("*");
+        str.append(id).append("*");
+        str.append(name).append("*");
+        str.append(DOB).append("*");
+        str.append(Gender).append("*");
+        return str.toString();
+
+    }
+
+    addToFile is used when someone creates a new user
+    public static void addToFile(){
+       String encrypt //TO PUT INTO FILE
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("HMS.txt", true));
+            writer.write(encrypt + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+            return;
+    }
+     */
+
 
 }
