@@ -1,7 +1,9 @@
 package ObjectUI;
 
 import DataObject.Appointment.Appointment;
+import DataObject.PharmacyObjects.MedicineData;
 import DataObject.PharmacyObjects.MedicineRequest;
+import DataObject.PharmacyObjects.RestockRequest;
 import DataObject.Prescription.Prescription;
 import DataObject.Prescription.PrescriptionList;
 import DepartmentObject.Pharmacy;
@@ -11,8 +13,9 @@ import InputHandler.Input;
 import Serialisation.DataSerialisation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class PharmacistUI {
+public class PharmacistUI extends BaseUI {
 
     // Attribute
     private UserInfoDatabase database;
@@ -24,6 +27,8 @@ public class PharmacistUI {
         this.pharmacist = pharmacist;
 
         int choice;
+
+
 
         do {
             Input.ClearConsole();
@@ -44,8 +49,11 @@ public class PharmacistUI {
                 case 1:
 
                     Input.ClearConsole();
-                    pharmacy.viewMedRequest();
-                    index = Input.ScanInt("Choose an request to view:") - 1;
+                    int size = pharmacy.viewMedRequest();
+                    do {
+                        index = Input.ScanInt("Choose an request to view:") - 1;
+                        if (index >= size) System.out.println("Incorrect index.");
+                    } while (index >= size);
                     request = pharmacy.getMedRequest(index);
                     Appointment appointment = DataSerialisation.DeserialiseAppointment("APT000001/0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10"); // Get appointment from database using APT_ID/PatientID/DoctorID
 
@@ -90,6 +98,7 @@ public class PharmacistUI {
                     Input.ScanString("Press enter to continue...");
                     break;
                 case 4:
+                    pharmacy.requestRestock(createRestockReq());
                     break;
                 default:
                     break;
@@ -146,7 +155,10 @@ public class PharmacistUI {
             if (choice < 0) {
                 while (!prescriptions.isEmpty()) {
                     temp = prescriptions.getFirst();
-                    if (pharmacy.prescribeMedicine(temp.getMedicineName(),temp.getAmount())) temp.prescribed();
+                    if (pharmacy.prescribeMedicine(temp.getMedicineName(),temp.getAmount())) {
+                        temp.prescribed();
+                        prescriptions.removeFirst();
+                    }
                     else System.out.println("Error dispensing medicine.");
                 }
                 Input.ScanString("Medicine prescribed. Press enter to return...");
@@ -166,4 +178,49 @@ public class PharmacistUI {
         return false;
     }
 
+    private RestockRequest createRestockReq(){
+        Input.ClearConsole();
+        HashMap<Integer,Integer> indentStock = new HashMap<>();
+        pharmacy.viewStock();
+        while (true) {
+            String medID = Input.ScanString("Enter the ID you want to indent (-1 to stop indenting):").toUpperCase();
+            int ID = -1, amt;
+            if (medID.length() != MedicineData.IDLength) {
+                try {
+                    if (Integer.valueOf(medID) == -1) break;
+                    throw new Exception("Entered integer not equals to -1.");
+                } catch (Exception e) {
+                    System.out.println("Incorrect input");
+                    continue;
+                }
+            } else {
+                String prefix = medID.substring(0,3);
+                String postfix = medID.substring(3);
+                try {
+                    if (!prefix.equals("MED")) {
+                        throw new Exception("ID of medicine does not start with MED");
+                    }
+                    ID = Integer.parseInt(postfix);
+                } catch (Exception e) {
+                    System.out.println("Incorrect input");
+                    continue;
+                }
+            }
+            if (!pharmacy.checkExistingID(ID)) {
+                System.out.println("ID does not exist.");
+                continue;
+            }
+            amt = Input.ScanInt("How many do you want to indent for " + medID + ":");
+            if (amt <= 0) {
+                System.out.println("Not indented");
+                continue;
+            }
+            indentStock.put(ID,amt);
+            Input.ClearConsole();
+            pharmacy.viewStock(indentStock);
+        }
+
+        RestockRequest request = new RestockRequest(indentStock,pharmacist.getID());
+        return request;
+    }
 }

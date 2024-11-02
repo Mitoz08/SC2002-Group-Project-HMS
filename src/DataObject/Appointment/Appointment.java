@@ -24,8 +24,8 @@ public class Appointment implements Comparable<Appointment> {
     private String appointmentID;
 
     private static int lastID = 0;
-    private static final int IDLength = 10;
-    private static final String IDPrefix = "APT";
+    public static final int IDLength = 10;
+    public static final String IDPrefix = "APT";
     // Constructor
 
     /**
