@@ -221,58 +221,199 @@ public class UserInfoDatabase {
     }
 
 
+
+
     public void scheduleApt(Appointment apt){
-        //This function is for the
-        //0-Pending , 1- Approved, 2-Rejected, 3-Cancelled, 4- Completed
+
+        //0-Pending , 1- Ongoing, 2-Completed
+        //Add the Appointment apt to pending
+        this.allAppointments[0].addAppointment(apt);
 
         //To add the appointment inside Ongoing for Doctors
         String docName = apt.getDoctorname();
-        Doctors foundDoc; // = new Doctors();
+        Doctors foundDoc = null;
         for (Doctors doc: this.doctors){
             if (doc.getName().equals(docName)){
                 foundDoc = doc;
             }
         }
+        if (foundDoc == null){
+            System.out.println("Doctor is not found in the database");
+            return;
+        }
+        //foundDoc.getPending().addAppointment(apt);// saves it to foundDoc
+
+
+
         //To add the appointment inside the Ongoing for Patients
         String patName = apt.getPatientName();
+        Patient foundPat = null;
+        for (Patient pat: this.patients){
+            if (pat.getName().equals(patName)){
+                foundPat = pat;
+            }
+        }
+        if (foundPat == null){
+            System.out.println("Patient is not found in the database");
+            return;
+        }
+        //foundPat.getPending().addAppointment(apt);//saves it to foundPat
+        return;
+
+    }
+    public void cancelApt(Appointment toCancelApt){
+        //0-Pending , 1- Ongoing, 2-Completed
+        //Reschedules appointments that are only found in Ongoing
+        int i=0;
+        AppointmentList temp = null;
+        int flagFound = 0;
+        for (Appointment apt: this.allAppointments[1]){
+            if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID())){
+                flagFound=1; // found in Pending appointments
+                allAppointments[1].removeAppointment(i); // remove appointment in Pending AppointmentList
+            }
+            i++;
+        }
+        if (flagFound == 0){
+            System.out.println("The Appointment is not found in the List of Ongoing Appointments");
+            return;
+        }
+
+
+        //To remove the appointment inside Ongoing for Doctors
+        i=0;
+        String docName = toCancelApt.getDoctorname();
+        Doctors foundDoc = null;
+        for (Doctors doc: this.doctors){
+            if (doc.getName().equals(docName)){
+                foundDoc = doc;
+            }
+        }
+        if (foundDoc == null){
+            System.out.println("The doctor was not found in the database, possibly not in the list of Ongoing Appointments ");
+            return;
+        }
+        //temp = foundDoc.getOngoing();
+        for (Appointment apt : temp){
+            if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID())){
+                //foundDoc.getOngoing().removeAppointment(i);
+                break;
+            }
+            i++;
+
+        }
+
+
+        //To remove the appointment inside the Ongoing for Patients
+        i=0;
+        String patName = toCancelApt.getPatientName();
         Patient foundPat = new Patient();
         for (Patient pat: this.patients){
             if (pat.getName().equals(patName)){
                 foundPat = pat;
             }
         }
+        if (foundPat == null){
+            System.out.println("The patient was not found in the database, possibly not in the list of Ongoing Appointments");
+            return;
+        }
+        //temp = foundPat.getOngoing();
+        for (Appointment apt: temp){
+            if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID())){
+                //foundPat.getOngoing().removeAppointment(i);
+                break;
+            }
+            i++;
+        }
 
 
-
+        toCancelApt = null; //FOR GARBAGE DISPOSAL
+        return;
     }
     public void rescheduleApt(Appointment newApt, Appointment oldApt){
 
+        cancelApt(oldApt); //oldApt goes to Garbage Disposal
+        scheduleApt(newApt); // newApt goes in to Pending
 
-
-
-    }
-    /*
-    public void cancelApt(Appointment toCancelApt){
-        APT_STATUS aptStatus = toCancelApt.getStatus();
-        if (aptStatus.equals(APT_STATUS.APPORVED)){
-
-            //APT_STATUS set to cancelled
-            // looks through APPROVED status
-            for (Appointment apt: allAppointments[1]){
-                if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID()){
-                    //Remove apt from the AppointmentList
-                    //set apt status to cancel
-                }
-            }
-
-        }
         return;
 
-
-
     }
+    public void docAcceptApt(Appointment acceptApt, Boolean accept){
+        int i;
+        AppointmentList temp = null;
 
-     */
+        // AppointmentList request. AppointmentList Cancel
+        if (accept){
+            //APT_STATUS goes ONGOING
+        }
+        else if (!accept){
+            //0-Pending , 1- Ongoing, 2-Completed
+            //Reschedules appointments that are only found in Ongoing
+            i=0;
+            int flagFound = 0;
+            for (Appointment apt: this.allAppointments[0]){
+                if (apt.getAppointmentID().equals(acceptApt.getAppointmentID())){
+                    flagFound=1; // found in Pending appointments
+                    allAppointments[0].removeAppointment(i); // remove appointment in Pending AppointmentList
+                }
+                i++;
+            }
+            if (flagFound == 0){
+                System.out.println("The Appointment is not found in the Request List of Appointments");
+                return;
+            }
+
+
+            //To remove the appointment inside Ongoing for Doctors
+            i=0;
+            String docName = acceptApt.getDoctorname();
+            Doctors foundDoc = null;
+            for (Doctors doc: this.doctors){
+                if (doc.getName().equals(docName)){
+                    foundDoc = doc;
+                }
+            }
+            if (foundDoc == null){
+                System.out.println("Check if this is the correct doctor");
+                return;
+            }
+            //temp = foundDoc.getPending();
+            for (Appointment apt : temp){
+                if (apt.getAppointmentID().equals(acceptApt.getAppointmentID())){
+                    //foundDoc.getPending().removeAppointment(i);
+                    break;
+                }
+                i++;
+
+            }
+
+
+            //To remove the appointment inside the Ongoing for Patients
+            i=0;
+            String patName = acceptApt.getPatientName();
+            Patient foundPat = new Patient();
+            for (Patient pat: this.patients){
+                if (pat.getName().equals(patName)){
+                    foundPat = pat;
+                }
+            }
+            if (foundPat == null){
+                return;
+            }
+            //temp = foundPat.getPending();
+            for (Appointment apt: temp){
+                if (apt.getAppointmentID().equals(acceptApt.getAppointmentID())){
+                    //foundPat.getPending().removeAppointment(i);
+                    break;
+                }
+                i++;
+            }
+            acceptApt = null;
+
+        }
+
+        return;
+    }
 
 
 
@@ -281,84 +422,89 @@ public class UserInfoDatabase {
 
     }
 
-    serialiseData (for Patients) will have the following String
-    serialiseData is being called in updateFile()
-    There are 11 parts of info in this string
-    Role*id*Name*DOB*Gender*BloodType*Contact|Contact*doctor|doctor|doctor|...*apt|apt|apt|...|apt*apt|apt|apt|apt|...|apt*pre|pre|pre|...|pre|*
 
-    private String serialiseData(ROLE role, int id, String name, Date DOB, Boolean Gender, String BloodType, String[] Contact, ArrayList<String> DoctorAssigned, AppointmentList onGoingAptList, AppointmentList completeAptList, PrescriptionList prescripList){
+    private static String serialiseDataPatient(ROLE role, int id, String name, Date DOB, Boolean Gender, String BloodType,Contact contact, ArrayList<String> DoctorAssigned, AppointmentList onGoingAptList, AppointmentList completeAptList, AppointmentList pendingAptList, PrescriptionList prescripList){
+        String temp;
         StringBuilder str = new StringBuilder();
         str.append(role).append("*");
         str.append(id).append("*");
         str.append(name).append("*");
-        str.append(DOB).append("*");
+        temp = DataSerialisation.SerialiseDate(DOB);
+        str.append(temp).append("*");
         str.append(Gender).append("*");
         str.append(BloodType).append("*");
-        for (String contact: Contact){
-            str.append(contact).append("|");
-        }
-        str.append("*");
+        //str.append(contact.getEmail()).append("*");
+        //str.append(contact.getPassword()).append("*");
         for (String doctor: DoctorAssigned){
             str.append(doctor).append("|");
         }
         str.append("*");
         for (Appointment apt: onGoingAptList){
-            str.append(apt).append("|");
+            temp = DataSerialisation.SerialiseAppointment(apt);
+            str.append(temp).append("|");
         }
         str.append("*");
         for (Appointment apt: completeAptList){
-            str.append(apt).append("|");
+            temp = DataSerialisation.SerialiseAppointment(apt);
+            str.append(temp).append("|");
+        }
+        str.append("*");
+        for (Appointment apt: pendingAptList){
+            temp = DataSerialisation.SerialiseAppointment(apt);
+            str.append(temp).append("|");
         }
         str.append("*");
         for (Prescription pre: prescripList){
+            temp = DataSerialisation.SerialisePrescription(pre);
             str.append(pre).append("|");
         }
         str.append("*");
         return str.toString();
 
     }
-     */
-    /*serialiseData (for doctors)  will have the following string
-    There are 8 parts to the string
-    Role*id*Name*DOB*Gender*BloodType*apt|apt|apt|...|apt*apt|apt|apt|apt|...|apt*availability|availability|...availability|*
-    private static String serialiseData(ROLE role, int id, String name, Date DOB, Boolean Gender, AppointmentList onGoingAptList, AppointmentList completeAptList){
+    private static String serialiseDataDoctors(ROLE role, int id, String name, Date DOB, Boolean Gender, AppointmentList onGoingAptList, AppointmentList completeAptList, AppointmentList pendingAptList){
+        String temp;
         StringBuilder str = new StringBuilder();
         str.append(role).append("*");
         str.append(id).append("*");
         str.append(name).append("*");
-        str.append(DOB).append("*");
+        temp = DataSerialisation.SerialiseDate(DOB);
+        str.append(temp).append("*");
         str.append(Gender).append("*");
         for (Appointment apt: onGoingAptList){
-            String aptTemp = DataSerialisation.SerialiseAppointment(apt);
-            str.append(aptTemp).append("|");
+            temp = DataSerialisation.SerialiseAppointment(apt);
+            str.append(temp).append("|");
         }
         str.append("*");
         for (Appointment apt: completeAptList){
-            String aptTemp = DataSerialisation.SerialiseAppointment(apt);
-            str.append(aptTemp).append("|");
+            temp = DataSerialisation.SerialiseAppointment(apt);
+            str.append(temp).append("|");
+        }
+        for (Appointment apt: pendingAptList){
+            temp = DataSerialisation.SerialiseAppointment(apt);
+            str.append(temp).append("|");
         }
         str.append("*");
 
-        Have to add the boolean availability 7x5 matrix
-
-        str.append("*");
         return str.toString();
 
     }
 
-    serialiseData (for administrators and pharmacists) will have the following string
-    Role*id*Name*DOB*Gender*
-    private static String serialiseData(ROLE role, int id, String name, Date DOB, Boolean Gender){
+    private static String serialiseDataAdminAndPharma(ROLE role, int id, String name, Date DOB, Boolean Gender){
+        String temp;
         StringBuilder str = new StringBuilder();
         str.append(role).append("*");
         str.append(id).append("*");
         str.append(name).append("*");
-        str.append(DOB).append("*");
+        temp = DataSerialisation.SerialiseDate(DOB);
+        str.append(temp).append("*");
         str.append(Gender).append("*");
         return str.toString();
 
     }
+
      */
+
 
 
 }
