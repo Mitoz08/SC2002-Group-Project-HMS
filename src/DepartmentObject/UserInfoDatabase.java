@@ -30,7 +30,7 @@ public class UserInfoDatabase {
     private ArrayList<Doctors> doctors;
     private ArrayList<Administrator> administrators;
     private ArrayList<Pharmacist> pharmacists;
-    private AppointmentList[] allAppointments; //1-Pending , 2- Accepted, 3-Rejected, 4-Ongoing
+    private AppointmentList[] allAppointments; //0-Pending , 1- Approved, 2-Rejected, 3-Cancelled, 4- Completed
 
 
     public UserInfoDatabase(ArrayList<Patient> patients, ArrayList<Doctors> doctors, ArrayList<Administrator> administrators, ArrayList<Pharmacist> pharmacists, AppointmentList[] allAppointments){
@@ -46,6 +46,7 @@ public class UserInfoDatabase {
         ArrayList<Doctors> doctors = new ArrayList<Doctors>();
         ArrayList<Administrator> administrators = new ArrayList <Administrator>();
         ArrayList<Pharmacist> pharmacists = new ArrayList<Pharmacist>();
+        AppointmentList[] allAppointments = new AppointmentList[5];
         ArrayList<String> temp = new ArrayList<>();
 
         int ID;
@@ -114,42 +115,20 @@ public class UserInfoDatabase {
         ArrayList<String> userInfo = new ArrayList<String>(Arrays.asList(decrypt.split("\\*")));
         return userInfo;
     }
-    /*addToFile is used when someone creates a new user
-    public static void addToFile(){
-        Scanner sc = new Scanner(System.in);
 
-        String encrypt //TO PUT INTO FILE
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("HMS.txt", true));
-            writer.write(encrypt + "\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return;
+    //The following are the getter functions
+    public ArrayList<Doctors> getDoctors(){
+        return this.doctors;
     }
-     */
-
-    //Class method to read file and turn it into an ArrayList to be used
-    private ArrayList<String> readFile(){
-        int i=0;
-        ArrayList<String>strArray = new ArrayList<>();
-        try {
-            BufferedReader reader = new BufferedReader((new FileReader("HMS.txt")));
-            String line;
-            while ((line = reader.readLine()) != null){
-                strArray.add(i++, line);
-            }
-            reader.close();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-        return strArray;
-
+    public ArrayList<Pharmacist> getPharmacists(){
+        return this.pharmacists;
     }
-    private void updateFile(){
-
+    public ArrayList<Administrator> getAdministrators(){
+        return this.administrators;
     }
-
+    public ArrayList<Patient> getPatients(){
+        return this.patients;
+    }
     public BasePerson getPerson(int id, ROLE role){
 
         BasePerson notReal = new BasePerson();
@@ -195,7 +174,7 @@ public class UserInfoDatabase {
         return notReal;
 
     }
-    public BasePerson getPerosn(String name, ROLE role){
+    public BasePerson getPerson(String name, ROLE role){
 
         BasePerson notReal = new BasePerson();
         String roleS;
@@ -241,32 +220,67 @@ public class UserInfoDatabase {
 
     }
 
-    public void getStaffList() {
-        for (Doctors doc: this.doctors){
-            System.out.println("Name: "+ doc.getName() + ", ID: " + doc.getID() + ", Role: " + doc.getRole());
-        }
-        for (Pharmacist ph: this.pharmacists){
-            System.out.println("Name: "+ ph.getName() + ", ID: " + ph.getID() + ", Role: " + ph.getRole());
-        }
-        for (Administrator ad: this.administrators){
-            System.out.println("Name: "+ ad.getName() + ", ID: " + ad.getID() + ", Role: " + ad.getRole());
-        }
-        return;
-    }
 
     public void scheduleApt(Appointment apt){
-        //patientID and doctorID are found in the apt
+        //This function is for the
+        //0-Pending , 1- Approved, 2-Rejected, 3-Cancelled, 4- Completed
+
+        //To add the appointment inside Ongoing for Doctors
+        String docName = apt.getDoctorname();
+        Doctors foundDoc; // = new Doctors();
+        for (Doctors doc: this.doctors){
+            if (doc.getName().equals(docName)){
+                foundDoc = doc;
+            }
+        }
+        //To add the appointment inside the Ongoing for Patients
+        String patName = apt.getPatientName();
+        Patient foundPat = new Patient();
+        for (Patient pat: this.patients){
+            if (pat.getName().equals(patName)){
+                foundPat = pat;
+            }
+        }
+
+
 
     }
     public void rescheduleApt(Appointment newApt, Appointment oldApt){
 
-    }
-    public void cancelApt(Appointment toCancelApt){
+
+
 
     }
-
-
     /*
+    public void cancelApt(Appointment toCancelApt){
+        APT_STATUS aptStatus = toCancelApt.getStatus();
+        if (aptStatus.equals(APT_STATUS.APPORVED)){
+
+            //APT_STATUS set to cancelled
+            // looks through APPROVED status
+            for (Appointment apt: allAppointments[1]){
+                if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID()){
+                    //Remove apt from the AppointmentList
+                    //set apt status to cancel
+                }
+            }
+
+        }
+        return;
+
+
+
+    }
+
+     */
+
+
+
+    /* updateFile is used by administrator to addStaff and fireStaff
+    public static void updateFile(){
+
+    }
+
     serialiseData (for Patients) will have the following String
     serialiseData is being called in updateFile()
     There are 11 parts of info in this string
