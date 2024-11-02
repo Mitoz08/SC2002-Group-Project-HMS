@@ -3,6 +3,9 @@ package DepartmentObject;
 import DataObject.PharmacyObjects.*;
 import InputHandler.Input;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,13 +36,17 @@ public class Pharmacy {
         testRun();
     }
 
+    public void endPharmacy() {
+        saveFile();
+    }
+
     public void testRun() {
         MedicineData m1 = new MedicineData(1,"MedicineName1", 30,20);
         MedicineData m2 = new MedicineData(2,"MedicineName2", 5,20);
         addMedicine(m1);
         addMedicine(m2);
 
-        MedicineRequest request = new MedicineRequest(0001,"APT0000001");
+        MedicineRequest request = new MedicineRequest(1001,001,"APT0000001");
         requestMedicine(request);
 
     }
@@ -185,4 +192,18 @@ public class Pharmacy {
         * */
     }
 
+    private void saveFile() {
+        File savefile = new File("Pharmacy.txt");
+        FileWriter file;
+        try {
+            //file = new FileWriter(savefile);
+
+        } catch (Exception e) {
+            System.out.println("Error");
+            return;
+        } finally {
+            //file.close();
+        }
+
+    }
 }

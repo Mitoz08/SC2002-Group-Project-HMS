@@ -16,6 +16,12 @@ public class MedicineData {
         this.minStock = minStock;
     }
 
+
+    public int getID() {return this.ID;}
+    public String getName() {return this.name;}
+    public int getAmount() {return this.amount;}
+    public int getMinStock() {return this.minStock;}
+
     public String getIDString() {
         return getStrID(this.ID);
     }

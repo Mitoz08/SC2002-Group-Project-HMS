@@ -9,14 +9,28 @@ public class RestockRequest {
     private HashMap<Integer,Integer> requestAmmount;
     private int pharmacistID;
     private boolean approved;
-    private int adminstratorID;
+    private int administratorID;
 
     // Public
 
-    public RestockRequest(HashMap<Integer,Integer> requestAmmount, int pharmacistID) {
-        this.requestAmmount = requestAmmount;
+    public RestockRequest(HashMap<Integer,Integer> requestAmount, int pharmacistID) {
+        this.requestAmmount = requestAmount;
         this.pharmacistID = pharmacistID;
+        this.approved = false;
+        this.administratorID = -1;
     }
+
+    public RestockRequest(int pharmacistID, boolean approved, int administratorID, HashMap<Integer,Integer> requestAmount) {
+        this.requestAmmount = requestAmount;
+        this.pharmacistID = pharmacistID;
+        this.approved = approved;
+        this.administratorID = administratorID;
+    }
+
+
+    public int getPharmacistID() {return this.pharmacistID;}
+    public boolean isApproved() {return this.approved;}
+    public int getAdministratorID() { return this.administratorID;}
 
     public HashMap<Integer,Integer> getRequestAmount() {
         return (HashMap<Integer,Integer>) requestAmmount.clone();
@@ -31,7 +45,7 @@ public class RestockRequest {
     }
 
     public void ApprovedRequest(int adminstratorID) {
-        this.adminstratorID = adminstratorID;
+        this.administratorID = adminstratorID;
         this.approved = true;
     }
 
