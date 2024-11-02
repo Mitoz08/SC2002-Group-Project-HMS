@@ -1,8 +1,12 @@
 package HumanObject.Doctors;
 
+import DataObject.Appointment.Appointment;
 import DataObject.Appointment.AppointmentList;
+import DepartmentObject.UserInfoDatabase;
 import HumanObject.BasePerson;
+import HumanObject.Patient.Patient;
 import HumanObject.ROLE;
+import InputHandler.Input;
 
 import java.util.Date;
 
@@ -11,7 +15,9 @@ public class Doctors extends BasePerson {
 
     private AppointmentList Ongoing;
     private AppointmentList Completed;
+    private AppointmentList Pending;
     private Boolean[][] availability = new Boolean[7][5];
+
 
 
     public Doctors(int ID, String Name, Date DOB, Boolean Gender){
@@ -23,13 +29,23 @@ public class Doctors extends BasePerson {
 
             }
         }
-
     }
     public static void setLastID(int lastID1){
         lastID = lastID1;
     }
-
-
+    public AppointmentList getOngoingApt(){
+        return Ongoing;
+    }
+    public AppointmentList getCompletedApt(){
+        return Completed;
+    }
+    public AppointmentList getPendingApt(){
+        return Pending;
+    }
+    public Boolean[][] getAvailability(){
+        return availability;
+    }
 
 }
+
 

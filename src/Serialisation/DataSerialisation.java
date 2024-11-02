@@ -3,6 +3,7 @@ package Serialisation;
 import DataObject.Appointment.APT_STATUS;
 import DataObject.Appointment.Appointment;
 import DataObject.Appointment.AppointmentList;
+import DataObject.PharmacyObjects.MedicineRequest;
 import DataObject.Prescription.MED_STATUS;
 import DataObject.Prescription.Prescription;
 import DataObject.Prescription.PrescriptionList;
@@ -72,6 +73,11 @@ public class DataSerialisation {
         return convertStringArraytoString(StringArray, "-");
     }
 
+//    public static String SerialiseMedRequest(MedicineRequest request) {
+
+//    }
+
+//    public static String
 
     // String to Object
 
