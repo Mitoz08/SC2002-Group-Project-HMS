@@ -2,12 +2,14 @@ package Serialisation;
 
 import DataObject.Appointment.APT_STATUS;
 import DataObject.Appointment.Appointment;
+import DataObject.Appointment.AppointmentList;
 import DataObject.Prescription.MED_STATUS;
 import DataObject.Prescription.Prescription;
 import DataObject.Prescription.PrescriptionList;
 import DepartmentObject.UserInfoDatabase;
 import HumanObject.Administrator.Administrator;
 import HumanObject.BasePerson;
+import HumanObject.Doctors.Doctors;
 import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
 import HumanObject.ROLE;
@@ -153,46 +155,19 @@ public class DataSerialisation {
             sb.append(str).append(delimiter);
         return sb.substring(0, sb.length() - 1);
     }
-
-    /* Will make it into 4 functions instead
-    public static BasePerson createPerson (String str){
-
-        String[] split = new String[11];
-        split = DataSerialisation.parseData(str);
-        String role = split[0];
-        //THE LONGEST STRING WILL CONTAIN
-        Role*id*Name*DOB*Gender*BloodType*Contact|Contact*doctor|doctor|doctor|...*apt|apt|apt|...|apt*apt|apt|apt|apt|...|apt*pre|pre|pre|...|pre|*
-          0   1  2    3   4      5           6                  7                       8                9                            10
-
-        switch(role){
-            case "DR": //Doctor
-                return new Doctor(split[2]Name,split[3]DOB,split[4]Gender,split[8]Ongoing,split[9]Completed,split[11]Availability);
-                break;
-            case "PH": // Pharmacist
-                return new Pharmacist(split[2]Name,split[3]DOB,split[4]Gender);
-                break;
-            case "PA": // patient
-                return new Patient(split[2]Name,split[3]DOB,split[4]Gender,split[5]bloodType,split[6]contact,split[7]doctorAssigned,split[8]Ongoing,split[9]Completed,split[10]Medicine);
-                break;
-            case "AD": // Administrator
-                return new Administrator(split[2]Name,split[3]DOB,split[4]Gender);
-                break;
-            default:
-                System.out.println("There isn't such a role in this Hospital");
-                return empty person?
-                break;
-        }
-
-
+    // The 4 functions below are used in intialising from HMS.txt
+    public static Patient createPatient(){
+        return new Patient();
     }
-
-    private static String[] parseData(String string){
-        String[] userInfo = new String[11];
-        userInfo = string.split("[*]");
-         return userInfo;
+    public static Doctors createDoctor(int ID, String Name, Date DOB, Boolean Gender){
+        return new Doctors(ID,Name,DOB,Gender);
     }
-    */
-
+    public static Pharmacist createPharmacist(int ID, String Name, Date DOB, Boolean Gender){
+        return new Pharmacist(ID, Name, DOB, Gender);
+    }
+    public static Administrator createAdministrator(int ID, String Name, Date DOB, Boolean Gender){
+        return new Administrator(ID, Name, DOB, Gender);
+    }
 
 
 }

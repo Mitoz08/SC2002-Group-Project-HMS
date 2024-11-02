@@ -33,6 +33,12 @@ public class Pharmacist extends BasePerson {
     public Pharmacist(String Name, Date DOB, Boolean Gender) {
         super(lastID++, Name, DOB, Gender);
         this.role = ROLE.PHARMACIST;
+
+    }
+    public Pharmacist(int ID, String Name, Date DOB, Boolean Gender){
+        super(ID,Name,DOB,Gender);
+        this.role = ROLE.PHARMACIST;
+        //SAVED in HMS.txt as PH*ID*NAME*DOB*GENDER, used for Initialising from HMS.txt
     }
 
 

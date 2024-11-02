@@ -11,20 +11,25 @@ public class Doctors extends BasePerson {
 
     private AppointmentList Ongoing;
     private AppointmentList Completed;
-    private Boolean[][] Availability = new Boolean[7][5];
+    private Boolean[][] availability = new Boolean[7][5];
 
-    /*THIS IS A SPECIFIC CONSTRUCTOR TO INITIALISE FROM TXT FILE
-    public Doctors(String Name, Date DOB, Boolean Gender, AppointmentList Ongoing, AppointmentList Completed, Boolean[][] Availability){
-        super(lastID++, Name, DOB, Gender);
+
+    public Doctors(int ID, String Name, Date DOB, Boolean Gender){
+        super(ID, Name, DOB, Gender);
         this.role = ROLE.DOCTOR;
-        this.Ongoing = Ongoing;
-        this.Completed = Completed;
-        this.Availability = Availability;
+        for (int i=0; i<7; i++){
+            for (int j=0; j<5; j++){
+                this.availability[i][j] = true;
+
+            }
+        }
+
     }
     public static void setLastID(int lastID1){
         lastID = lastID1;
     }
-     */
+
+
 
 }
 
