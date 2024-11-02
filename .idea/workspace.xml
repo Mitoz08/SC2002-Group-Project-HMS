@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3061fe7d-6704-4287-8374-a956470b7d76" name="Changes" comment="Commit">
-      <change afterPath="$PROJECT_DIR$/src/ObjectUI/DoctorUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataObject/Appointment/APT_STATUS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataObject/Appointment/APT_STATUS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HumanObject/Doctors/Doctors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HumanObject/Doctors/Doctors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ObjectUI/DoctorUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ObjectUI/DoctorUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,16 +66,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "doctor-class",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Juanl/IdeaProjects/SC2002-Group-Project-HMS/.idea",
-    "onboarding.tips.debug.path": "C:/Users/65841/OneDrive/Desktop/IdeaProjects/SC2002 Group Project HMS/src/Main.java"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;doctor-class&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Juanl/IdeaProjects/SC2002-Group-Project-HMS/.idea&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/65841/OneDrive/Desktop/IdeaProjects/SC2002 Group Project HMS/src/Main.java&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Juanl\IdeaProjects\SC2002-Group-Project-HMS\.idea" />
@@ -177,6 +175,7 @@
     <MESSAGE value="print for Patient.java" />
     <MESSAGE value="Added createPerson in DataSerialisation" />
     <MESSAGE value="Commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit" />
+    <MESSAGE value="hello" />
+    <option name="LAST_COMMIT_MESSAGE" value="hello" />
   </component>
 </project>

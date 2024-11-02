@@ -1,5 +1,7 @@
 package ObjectUI;
 
+import DataObject.Prescription.MED_STATUS;
+import DataObject.Prescription.Prescription;
 import DepartmentObject.UserInfoDatabase;
 import HumanObject.Doctors.Doctors;
 import DataObject.Appointment.Appointment;
@@ -31,11 +33,11 @@ public class DoctorUI {
             switch(choice){
                 case 1:
                     System.out.println("Which Patients record do you want to view?");
-                    viewPaitient();
+                    viewPatient();
                     break;
                 case 2:
                     System.out.println("Which Patient record do you want to update?");
-                    updatePatientmr();
+                    updatePatientMR();
                     break;
                 case 3:
                     viewSchedule();
@@ -44,18 +46,22 @@ public class DoctorUI {
                     setAvailability();
                     break;
                 case 5:
-
-
-
-
+                    aptReq();
+                    break;
+                case 6:
+                    viewOngoingAPT();
+                    break;
+                case 7:
+                    recordAptOutcome();
+                    break;
+                default:
+                    break;
             }
-
         }while (choice < 8);
-
     }
 
 
-    public void viewPaitient(){
+    public void viewPatient(){
         Input.ClearConsole();
         for(Appointment apt: doctor.getOngoingApt()){
             System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName());
@@ -73,14 +79,14 @@ public class DoctorUI {
             }
         }
         choice = Input.ScanInt("Enter the appointment ID");
-        //to be continuoued
+        //to be continued
 
     }
 
-    public void updatePatientmr(){
+    public void updatePatientMR(){
         Input.ClearConsole();
-        viewPaitient();
-        //database.updateapt()
+        viewPatient();
+        //database.update()
     }
     public void viewSchedule(){
         Input.ClearConsole();
@@ -92,18 +98,62 @@ public class DoctorUI {
     public void setAvailability(){
         Input.ClearConsole();
         System.out.println(" Mon Tue Wed Thr Fri Sat Sun");
-        for (int i=0; i<7; i++){
+        for (int i=0; i<5; i++){
             System.out.print(i+1 + " ");
-            for (int j=0; j<5; j++){
-                System.out.print(doctor.getAvailability()+ "  ");
+            for (int j=0; j<7; j++){
+                System.out.print(doctor.getAvailability()[j][i]+ "  ");
             }
         }
-        int choice = Input.ScanInt("Which Appointment do you want to change your availability? ");
+        System.out.println("Which timings do you want to change your availability? ");
+        int []dateSlot = new int[2];
+        dateSlot[0] = Input.ScanInt("Choose the day: \n" +
+                                            "0) Monday\n"+
+                                            "1) Tuesday\n"+
+                                            "2) Wednesday\n"+
+                                            "3) Thursday\n"+
+                                            "4) Friday\n"+
+                                            "5) Saturday\n"+
+                                            "6) Sunday\n");
+        dateSlot[1] = Input.ScanInt("Choose the timing:\n" +
+                                            "0) 10AM-11AM\n"+
+                                            "1) 11AM-12AM\n"+
+                                            "2) 1PM-2Pm\n"+
+                                            "3) 2PM-3Pm\n"+
+                                            "4) 3PM-4PM\n");
+        int choice = Input.ScanInt("What do you want to change your availability to?\n"+
+                                           "0) Not Available\n"+
+                                           "1) Available\n");
+
+        if(choice == 0){
+            if(doctor.getAvailability()[dateSlot[0]][dateSlot[1]]){//if availability = true
+                doctor.getAvailability()[dateSlot[0]][dateSlot[1]] = false;
+            }
+            else{
+                System.out.println("It is already Unavailable");
+            }
+        }
+        else if (choice == 1){
+            if(!doctor.getAvailability()[dateSlot[0]][dateSlot[1]]){// if availability = false
+                boolean i = true;
+                for(Appointment apt: doctor.getOngoingApt()){
+                    if(apt.getAptSlot()==dateSlot){// means doctor is trying to set availability to true when there is an ongoing appointment
+                        System.out.println("There is an Ongoing appointment, you are unavailable at that timing ");
+                        i = false;
+                    }
+                }
+                if(i){// means there is no ongoing appointment with the same timing
+                    doctor.getAvailability()[dateSlot[0]][dateSlot[1]] = true;
+                }
+            }
+        }
+        else{
+            System.out.println("wrong option");
+        }
+
+
     }
     public void aptReq(){
-        for(Appointment apt: doctor.getPendingApt()){
-            System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName() + "Appointment ID: " + apt.getAppointmentID());
-        }
+        viewOngoingAPT();
         String choice = Input.ScanString("Enter appointment ID to accept/decline ");
         int index = 0;
         for(Appointment apt: doctor.getPendingApt()){
@@ -116,12 +166,27 @@ public class DoctorUI {
             else if(option ==1){
                 doctor.getOngoingApt().addAppointment(apt);
                 doctor.getPendingApt().removeAppointment(index);
-
+                int[] dateSlot = apt.getAptSlot();
+                doctor.getAvailability()[dateSlot[0]][dateSlot[1]]= true;
             }
 
             }
             index++;
         }
+    }
+    public void viewOngoingAPT(){
+        for(Appointment apt: doctor.getPendingApt()){
+            System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName() + "Appointment ID: " + apt.getAppointmentID());
+        }
+    }
+
+    public void recordAptOutcome(){
+        Appointment apt = doctor.getOngoingApt().getAppointment(0);
+        //String medicineName = Input.ScanString("Enter medicine name:");
+        //int amt = Input.ScanInt("Enter medicine amt");
+        Prescription prescription = new Prescription(); //= new Prescription(MED_STATUS.PENDING,medicineName,amt);
+        apt.getPrescriptionList().addPrescription(prescription);
+
 
     }
 
