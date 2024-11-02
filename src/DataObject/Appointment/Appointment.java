@@ -3,6 +3,8 @@ package DataObject.Appointment;
 import DataObject.Prescription.*;
 import Serialisation.DataSerialisation;
 
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -188,7 +190,6 @@ public class Appointment implements Comparable<Appointment> {
                 AptSlot[1] = 4;
                 break;
         }
-
         return AptSlot;
     }
 
@@ -213,9 +214,21 @@ public class Appointment implements Comparable<Appointment> {
         return true;
     }
 
+    public static Date createDate(int Day, int TimeSlot) {
+        int[] slot = new int[] {10,11,13,14,15};
+        LocalDateTime today = LocalDateTime.now();
+        int day = today.getDayOfMonth();
+        day += (Day-today.getDayOfWeek().ordinal());
+        if (Day-today.getDayOfWeek().ordinal() < 0) day += 7;
+        if (Day-today.getDayOfWeek().ordinal() == 0) {
+            if (today.getHour() > slot[TimeSlot]) day += 7;
+        }
+        return new Date(today.getYear() - 1900 , today.getMonthValue() - 1, day, slot[TimeSlot],00);
+    }
+
     // Private methods
 
-    public static String AppointmentIDGenerator() {
+    private static String AppointmentIDGenerator() {
         StringBuilder str = new StringBuilder();
         String IDStr = String.valueOf(lastID);
 

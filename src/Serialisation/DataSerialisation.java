@@ -2,23 +2,20 @@ package Serialisation;
 
 import DataObject.Appointment.APT_STATUS;
 import DataObject.Appointment.Appointment;
-import DataObject.Appointment.AppointmentList;
+import DataObject.PharmacyObjects.MedicineData;
 import DataObject.PharmacyObjects.MedicineRequest;
+import DataObject.PharmacyObjects.RestockRequest;
 import DataObject.Prescription.MED_STATUS;
 import DataObject.Prescription.Prescription;
 import DataObject.Prescription.PrescriptionList;
-import DepartmentObject.UserInfoDatabase;
 import HumanObject.Administrator.Administrator;
-import HumanObject.BasePerson;
 import HumanObject.Doctors.Doctors;
 import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
-import HumanObject.ROLE;
 
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DataSerialisation {
 
@@ -73,11 +70,31 @@ public class DataSerialisation {
         return convertStringArraytoString(StringArray, "-");
     }
 
-//    public static String SerialiseMedRequest(MedicineRequest request) {
+    public static String SerialiseMedicineReq(MedicineRequest request) {
+        String[] StringArray = new String[]
+                {String.valueOf(request.getPatientID()), String.valueOf(request.getDoctorID()), request.getAppointmentID(),
+                String.valueOf(request.isApproved()), String.valueOf(request.getPharmacistID()) };
+        return convertStringArraytoString(StringArray, "/");
+    }
 
-//    }
+    public static String SerialiseRestockReq(RestockRequest request) {
+        String[] StringArray = new String[]
+                {String.valueOf(request.getPharmacistID()), String.valueOf(request.isApproved()), String.valueOf(request.getAdministratorID()),""};
+        String HashMap = "";
+        for (Map.Entry<Integer,Integer> o: request.getRequestAmount().entrySet()) {
+            HashMap += o.getKey() + '-' + o.getValue() + '/';
+        }
+        HashMap.substring(0,HashMap.length()-1);
+        StringArray[StringArray.length-1] += HashMap;
+        return convertStringArraytoString(StringArray, "/");
+    }
 
-//    public static String
+    public static String SerialiseMedicineData(MedicineData medicineData) {
+        String[] StringArray = new String[]
+                {String.valueOf(medicineData.getID()), medicineData.getName(), String.valueOf(medicineData.getAmount()),
+                String.valueOf(medicineData.getMinStock()) };
+        return convertStringArraytoString(StringArray, "/");
+    }
 
     // String to Object
 
@@ -148,6 +165,41 @@ public class DataSerialisation {
                 Integer.parseInt(Data[index++]));
         return date;
     }
+
+    public static MedicineRequest DeserialiseMedicineReq(String Serialised) {
+        int index = 0;
+        String[] Data = Serialised.split("/");
+        MedicineRequest request = new MedicineRequest(Integer.parseInt(Data[index++]),
+                Integer.parseInt(Data[index++]),
+                Data[index++],
+                Boolean.valueOf(Data[index++]),
+                Integer.parseInt(Data[index++]));
+        return request;
+    }
+
+    public static RestockRequest DeserialiseRestockReq(String Serialised) {
+        int index = 0;
+        String[] Data = Serialised.split("/");
+        int pharmacistID = Integer.parseInt(Data[index++]);
+        boolean approved = Boolean.valueOf(Data[index++]);
+        int adminstratorID = Integer.parseInt(Data[index++]);
+        HashMap<Integer,Integer> requestAmmount = new HashMap<>();
+        for (;index < Data.length; index++){
+            String[] tuple = Data[index].split("-");
+            requestAmmount.put(Integer.parseInt(tuple[0]),Integer.parseInt(tuple[1]));
+        }
+        return new RestockRequest(pharmacistID, approved, adminstratorID, requestAmmount);
+    }
+
+    public static MedicineData DeserialiseMedicineDate(String Serialised) {
+        int index = 0;
+        String[] Data = Serialised.split("/");
+        MedicineData medicineData = new MedicineData( Integer.parseInt(Data[index++]), Data[index++],
+                Integer.parseInt(Data[index++]), Integer.parseInt(Data[index++]));
+        return medicineData;
+    }
+
+
 
     /**
      * Concatenate all the strings in the array with the delimiter
