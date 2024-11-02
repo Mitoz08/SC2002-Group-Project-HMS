@@ -240,4 +240,11 @@ public class Appointment implements Comparable<Appointment> {
         lastID++;
         return str.toString();
     }
+
+    public void setNotes(java.lang.String notes) {
+        this.notes = notes;
+    }
+    public void setNameOfApt(String name){
+        this.nameOfApt = name;
+    }
 }

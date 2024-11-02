@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3061fe7d-6704-4287-8374-a956470b7d76" name="Changes" comment="Commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataObject/Appointment/APT_STATUS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataObject/Appointment/APT_STATUS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DepartmentObject/UserInfoDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DepartmentObject/UserInfoDatabase.java" afterDir="false" />
-
+      <change beforePath="$PROJECT_DIR$/src/ObjectUI/DoctorUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ObjectUI/DoctorUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,8 +70,7 @@
   &quot;keyToString&quot;: {
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;UserInfoDatabaseAptMethods&quot;,
-
+    &quot;git-widget-placeholder&quot;: &quot;doctor-class&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Juanl/IdeaProjects/SC2002-Group-Project-HMS/.idea&quot;,
     &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/65841/OneDrive/Desktop/IdeaProjects/SC2002 Group Project HMS/src/Main.java&quot;
