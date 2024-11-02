@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3061fe7d-6704-4287-8374-a956470b7d76" name="Changes" comment="Commit">
-      <change afterPath="$PROJECT_DIR$/src/HumanObject/Patient/Contact.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/HumanObject/Patient/ContactChecker.java" afterDir="false" />
+    <list default="true" id="3061fe7d-6704-4287-8374-a956470b7d76" name="Changes" comment="Added to Contact.java, ContactChecker.java">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DepartmentObject/UserInfoDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DepartmentObject/UserInfoDatabase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/HumanObject/Patient/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HumanObject/Patient/Patient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Serialisation/DataSerialisation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Serialisation/DataSerialisation.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -174,7 +170,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730477477570</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Added to Contact.java, ContactChecker.java">
+      <option name="closed" value="true" />
+      <created>1730546480906</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1730546480906</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -182,6 +186,7 @@
     <MESSAGE value="print for Patient.java" />
     <MESSAGE value="Added createPerson in DataSerialisation" />
     <MESSAGE value="Commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit" />
+    <MESSAGE value="Added to Contact.java, ContactChecker.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added to Contact.java, ContactChecker.java" />
   </component>
 </project>
