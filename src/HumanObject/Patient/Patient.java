@@ -20,14 +20,10 @@ public class Patient extends BasePerson {
     private PrescriptionList Medicine;
 
     /*THIS IS A SPECIFIC CONSTRUCTOR TO INITIALISE FROM THE TXT FILE
-    public Patient(String Name, Date DOB, Boolean Gender, String bloodType, Contact contact,ArrayList<String> doctorAssigned, AppointmentList Ongoing, AppointmentList Completed, PrescriptionList Medicine ) {
+    public Patient(int ID, String Name, Date DOB, Boolean Gender, String bloodType, Contact contact) {
         super(lastID++, Name, DOB, Gender);
         this.bloodType = bloodType;
         this.contact = contact;
-        this.doctorAssigned = doctorAssigned;
-        this.Ongoing = Ongoing;
-        this.Completed = Completed;
-        this.Medicine = Medicine;
         this.role = ROLE.PATIENT;
     }
      */

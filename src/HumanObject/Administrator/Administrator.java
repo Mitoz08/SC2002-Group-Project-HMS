@@ -13,11 +13,15 @@ public class Administrator extends BasePerson {
         this.ID = lastID++;
         this.role = ROLE.PHARMACIST;
     }
-    //THIS IS A SPECIFIC CONSTRUCTOR TO INITIALISE FROM THE TXT FILE
+
     public Administrator (String Name, Date DOB, Boolean Gender){
         super(lastID++,Name,DOB,Gender);
         this.role = ROLE.ADMINISTRATOR;
 
+    }
+    public Administrator(int ID, String Name, Date DOB, Boolean Gender){
+        super(ID,Name,DOB,Gender);
+        this.role = ROLE.ADMINISTRATOR;
     }
 
     public static void setLastID(int lastID1){

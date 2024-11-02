@@ -5,9 +5,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
+import DataObject.Appointment.APT_STATUS;
 import DataObject.Appointment.Appointment;
 import DataObject.Appointment.AppointmentList;
 import DataObject.Prescription.Prescription;
@@ -40,7 +42,77 @@ public class UserInfoDatabase {
 
     }
     public UserInfoDatabase(){
+        ArrayList<Patient> patients = new ArrayList<Patient>();
+        ArrayList<Doctors> doctors = new ArrayList<Doctors>();
+        ArrayList<Administrator> administrators = new ArrayList <Administrator>();
+        ArrayList<Pharmacist> pharmacists = new ArrayList<Pharmacist>();
+        ArrayList<String> temp = new ArrayList<>();
 
+        int ID;
+        String Name;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date DOB;
+        Boolean Gender;
+        String bloodType;
+        //Contact contact;
+
+        try{
+            BufferedReader reader = new BufferedReader(new FileReader("HMS.txt"));
+            String line;
+            while ((line = reader.readLine()) != null){
+                temp = UserInfoDatabase.parseData(line); //Gets an ArrayList<String> of userInfo which has been already decrypted
+                String role = temp.get(0); //Check the role and create BasePerson Accordingly
+
+                switch(role){
+                    case "PA":
+                        ID = Integer.parseInt(temp.get(1));
+                        Name = temp.get(2);
+                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
+                        Gender = Boolean.valueOf(temp.get(4));
+                        bloodType = temp.get(5);
+                        // contact
+                        Patient tempPat = DataSerialisation.createPatient();
+                        patients.add(tempPat);
+                        break;
+                    case "DR":
+
+                        ID = Integer.parseInt(temp.get(1));
+                        Name = temp.get(2);
+                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
+                        Gender = Boolean.valueOf(temp.get(4));
+                        Doctors tempDoc = DataSerialisation.createDoctor(ID,Name,DOB,Gender);
+                        doctors.add(tempDoc);
+                        break;
+                    case "PH":
+                        ID = Integer.parseInt(temp.get(1));
+                        Name = temp.get(2);
+                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
+                        Gender = Boolean.valueOf(temp.get(4));
+                        Pharmacist tempPharm = DataSerialisation.createPharmacist(ID, Name, DOB, Gender); // creates a new Pharmacist
+                        pharmacists.add(tempPharm); //adds it into the ArrayList<Pharmacists>
+                        break;
+
+                    case "AD":
+                        ID = Integer.parseInt(temp.get(1));
+                        Name = temp.get(2);
+                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
+                        Gender = Boolean.valueOf(temp.get(4));
+                        Administrator tempAdmin = DataSerialisation.createAdministrator(ID, Name, DOB, Gender);
+                        administrators.add(tempAdmin);
+                        break;
+                }
+            }
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+    }
+    //This class method is to decrypt the string and return an ArrayList<String> which are the user info
+    private static ArrayList<String> parseData(String string){
+        String decrypt = DataEncryption.Decrypt(string);
+        ArrayList<String> userInfo = new ArrayList<String>(Arrays.asList(decrypt.split("\\*")));
+        return userInfo;
     }
     /*addToFile is used when someone creates a new user
     public static void addToFile(){
