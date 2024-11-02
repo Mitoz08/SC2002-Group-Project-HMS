@@ -191,7 +191,7 @@ public class DataSerialisation {
         return new RestockRequest(pharmacistID, approved, adminstratorID, requestAmmount);
     }
 
-    public static MedicineData DeserialiseMedicineDate(String Serialised) {
+    public static MedicineData DeserialiseMedicineData(String Serialised) {
         int index = 0;
         String[] Data = Serialised.split("/");
         MedicineData medicineData = new MedicineData( Integer.parseInt(Data[index++]), Data[index++],
