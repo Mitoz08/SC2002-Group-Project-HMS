@@ -78,14 +78,20 @@ public class DoctorUI {
                 apt.print(false);
             }
         }
-        choice = Input.ScanInt("Enter the appointment ID");
+        //choice = Input.ScanInt("Enter the appointment ID");
         //to be continued
 
     }
 
     public void updatePatientMR(){
         Input.ClearConsole();
-        viewPatient();
+        for(Appointment apt: doctor.getOngoingApt()){
+            System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName());
+        }
+        int choice = Input.ScanInt("Enter the Patient ID");
+        Patient patient = (Patient) database.getPerson(choice, ROLE.PATIENT);
+        //update paitient medical record
+
         //database.update()
     }
     public void viewSchedule(){
@@ -153,6 +159,7 @@ public class DoctorUI {
 
     }
     public void aptReq(){
+        Input.ClearConsole();
         viewOngoingAPT();
         String choice = Input.ScanString("Enter appointment ID to accept/decline ");
         int index = 0;
@@ -175,19 +182,21 @@ public class DoctorUI {
         }
     }
     public void viewOngoingAPT(){
+        Input.ClearConsole();
         for(Appointment apt: doctor.getPendingApt()){
             System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName() + "Appointment ID: " + apt.getAppointmentID());
         }
     }
 
     public void recordAptOutcome(){
+        Input.ClearConsole();
         Appointment apt = doctor.getOngoingApt().getAppointment(0);
         //String medicineName = Input.ScanString("Enter medicine name:");
         //int amt = Input.ScanInt("Enter medicine amt");
         Prescription prescription = new Prescription(); //= new Prescription(MED_STATUS.PENDING,medicineName,amt);
         apt.getPrescriptionList().addPrescription(prescription);
-
-
+        apt.setNotes(Input.ScanString("Enter Consultation notes"));
+        apt.setNameOfApt(Input.ScanString("Enter type of service"));
     }
 
 }
