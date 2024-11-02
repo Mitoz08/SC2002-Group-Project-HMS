@@ -53,7 +53,7 @@ public class Appointment implements Comparable<Appointment> {
     }
 
     /**
-     * Creates appointment object with given input
+     * Creates appointment object with given input (Used for creating a new appointment)
      *
      * @param status           PENDING, APPORVED, REJECTED, CANCELLED, COMPLETED
      * @param nameOfApt        Name of the appointment
@@ -77,7 +77,7 @@ public class Appointment implements Comparable<Appointment> {
     }
 
     /**
-     * Creates appointment object with given input
+     * Creates appointment object with given input (Used for loading in from save file)
      *
      * @param status           PENDING, APPORVED, REJECTED, CANCELLED, COMPLETED
      * @param nameOfApt        Name of the appointment
@@ -166,6 +166,31 @@ public class Appointment implements Comparable<Appointment> {
      * Prints its prescriptions
      */
     public void printPrescription() {this.prescriptionList.print();}
+
+    public int[] getAptSlot() {
+        int[] AptSlot = new int[2];
+
+        AptSlot[0] = appointmentTime.getDay()-1;
+        switch (appointmentTime.getHours()) {
+            case 10:
+                AptSlot[1] = 0;
+                break;
+            case 11:
+                AptSlot[1] = 1;
+                break;
+            case 13:
+                AptSlot[1] = 2;
+                break;
+            case 14:
+                AptSlot[1] = 3;
+                break;
+            case 15:
+                AptSlot[1] = 4;
+                break;
+        }
+
+        return AptSlot;
+    }
 
     /**
      * Compares the current appointment with the argument appointment
