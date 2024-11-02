@@ -25,7 +25,7 @@ public class Pharmacist extends BasePerson {
     }
 
     /**
-     * To construct a pharmacist object with given inputs
+     * To construct a pharmacist object with given inputs (Used for administrator to create new pharmacist account)
      * @param Name
      * @param DOB
      * @param Gender
@@ -35,6 +35,14 @@ public class Pharmacist extends BasePerson {
         this.role = ROLE.PHARMACIST;
 
     }
+
+    /**
+     * To construct a pharmacist object given inputs (Used for loading in from save file)
+     * @param ID
+     * @param Name
+     * @param DOB
+     * @param Gender
+     */
     public Pharmacist(int ID, String Name, Date DOB, Boolean Gender){
         super(ID,Name,DOB,Gender);
         this.role = ROLE.PHARMACIST;
