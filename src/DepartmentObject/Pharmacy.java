@@ -196,13 +196,13 @@ public class Pharmacy {
         File savefile = new File("Pharmacy.txt");
         FileWriter file;
         try {
-            //file = new FileWriter(savefile);
-
+            file = new FileWriter(savefile);
+            file.write("eeee");
+            file.close();
         } catch (Exception e) {
             System.out.println("Error");
             return;
         } finally {
-            //file.close();
         }
 
     }
