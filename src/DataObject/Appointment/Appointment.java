@@ -247,4 +247,5 @@ public class Appointment implements Comparable<Appointment> {
     public void setNameOfApt(String name){
         this.nameOfApt = name;
     }
+    //hi
 }
