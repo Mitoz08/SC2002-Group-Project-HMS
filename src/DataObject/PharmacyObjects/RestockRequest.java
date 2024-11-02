@@ -18,6 +18,10 @@ public class RestockRequest {
         this.pharmacistID = pharmacistID;
     }
 
+    public HashMap<Integer,Integer> getRequestAmount() {
+        return (HashMap<Integer,Integer>) requestAmmount.clone();
+    }
+
     public void AddRequest(int medicineID, int newAmount) {
         requestAmmount.put(medicineID,newAmount);
     }
