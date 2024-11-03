@@ -11,7 +11,7 @@ public class Contact {
         this.contact_number = contact_number;
     }
 
-    public void setContact_number(String contact_number){
+    public void setContactNumber(String contact_number){
         this.contact_number = contact_number;
     }
 
@@ -23,7 +23,7 @@ public class Contact {
         return this.email;
     }
 
-    public String getContact_number(){
+    public String getContactNumber(){
         return this.contact_number;
     }
 
