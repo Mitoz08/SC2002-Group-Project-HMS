@@ -41,7 +41,9 @@ public class AppointmentList implements Iterable<Appointment> {
      */
     public void print(boolean Patient) {
         AppointmentNode curRef = this.headRef;
+        int index = 1;
         while (curRef != null) {
+            System.out.println(index++ + ".");
             curRef.appointment.print(Patient);
             curRef = curRef.nextNode;
         }
