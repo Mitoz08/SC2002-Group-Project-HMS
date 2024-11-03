@@ -56,25 +56,20 @@ public class Appointment implements Comparable<Appointment> {
 
     /**
      * Creates appointment object with given input (Used for creating a new appointment)
-     *
-     * @param status           PENDING, APPORVED, REJECTED, CANCELLED, COMPLETED
      * @param nameOfApt        Name of the appointment
      * @param patientID
      * @param doctorID
-     * @param date             date object  (e.g. Date(YYYY,MM,DD,HH,MM)
-     * @param notes
-     * @param prescriptionList List of all the prescription
      */
-    public Appointment(APT_STATUS status, String nameOfApt, int patientID, int doctorID, Date date, String notes, PrescriptionList prescriptionList) {
-        this.status = status;
+    public Appointment(String nameOfApt, int patientID, int doctorID, int[] slot) {
+        this.status = APT_STATUS.PENDING;
         this.nameOfApt = nameOfApt;
         this.patientID = patientID;
         this.patientName = "patientName"; //To be added, maybe a database function that returns name when given the ID
         this.doctorID = doctorID;
         this.doctorname = "doctorName"; //To be added, maybe a database function that returns name when given the ID
-        this.appointmentTime = date;
-        this.notes = notes;
-        this.prescriptionList = prescriptionList;
+        this.appointmentTime = createDate(slot[0],slot[1]);
+        this.notes = "Empty";
+        this.prescriptionList = new PrescriptionList();
         this.appointmentID = AppointmentIDGenerator();
     }
 
