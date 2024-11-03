@@ -126,7 +126,7 @@ public class Pharmacy {
             int CurAmt = o.getValue().amount;
             int PedAmt = pendingAmount.get(o.getKey());
             System.out.printf("%-8s:%-16s Min:%-5d Low:%-5s\n", MedID, MedName, MinAmt, o.getValue().getLevelStatus());
-            System.out.printf("In Stock:%-5d Pending:%-5d\n", CurAmt, PedAmt);
+            System.out.printf("In Stock:%-6d Pending:%-6d\n", CurAmt, PedAmt);
             System.out.println("_____________________________________________");
         }
     }

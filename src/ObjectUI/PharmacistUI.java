@@ -1,6 +1,7 @@
 package ObjectUI;
 
 import DataObject.Appointment.Appointment;
+import DataObject.Appointment.AppointmentList;
 import DataObject.PharmacyObjects.MedicineData;
 import DataObject.PharmacyObjects.MedicineRequest;
 import DataObject.PharmacyObjects.RestockRequest;
@@ -8,12 +9,14 @@ import DataObject.Prescription.Prescription;
 import DataObject.Prescription.PrescriptionList;
 import DepartmentObject.Pharmacy;
 import DepartmentObject.UserInfoDatabase;
+import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
 import InputHandler.Input;
 import Serialisation.DataSerialisation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class PharmacistUI extends BaseUI {
 
@@ -56,8 +59,20 @@ public class PharmacistUI extends BaseUI {
                     } while (index >= size);
                     request = pharmacy.getMedRequest(index);
 
+                    Appointment appointment = null;
                     // Waiting on Database function to fetch appointment
-                    Appointment appointment = DataSerialisation.DeserialiseAppointment("APT000001/0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10"); // Get appointment from database using APT_ID/PatientID/DoctorID
+                    for (Patient p : database.getPatients()) {
+                        if (p.getID() == request.getPatientID()) {
+                            AppointmentList appointments = p.getCompleted();
+                            for (Appointment apt : appointments) {
+                                if (apt.getAppointmentID().equals(request.getAppointmentID())) appointment = apt;
+                            }
+                        }
+                    }
+                    if (appointment == null) {
+                        System.out.println("Appointment does not exist!");
+                        break;
+                    }
 
                     list = appointment.getPrescriptionList();
 
