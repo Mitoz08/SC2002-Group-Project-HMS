@@ -1,7 +1,9 @@
 package ObjectUI;
 
+import DataObject.PharmacyObjects.MedicineRequest;
 import DataObject.Prescription.MED_STATUS;
 import DataObject.Prescription.Prescription;
+import DepartmentObject.Pharmacy;
 import DepartmentObject.UserInfoDatabase;
 import HumanObject.Doctors.Doctors;
 import DataObject.Appointment.Appointment;
@@ -12,6 +14,7 @@ import InputHandler.Input;
 public class DoctorUI {
     private UserInfoDatabase database;
     Doctors doctor;
+    Pharmacy pharmacy;
     int choice;
 
     public DoctorUI(Doctors doctor){
@@ -79,7 +82,6 @@ public class DoctorUI {
             }
         }
         //choice = Input.ScanInt("Enter the appointment ID");
-        //to be continued
 
     }
 
@@ -194,6 +196,8 @@ public class DoctorUI {
         //String medicineName = Input.ScanString("Enter medicine name:");
         //int amt = Input.ScanInt("Enter medicine amt");
         Prescription prescription = new Prescription(); //= new Prescription(MED_STATUS.PENDING,medicineName,amt);
+        MedicineRequest req = new MedicineRequest(apt.getPatientID(), apt.getDoctorID(), apt.getAppointmentID());
+        pharmacy.requestMedicine(req);
         apt.getPrescriptionList().addPrescription(prescription);
         apt.setNotes(Input.ScanString("Enter Consultation notes"));
         apt.setNameOfApt(Input.ScanString("Enter type of service"));
