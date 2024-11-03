@@ -1,5 +1,4 @@
 package HumanObject.Patient;
-import InputHandler.Input;
 
 
 import java.util.regex.Pattern;

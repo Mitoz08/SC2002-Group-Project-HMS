@@ -121,7 +121,7 @@ public class PatientUI {
                 case 9:
                     break;
                 default:
-                    System.out.println("Not the write option. Please select correctly");
+                    System.out.println("Not the right option. Please select correctly");
                     break;
             }
 
