@@ -34,7 +34,7 @@ public class Pharmacy {
         this.pastRestockReq = new ArrayList<RestockRequest>();
         loadFile();
         Input.ScanString("");
-//        testRun();
+        //testRun();
     }
 
     public void endPharmacy() {
@@ -177,6 +177,7 @@ public class Pharmacy {
 
     private int convertNameToID(String medicineName){
         medicineName = medicineName.toLowerCase();
+        //System.out.println(medicineName);
         return nameToID.get(medicineName);
     }
 
@@ -191,7 +192,7 @@ public class Pharmacy {
             System.out.println("Error");
             return;
         } finally {
-            System.out.println("Finish save function");
+            System.out.println("Finish load function");
         }
     }
 
@@ -200,9 +201,9 @@ public class Pharmacy {
             String text = fileReader.nextLine();
             while (true) {
                 text = fileReader.nextLine();
-                text = DataEncryption.Decrypt(text);
-                System.out.println(text);
-                if (text.equals("RestockRequest".toUpperCase())) break;
+                text = DataEncryption.decipher(text);
+                //System.out.println(text);
+                if (text.equals("RestockRequest")) break;
                 MedicineRequest request = DataSerialisation.DeserialiseMedicineReq(text);
                 if (request.isApproved()) pastMedReq.add(request);
                 else medicineRequests.add(request);
@@ -210,20 +211,26 @@ public class Pharmacy {
 
             while (true) {
                 text = fileReader.nextLine();
-                text = DataEncryption.Decrypt(text);
-                System.out.println(text);
-                if (text.equals("MedicineData".toUpperCase())) break;
+                text = DataEncryption.decipher(text);
+                //System.out.println(text);
+                if (text.equals("MedicineData")) break;
                 RestockRequest request = DataSerialisation.DeserialiseRestockReq(text);
                 if (request.isApproved()) pastRestockReq.add(request);
-                else restockRequests.add(request);
+                else {
+                    restockRequests.add(request);
+                    updatePendingRestock(true,request);
+                }
             }
 
             while (fileReader.hasNextLine()) {
                 text = fileReader.nextLine();
-                text = DataEncryption.Decrypt(text);
-                System.out.println(text);
+                text = DataEncryption.decipher(text);
+                //System.out.println(text);
                 MedicineData medicineData = DataSerialisation.DeserialiseMedicineData(text);
                 medicineStorage.put(medicineData.ID, medicineData);
+                System.out.println(medicineData.name + medicineData.ID);
+                nameToID.put(medicineData.name.toLowerCase(),medicineData.ID);
+                if (!pendingAmount.containsKey(medicineData.ID)) pendingAmount.put(medicineData.ID,0);
             }
         }
     }
@@ -246,50 +253,50 @@ public class Pharmacy {
 
     private void saveData(FileWriter fileWriter) throws IOException {
         String text = "MedicineRequest";
-        text = DataEncryption.Encrpyt(text);
+        text = DataEncryption.cipher(text);
         fileWriter.write(text);
         fileWriter.write("\n");
         while (!medicineRequests.isEmpty()){
             text = DataSerialisation.SerialiseMedicineReq(medicineRequests.removeFirst());
-            text = DataEncryption.Encrpyt(text);
+            text = DataEncryption.cipher(text);
             fileWriter.write(text);
             fileWriter.write("\n");
         }
 
         while (!pastMedReq.isEmpty()) {
             text = DataSerialisation.SerialiseMedicineReq(pastMedReq.removeFirst());
-            text = DataEncryption.Encrpyt(text);
+            text = DataEncryption.cipher(text);
             fileWriter.write(text);
             fileWriter.write("\n");
         }
 
         text = "RestockRequest";
-        text = DataEncryption.Encrpyt(text);
+        text = DataEncryption.cipher(text);
         fileWriter.write(text);
         fileWriter.write("\n");
 
         while (!restockRequests.isEmpty()) {
             text = DataSerialisation.SerialiseRestockReq(restockRequests.removeFirst());
-            text = DataEncryption.Encrpyt(text);
+            text = DataEncryption.cipher(text);
             fileWriter.write(text);
             fileWriter.write("\n");
         }
 
         while (!pastRestockReq.isEmpty()) {
             text = DataSerialisation.SerialiseRestockReq(pastRestockReq.removeFirst());
-            text = DataEncryption.Encrpyt(text);
+            text = DataEncryption.cipher(text);
             fileWriter.write(text);
             fileWriter.write("\n");
         }
 
         text = "MedicineData";
-        text = DataEncryption.Encrpyt(text);
+        text = DataEncryption.cipher(text);
         fileWriter.write(text);
         fileWriter.write("\n");
 
         for (Map.Entry<Integer,MedicineData> o : medicineStorage.entrySet()){
             text = DataSerialisation.SerialiseMedicineData(o.getValue());
-            text = DataEncryption.Encrpyt(text);
+            text = DataEncryption.cipher(text);
             fileWriter.write(text);
             fileWriter.write("\n");
         }
