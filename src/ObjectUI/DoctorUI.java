@@ -168,13 +168,15 @@ public class DoctorUI {
         for(Appointment apt: doctor.getPendingApt()){
             if(apt.getAppointmentID().equals(choice)){
                 int option = Input.ScanInt("0) Decline\n"+
-                        "1) Accept");
+                                                   "1) Accept");
             if(option == 0){
-                doctor.getPendingApt().removeAppointment(index);
+                database.docAcceptApt(apt, false);
+                //doctor.getPendingApt().removeAppointment(index);
                 }
             else if(option ==1){
-                doctor.getOngoingApt().addAppointment(apt);
-                doctor.getPendingApt().removeAppointment(index);
+                database.docAcceptApt(apt,true);
+                //doctor.getOngoingApt().addAppointment(apt);
+                //doctor.getPendingApt().removeAppointment(index);
                 int[] dateSlot = apt.getAptSlot();
                 doctor.getAvailability()[dateSlot[0]][dateSlot[1]]= true;
             }
