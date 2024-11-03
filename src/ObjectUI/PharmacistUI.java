@@ -61,18 +61,19 @@ public class PharmacistUI extends BaseUI {
 
                     Appointment appointment = null;
                     // Waiting on Database function to fetch appointment
-                    for (Patient p : database.getPatients()) {
-                        if (p.getID() == request.getPatientID()) {
-                            AppointmentList appointments = p.getCompleted();
-                            for (Appointment apt : appointments) {
-                                if (apt.getAppointmentID().equals(request.getAppointmentID())) appointment = apt;
-                            }
-                        }
-                    }
-                    if (appointment == null) {
-                        System.out.println("Appointment does not exist!");
-                        break;
-                    }
+//                    for (Patient p : database.getPatients()) {
+//                        if (p.getID() == request.getPatientID()) {
+//                            AppointmentList appointments = p.getCompleted();
+//                            for (Appointment apt : appointments) {
+//                                if (apt.getAppointmentID().equals(request.getAppointmentID())) appointment = apt;
+//                            }
+//                        }
+//                    }
+//                    if (appointment == null) {
+//                        System.out.println("Appointment does not exist!");
+//                        break;
+//                    }
+                    appointment = DataSerialisation.DeserialiseAppointment("APT000001/0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10");
 
                     list = appointment.getPrescriptionList();
 

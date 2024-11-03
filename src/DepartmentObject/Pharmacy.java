@@ -32,9 +32,9 @@ public class Pharmacy {
         this.restockRequests = new ArrayList<RestockRequest>();
         this.pastMedReq = new ArrayList<MedicineRequest>();
         this.pastRestockReq = new ArrayList<RestockRequest>();
-        loadFile();
-        Input.ScanString("");
-        //testRun();
+//        loadFile();
+//        Input.ScanString("");
+        testRun();
     }
 
     public void endPharmacy() {
