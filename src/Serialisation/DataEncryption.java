@@ -1,6 +1,10 @@
 package Serialisation;
 
 public class DataEncryption {
+
+    private static String[] key = new String[] {"SMACBEST", "OBJECT", "ORIENTED", "PROGRAMMING"};
+    private static int noOfKey = 4;
+
     public static String Encrpyt (String text){
         text = text.toUpperCase();
         String key = "SMACBEST";
@@ -42,6 +46,30 @@ public class DataEncryption {
             }
         }
         return decrypted;
+    }
+
+    public static String cipher(String text) {
+        String keyWord = key[text.length()%noOfKey].toUpperCase();
+        String cipherText = "";
+
+        for (int i = 0; i < text.length(); i++) {
+            char ch = text.charAt(i);
+            ch += (char) (keyWord.charAt(i%keyWord.length()) - 'A');
+            cipherText += ch;
+        }
+        return cipherText;
+    }
+
+    public static String decipher(String text) {
+        String keyWord = key[text.length()%noOfKey].toUpperCase();
+        String decipherText = "";
+
+        for (int i = 0; i < text.length(); i++) {
+            char ch = text.charAt(i);
+            ch -= (char) (keyWord.charAt(i%keyWord.length()) - 'A');
+            decipherText += ch;
+        }
+        return decipherText;
     }
 
 }
