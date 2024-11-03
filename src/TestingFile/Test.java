@@ -34,6 +34,8 @@ public class Test {
 
     public static void Run3() {
         Pharmacy pharmacy = new Pharmacy();
+        Pharmacist pharmacist = new Pharmacist("Tim", new Date(1000,10,1),true);
+        PharmacistUI pharmacistUI = new PharmacistUI(pharmacy, pharmacist);
         pharmacy.endPharmacy();
     }
 }

@@ -55,6 +55,8 @@ public class PharmacistUI extends BaseUI {
                         if (index >= size) System.out.println("Incorrect index.");
                     } while (index >= size);
                     request = pharmacy.getMedRequest(index);
+
+                    // Waiting on Database function to fetch appointment
                     Appointment appointment = DataSerialisation.DeserialiseAppointment("APT000001/0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10"); // Get appointment from database using APT_ID/PatientID/DoctorID
 
                     list = appointment.getPrescriptionList();
