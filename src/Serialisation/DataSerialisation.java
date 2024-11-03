@@ -216,7 +216,7 @@ public class DataSerialisation {
     }
     // The 4 functions below are used in intialising from HMS.txt
     public static Patient createPatient(int ID, String name, Date DOB, Boolean gender, String bloodType, Contact contactPat){
-        return new Patient();
+        return new Patient(ID, name, DOB, gender, bloodType, contactPat);
     }
     public static Doctors createDoctor(int ID, String Name, Date DOB, Boolean Gender){
         return new Doctors(ID,Name,DOB,Gender);
