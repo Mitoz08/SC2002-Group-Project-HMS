@@ -300,8 +300,6 @@ public class Pharmacy {
             fileWriter.write(text);
             fileWriter.write("\n");
         }
-
     }
-
 
 }
