@@ -10,6 +10,7 @@ import DataObject.Prescription.Prescription;
 import DataObject.Prescription.PrescriptionList;
 import HumanObject.Administrator.Administrator;
 import HumanObject.Doctors.Doctors;
+import HumanObject.Patient.Contact;
 import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
 
@@ -214,8 +215,8 @@ public class DataSerialisation {
         return sb.substring(0, sb.length() - 1);
     }
     // The 4 functions below are used in intialising from HMS.txt
-    public static Patient createPatient(){
-        return new Patient();
+    public static Patient createPatient(int ID, String name, Date DOB, Boolean gender, String bloodType, Contact contactPat){
+        return new Patient(ID, name, DOB, gender, bloodType, contactPat);
     }
     public static Doctors createDoctor(int ID, String Name, Date DOB, Boolean Gender){
         return new Doctors(ID,Name,DOB,Gender);
