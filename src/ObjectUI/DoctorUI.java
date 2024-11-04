@@ -71,10 +71,7 @@ public class DoctorUI extends BaseUI {
         }
         int choice = Input.ScanInt("Enter the Patient ID");
         Patient patient = (Patient) database.getPerson(choice, ROLE.PATIENT);
-        System.out.println("Patient ID: " +  patient.getID());
-        System.out.println("Patient name: " + patient.getName());
-        System.out.println("Patient gender: " + patient.getGender());
-        System.out.println("Date of birth: " + patient.getDOB());
+        patient.printMedicalRecord();
 
         for(Appointment apt: doctor.getCompletedApt()){
             if(apt.getPatientID() == choice){
@@ -180,7 +177,6 @@ public class DoctorUI extends BaseUI {
                 int[] dateSlot = apt.getAptSlot();
                 doctor.getAvailability()[dateSlot[0]][dateSlot[1]]= true;
             }
-
             }
             index++;
         }
