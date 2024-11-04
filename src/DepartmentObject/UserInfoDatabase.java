@@ -115,7 +115,7 @@ public class UserInfoDatabase {
     }
     //This class method is to decrypt the string and return an ArrayList<String> which are the user info
     private static ArrayList<String> parseData(String string){
-        String decrypt = DataEncryption.Decrypt(string);
+        String decrypt = DataEncryption.decipher(string);
         ArrayList<String> userInfo = new ArrayList<String>(Arrays.asList(decrypt.split("\\*")));
         return userInfo;
     }
@@ -471,7 +471,7 @@ public class UserInfoDatabase {
 
     }
     //is used by administrator to addStaff and fireStaff
-    public void updateUserInfoDatabaseFile(){
+    public void updateUserInfoDatabaseFile(BasePerson basePerson){
 
     }
 

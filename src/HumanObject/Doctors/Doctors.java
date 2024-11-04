@@ -7,6 +7,7 @@ import HumanObject.BasePerson;
 import HumanObject.Patient.Patient;
 import HumanObject.ROLE;
 import InputHandler.Input;
+import org.w3c.dom.NameList;
 
 import java.util.Date;
 
@@ -19,7 +20,7 @@ public class Doctors extends BasePerson {
     private Boolean[][] availability = new Boolean[7][5];
 
 
-
+    //This constructor is used for Initialising from TXT File
     public Doctors(int ID, String Name, Date DOB, Boolean Gender){
         super(ID, Name, DOB, Gender);
         this.role = ROLE.DOCTOR;
@@ -29,6 +30,11 @@ public class Doctors extends BasePerson {
 
             }
         }
+    }
+    //This constructor is for adding a Doctor into TXT file
+    public Doctors (String Name, Date DOB, Boolean Gender){
+        super(lastID++, Name, DOB, Gender);
+        this.role = ROLE.DOCTOR;
     }
     public static void setLastID(int lastID1){
         lastID = lastID1;
