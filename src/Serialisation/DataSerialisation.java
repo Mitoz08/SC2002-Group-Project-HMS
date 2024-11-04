@@ -208,7 +208,7 @@ public class DataSerialisation {
      * @param delimiter
      * @return
      */
-    private static String convertStringArraytoString (String[] StringArray, String delimiter) {
+    public static String convertStringArraytoString (String[] StringArray, String delimiter) {
         StringBuilder sb = new StringBuilder();
         for (String str : StringArray)
             sb.append(str).append(delimiter);

@@ -8,17 +8,15 @@ import HumanObject.Pharmacist.Pharmacist;
 import HumanObject.ROLE;
 import InputHandler.Input;
 import ObjectUI.*;
+import Serialisation.DataEncryption;
+import Serialisation.DataSerialisation;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.io.*;
+import java.util.*;
 
 public class AccountInfoDatabase {
 
-    public static UserInfoDatabase database;
-    public static Pharmacy pharmacy;
+    private String fileName;
 
     // will be called in the start of the main function this inputs can be gathered by reading the HMSAccount.txt first
 
@@ -40,19 +38,24 @@ public class AccountInfoDatabase {
 //        }
 //        return empty;
 //    }
+    public AccountInfoDatabase() {
+        this.fileName = "Login.txt";
+    }
 
 
-    public static BaseUI login(){
+    public BaseUI login(){
         BaseUI baseUI;
         String username;
         String password;
-        ROLE role;
+        String UserID;
+        //ROLE role;
         while (true) {
             username = Input.ScanString("Username:");
             password = Input.ScanString("Password:");
-            role = ROLE.values()[Input.ScanInt("1. Patient\n2.Doctor\n3.Pharmacist\n4.Administrator\nEnter your role:") -1 ];
-            if (!verify(username, password, role)){
-                System.out.println("Wrong Username/Password... Try again");
+            //role = ROLE.values()[Input.ScanInt("1. Patient\n2.Doctor\n3.Pharmacist\n4.Administrator\nEnter your role:") -1 ];
+            UserID = verify(username, password);
+            if (UserID == null){
+                System.out.println("Wrong Username/Password... \nTry again");
                 continue;
             }
             System.out.println("Login successful.");
@@ -62,43 +65,143 @@ public class AccountInfoDatabase {
         int ID = 0;
 
 
-        switch (role) {
-            case PATIENT:
-                for (Patient p : database.getPatients()) {
-                    if (p.getID() == ID) return (BaseUI) new PatientUI(database, pharmacy, p);
-                }
-                break;
-            case DOCTOR:
-                for (Doctors d : database.getDoctors()) {
-                    if (d.getID() == ID) return (BaseUI) new DoctorUI(database, pharmacy, d);
-                }
-                break;
-            case PHARMACIST:
-                for (Pharmacist p : database.getPharmacists()) {
-                    if (p.getID() == ID) return (BaseUI) new PharmacistUI(database, pharmacy, p);
-                }
-                break;
-            case ADMINISTRATOR:
-                for (Administrator a : database.getAdministrators()) {
-                    if (a.getID() == ID) return (BaseUI) new AdminUI(database, pharmacy, a);
-                }
-                break;
-        }
+//        switch (role) {
+//            case PATIENT:
+//                for (Patient p : database.getPatients()) {
+//                    if (p.getID() == ID) return (BaseUI) new PatientUI(database, pharmacy, p);
+//                }
+//                break;
+//            case DOCTOR:
+//                for (Doctors d : database.getDoctors()) {
+//                    if (d.getID() == ID) return (BaseUI) new DoctorUI(database, pharmacy, d);
+//                }
+//                break;
+//            case PHARMACIST:
+//                for (Pharmacist p : database.getPharmacists()) {
+//                    if (p.getID() == ID) return (BaseUI) new PharmacistUI(database, pharmacy, p);
+//                }
+//                break;
+//            case ADMINISTRATOR:
+//                for (Administrator a : database.getAdministrators()) {
+//                    if (a.getID() == ID) return (BaseUI) new AdminUI(database, pharmacy, a);
+//                }
+//                break;
+//        }
 
         return null;
     }
 
-    private static boolean verify(String username, String Password, ROLE role) {
+    private String verify(String username, String Password) {
+        String[] Encrypted = new String[] {DataEncryption.SHA3(username), DataEncryption.SHA3(Password)};
+        int slot = hashValue(Encrypted[0]);
+        File file = new File(fileName);
+        String UserID = null;
+        Scanner fileReader = null;
+        ArrayList<String> textLine = new ArrayList<>();
+        try {
+            fileReader = new Scanner(fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error reading Login.txt");
+        }
+        int i = 0;
+        while (i < slot) {
+            textLine.add(fileReader.nextLine());
+            i++;
+        }
 
-        return false;
+        String data = textLine.getLast();
+        String[] dataArray = data.split("/");
+        for (int j = 0; j < dataArray.length; j += 3) {
+            if (Encrypted[0].equals(dataArray[j]) && Encrypted[1].equals(dataArray[j+1])){
+                UserID = DataEncryption.decipher(dataArray[j+2], slot);
+            }
+        }
+        return UserID;
     }
 
-    public static boolean addNewAccount(String username, String userID){
+    public boolean addNewAccount(String username, String userID){
         // PA0001,Username,Password
-
-        return false;
+        String[] Encrypted = new String[] {DataEncryption.SHA3(username), DataEncryption.SHA3("Password"), ""};
+        int slot = hashValue(Encrypted[0]);
+        Encrypted[2] = DataEncryption.cipher(userID, slot);
+        updateFile(Encrypted,slot,0);
+        return true;
     }
 
+    public boolean addNewPassword(String username, String oldPass, String newPass) {
+        String[] Encrypted = new String[] {DataEncryption.SHA3(username), DataEncryption.SHA3(oldPass),
+                DataEncryption.SHA3(newPass)};
+        int slot = hashValue(Encrypted[0]);
+        updateFile(Encrypted,slot,1);
+        return true;
+    }
+
+    private boolean updateFile (String[] Encrypted, int slot, int mode) {
+        File file = new File(fileName);
+        Scanner fileReader = null;
+        ArrayList<String> textLine = new ArrayList<>();
+        try {
+         fileReader = new Scanner(fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error reading Login.txt");
+        }
+
+        while (fileReader.hasNextLine()) {
+            textLine.add(fileReader.nextLine());
+        }
+
+        for (int i = textLine.size(); i < slot; i++) {
+            textLine.add("");
+        }
+
+        if (mode == 0) {
+            String prevText = textLine.get(slot-1);
+            String addText = DataSerialisation.convertStringArraytoString(Encrypted, "/");
+            if (prevText.isEmpty()) {
+                textLine.remove(slot-1);
+                textLine.add(slot-1, addText);
+            } else {
+                textLine.remove(slot-1);
+                textLine.add(slot-1, prevText + "/" + addText);
+            }
+        } else if (mode == 1) {
+            String prevText = textLine.get(slot-1);
+            String[] prevTextArray = prevText.split("/");
+            for (int i = 0; i < prevTextArray.length; i +=3) {
+                if (prevTextArray[i] == Encrypted[0] && prevTextArray[i+1] == Encrypted[1]){
+                    prevTextArray[i+1] = Encrypted[2];
+                    break;
+                }
+            }
+            textLine.remove(slot-1);
+            textLine.add(slot-1, DataSerialisation.convertStringArraytoString(prevTextArray, "/"));
+        }
+        fileReader.close();
+        try {
+            FileWriter fileWriter = new FileWriter(fileName);
+            for (String s : textLine) {
+                fileWriter.write(s + "\n");
+            }
+            fileWriter.close();
+        } catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Error writing Login.txt");
+        }
 
 
+    }
+
+    private int hashValue(String text) {
+        int hashValue = 53;
+        int value = 0;
+        for (int i = 0; i < text.length(); i++) {
+            char ch = text.charAt(i);
+            if (ch >= '0' && ch <= '9'){
+                value += ch - '0';
+            }
+        }
+        return value % hashValue;
+    }
 }
