@@ -12,12 +12,6 @@ public class Main {
     public static void main(String[] args) {
 //        Test.Run2();
 //        Test.Run3();
-
-        UserInfoDatabase database = new UserInfoDatabase();
-        Pharmacy pharmacy = new Pharmacy();
-        System.out.println(database.getPatients());
-        Patient patient = database.getPatients().getFirst();
-
-        PatientUI ui = new PatientUI(database,pharmacy,patient);
+        Test.Run4();
     }
 }
