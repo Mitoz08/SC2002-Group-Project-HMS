@@ -35,6 +35,7 @@ public class Pharmacy {
 //        loadFile();
 //        Input.ScanString("");
         testRun();
+        AccountInfoDatabase.pharmacy = this;
     }
 
     public void endPharmacy() {

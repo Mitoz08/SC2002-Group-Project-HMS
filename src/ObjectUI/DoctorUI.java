@@ -11,13 +11,13 @@ import HumanObject.Patient.Patient;
 import HumanObject.ROLE;
 import InputHandler.Input;
 
-public class DoctorUI {
+public class DoctorUI extends BaseUI {
     private UserInfoDatabase database;
     Doctors doctor;
     Pharmacy pharmacy;
     int choice;
 
-    public DoctorUI(Doctors doctor){
+    public DoctorUI(UserInfoDatabase database, Pharmacy pharmacy, Doctors doctor){
         this.doctor=doctor;
 
         do{
