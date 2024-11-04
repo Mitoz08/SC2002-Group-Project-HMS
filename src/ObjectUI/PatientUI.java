@@ -1,5 +1,7 @@
 package ObjectUI;
 
+import DataObject.Appointment.Appointment;
+import DataObject.Appointment.AppointmentList;
 import DataObject.PharmacyObjects.MedicineRequest;
 import DataObject.Prescription.PrescriptionList;
 import DepartmentObject.Pharmacy;
@@ -16,14 +18,11 @@ public class PatientUI extends BaseUI {
     private Pharmacy pharmacy;
     private Patient patient;
     private UserInfoDatabase database;
+    private Appointment apt;
 
     public PatientUI(UserInfoDatabase database, Pharmacy pharmacy, Patient patient) {
-        this.pharmacy = pharmacy;
         this.database = database;
-
-
         int choice;
-
 
         do {
             Input.ClearConsole();
@@ -56,21 +55,20 @@ public class PatientUI extends BaseUI {
                     viewAvailableAppointments();
                     break;
                 case 4:
-                    // To be inputted by Julian
+                    scheduleAppointment();
                     break;
                 case 5:
-                    // To be inputted by Julian
+                    rescheduleApt();
                     break;
                 case 6:
-                    // To be inputted by Julian
+                    cancelApt();
                     break;
                 case 7:
-                    System.out.println("Here are your past appointments");
+                    System.out.println("Here are your scheduled appointments");
                     patient.getOngoing().print(true);
-                    patient.getPending().print(true);
                     break;
                 case 8:
-                    System.out.println("Here are your past appointments");
+                    System.out.println("Here are your completed appointments");
                     patient.getCompleted().print(true);
                     break;
                 case 9:
@@ -168,5 +166,65 @@ public class PatientUI extends BaseUI {
             }
         } while(!check);
         Input.ScanString("Press enter to continue\n");
+    }
+
+    public void scheduleAppointment(){
+        int []dateSlot = new int[2];
+        boolean check;
+        Input.ClearConsole();
+        check = false;
+        System.out.println("Which timing do you want to choose?\n");
+        dateSlot[0] = Input.ScanInt("Choose the day: \n" +
+                "1) Monday\n" +
+                "2) Tuesday\n" +
+                "3) Wednesday\n" +
+                "4) Thursday\n" +
+                "5) Friday\n" +
+                "6) Saturday\n" +
+                "7) Sunday\n") - 1;
+        dateSlot[1] = Input.ScanInt("Choose the timing:\n" +
+                "1) 10AM-11AM\n" +
+                "2) 11AM-12PM\n" +
+                "3) 1PM-2PM\n" +
+                "4) 2PM-3PM\n" +
+                "5) 3PM-4PM\n") - 1;
+        ArrayList<Doctors> doctorsArrayList = database.getDoctors();
+        for (Doctors doctor : doctorsArrayList) {
+            if (doctor.getAvailability()[dateSlot[0]][dateSlot[1]]) {
+                System.out.println(doctor.getID() + ": " + doctor.getName() + " is available during this timeslot\n");
+                check = true;
+            }
+        }
+        if (!check) {
+            System.out.println("No doctors available at this timeslot, please pick another!\n");
+            Input.ScanString("Press enter to continue\n");
+        }
+        while(!check);
+
+        String service = Input.ScanString("What service are you booking for?\n");
+        int doctorID = Input.ScanInt("Enter the doctor ID: \n");
+        apt = new Appointment(service, patient.getID(), doctorID, dateSlot);
+        database.scheduleApt(apt);
+    }
+
+    public void rescheduleApt(){
+        scheduleAppointment();
+        cancelApt();
+    }
+
+    public void cancelApt(){
+        boolean check;
+        do {
+            check = false;
+            patient.getOngoing().print(true);
+            int index = Input.ScanInt("Enter the index of the appointment you wish to delete\n");
+            Appointment apt = patient.getOngoing().getAppointment(index - 1);
+            Input.ClearConsole();
+            int yn = Input.ScanInt("Please confirm that this is the appointment you want?\n" + "1. Yes\n" + "2. No\n");
+            if (yn == 1){
+                check = true;
+            }
+        } while(!check);
+        database.cancelApt(apt);
     }
 }
