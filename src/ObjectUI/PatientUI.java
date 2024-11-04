@@ -14,7 +14,8 @@ import HumanObject.Patient.ContactChecker;
 
 import java.util.ArrayList;
 
-public class PatientUI {
+public class PatientUI extends BaseUI {
+    private Pharmacy pharmacy;
     private Patient patient;
     private UserInfoDatabase database;
     private Appointment apt;

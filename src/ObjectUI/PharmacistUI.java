@@ -25,7 +25,8 @@ public class PharmacistUI extends BaseUI {
     private Pharmacy pharmacy;
     private Pharmacist pharmacist;
 
-    public PharmacistUI(Pharmacy pharmacy, Pharmacist pharmacist) {
+    public PharmacistUI(UserInfoDatabase database, Pharmacy pharmacy, Pharmacist pharmacist) {
+        this.database = database;
         this.pharmacy = pharmacy;
         this.pharmacist = pharmacist;
 
