@@ -30,6 +30,10 @@ public class Doctors extends BasePerson {
 
             }
         }
+        this.Ongoing = new AppointmentList(true);
+        this.Completed = new AppointmentList(false);
+        this.Pending = new AppointmentList(true);
+
     }
     //This constructor is for adding a Doctor into TXT file
     public Doctors (String Name, Date DOB, Boolean Gender){

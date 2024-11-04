@@ -24,13 +24,18 @@ public class Patient extends BasePerson {
 
     //This constructor is used to initialise from TXT file
     public Patient(int ID, String Name, Date DOB, Boolean Gender, String bloodType, Contact contact){
-        this.ID = ID;
-        this.name = Name;
-        this.DOB = DOB;
-        this.gender = Gender;
+        super(ID,Name, DOB, Gender);
+//        this.ID = ID;
+//        this.name = Name;
+//        this.DOB = DOB;
+//        this.gender = Gender;
         this.bloodType = bloodType;
         this.contact = contact;
         this.role = ROLE.PATIENT;
+        this.contact = new Contact("Empty","0202020");
+        this.Pending = new AppointmentList(true);
+        this.Ongoing = new AppointmentList(true);
+        this.Completed = new AppointmentList(false);
     }
 
     //This constructor is used to add to TXT file
@@ -39,6 +44,10 @@ public class Patient extends BasePerson {
         this.bloodType = bloodType;
         this.contact = contact;
         this.role = ROLE.PATIENT;
+        this.contact = new Contact("Empty","0202020");
+        this.Pending = new AppointmentList(true);
+        this.Ongoing = new AppointmentList(true);
+        this.Completed = new AppointmentList(false);
     }
 
     public void printMedicalRecord(){

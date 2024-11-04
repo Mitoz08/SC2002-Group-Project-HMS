@@ -22,6 +22,8 @@ public class PatientUI extends BaseUI {
 
     public PatientUI(UserInfoDatabase database, Pharmacy pharmacy, Patient patient) {
         this.database = database;
+        this.pharmacy = pharmacy;
+        this.patient = patient;
         int choice;
 
         do {
