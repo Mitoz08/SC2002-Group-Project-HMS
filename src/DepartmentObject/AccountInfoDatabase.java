@@ -1,11 +1,7 @@
 package DepartmentObject;
 
-import HumanObject.Administrator.Administrator;
-import HumanObject.BasePerson;
-import HumanObject.Doctors.Doctors;
+
 import HumanObject.Patient.Patient;
-import HumanObject.Pharmacist.Pharmacist;
-import HumanObject.ROLE;
 import InputHandler.Input;
 import ObjectUI.*;
 import Serialisation.DataEncryption;
@@ -40,30 +36,25 @@ public class AccountInfoDatabase {
 //    }
     public AccountInfoDatabase() {
         this.fileName = "Login.txt";
+//        addNewAccount("Admin", "AD1005");
     }
 
 
-    public BaseUI login(){
-        BaseUI baseUI;
+    public String login(){
         String username;
         String password;
         String UserID;
-        //ROLE role;
         while (true) {
             username = Input.ScanString("Username:");
             password = Input.ScanString("Password:");
-            //role = ROLE.values()[Input.ScanInt("1. Patient\n2.Doctor\n3.Pharmacist\n4.Administrator\nEnter your role:") -1 ];
             UserID = verify(username, password);
             if (UserID == null){
                 System.out.println("Wrong Username/Password... \nTry again");
                 continue;
             }
             System.out.println("Login successful.");
-            break;
+            return UserID;
         }
-        // Determine which to choose
-        int ID = 0;
-
 
 //        switch (role) {
 //            case PATIENT:
@@ -87,25 +78,46 @@ public class AccountInfoDatabase {
 //                }
 //                break;
 //        }
+    }
 
-        return null;
+    public boolean changePassword() {
+        String username;
+        String oldPass;
+        String UserID;
+        while (true) {
+            username = Input.ScanString("Username:");
+            oldPass = Input.ScanString("Password:");
+            UserID = verify(username, oldPass);
+            if (UserID == null){
+                System.out.println("Wrong Username/Password... \nTry again");
+                continue;
+            }
+            String newPass = Input.ScanString("Enter your new password:");
+            return addNewPassword(username,oldPass,newPass);
+        }
     }
 
     private String verify(String username, String Password) {
         String[] Encrypted = new String[] {DataEncryption.SHA3(username), DataEncryption.SHA3(Password)};
         int slot = hashValue(Encrypted[0]);
+        System.out.println(slot);
         File file = new File(fileName);
         String UserID = null;
         Scanner fileReader = null;
         ArrayList<String> textLine = new ArrayList<>();
         try {
-            fileReader = new Scanner(fileName);
+            fileReader = new Scanner(file);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error reading Login.txt");
         }
         int i = 0;
+        while (fileReader.hasNextLine()) {
+            textLine.add(fileReader.nextLine());
+            i++;
+        }
         while (i < slot) {
+            System.out.println(i);
             textLine.add(fileReader.nextLine());
             i++;
         }
@@ -142,7 +154,7 @@ public class AccountInfoDatabase {
         Scanner fileReader = null;
         ArrayList<String> textLine = new ArrayList<>();
         try {
-         fileReader = new Scanner(fileName);
+         fileReader = new Scanner(file);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error reading Login.txt");
@@ -170,7 +182,7 @@ public class AccountInfoDatabase {
             String prevText = textLine.get(slot-1);
             String[] prevTextArray = prevText.split("/");
             for (int i = 0; i < prevTextArray.length; i +=3) {
-                if (prevTextArray[i] == Encrypted[0] && prevTextArray[i+1] == Encrypted[1]){
+                if (prevTextArray[i].equals(Encrypted[0]) && prevTextArray[i+1].equals(Encrypted[1])){
                     prevTextArray[i+1] = Encrypted[2];
                     break;
                 }
@@ -180,7 +192,7 @@ public class AccountInfoDatabase {
         }
         fileReader.close();
         try {
-            FileWriter fileWriter = new FileWriter(fileName);
+            FileWriter fileWriter = new FileWriter(file);
             for (String s : textLine) {
                 fileWriter.write(s + "\n");
             }
@@ -188,9 +200,9 @@ public class AccountInfoDatabase {
         } catch (Exception e){
             e.printStackTrace();
             System.out.println("Error writing Login.txt");
+            return false;
         }
-
-
+        return true;
     }
 
     private int hashValue(String text) {
