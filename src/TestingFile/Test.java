@@ -4,6 +4,7 @@ import DataObject.Appointment.Appointment;
 import DataObject.Prescription.Prescription;
 import DataObject.Prescription.PrescriptionList;
 import DepartmentObject.Pharmacy;
+import DepartmentObject.UserInfoDatabase;
 import HumanObject.Pharmacist.Pharmacist;
 import ObjectUI.PharmacistUI;
 import Serialisation.DataSerialisation;
@@ -29,13 +30,14 @@ public class Test {
     public static void Run2() {
         Pharmacist pharmacist = new Pharmacist("Tim", new Date(1000,10,1),true);
         Pharmacy pharmacy = new Pharmacy();
-        PharmacistUI pharmacistUI = new PharmacistUI(pharmacy, pharmacist);
+//        PharmacistUI pharmacistUI = new PharmacistUI(pharmacy, pharmacist);
     }
 
     public static void Run3() {
+        UserInfoDatabase database = new UserInfoDatabase();
         Pharmacy pharmacy = new Pharmacy();
         Pharmacist pharmacist = new Pharmacist("Tim", new Date(1000,10,1),true);
-        PharmacistUI pharmacistUI = new PharmacistUI(pharmacy, pharmacist);
+        PharmacistUI pharmacistUI = new PharmacistUI(database,pharmacy, pharmacist);
         pharmacy.endPharmacy();
     }
 }

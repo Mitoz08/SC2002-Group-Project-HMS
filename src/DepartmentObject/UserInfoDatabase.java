@@ -1,18 +1,13 @@
 package DepartmentObject;
 
 import java.io.*;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Scanner;
 
-import DataObject.Appointment.APT_STATUS;
 import DataObject.Appointment.Appointment;
 import DataObject.Appointment.AppointmentList;
-import DataObject.Prescription.Prescription;
 import DataObject.Prescription.PrescriptionList;
 import HumanObject.Administrator.Administrator;
 import HumanObject.BasePerson;
@@ -43,11 +38,13 @@ public class UserInfoDatabase {
 
     }
     public UserInfoDatabase(){
-        ArrayList<Patient> patients = new ArrayList<Patient>();
-        ArrayList<Doctors> doctors = new ArrayList<Doctors>();
-        ArrayList<Administrator> administrators = new ArrayList <Administrator>();
-        ArrayList<Pharmacist> pharmacists = new ArrayList<Pharmacist>();
-        AppointmentList[] allAppointments = new AppointmentList[5];
+        this.patients = new ArrayList<Patient>();
+        this.doctors = new ArrayList<Doctors>();
+        this.administrators = new ArrayList <Administrator>();
+        this.pharmacists = new ArrayList<Pharmacist>();
+        this.allAppointments = new AppointmentList[3];
+
+        for (int i = 0; i < 3; i++) allAppointments[i] = new AppointmentList(true);
         ArrayList<String> temp = new ArrayList<>();
 
         int ID;
@@ -58,11 +55,14 @@ public class UserInfoDatabase {
         String bloodType;
         Contact contact;
 
+
+
         try{
             BufferedReader reader = new BufferedReader(new FileReader("HMS.txt"));
             String line;
             while ((line = reader.readLine()) != null){
                 temp = UserInfoDatabase.parseData(line); //Gets an ArrayList<String> of userInfo which has been already decrypted
+                System.out.println(temp);
                 String role = temp.get(0); //Check the role and create BasePerson Accordingly
 
                 switch(role){
@@ -77,7 +77,8 @@ public class UserInfoDatabase {
                         String contactNo = split[1];
                         Contact contactPat = new Contact(email, contactNo);
                         Patient tempPat = DataSerialisation.createPatient(ID,Name,DOB,Gender,bloodType,contactPat);
-                        patients.add(tempPat);
+                        this.patients.add(tempPat);
+                        System.out.println("Added patient");
                         break;
                     case "DR":
 
@@ -86,7 +87,7 @@ public class UserInfoDatabase {
                         DOB = DataSerialisation.DeserialiseDate(temp.get(3));
                         Gender = Boolean.valueOf(temp.get(4));
                         Doctors tempDoc = DataSerialisation.createDoctor(ID,Name,DOB,Gender);
-                        doctors.add(tempDoc);
+                        this.doctors.add(tempDoc);
                         break;
                     case "PH":
                         ID = Integer.parseInt(temp.get(1));
@@ -94,7 +95,7 @@ public class UserInfoDatabase {
                         DOB = DataSerialisation.DeserialiseDate(temp.get(3));
                         Gender = Boolean.valueOf(temp.get(4));
                         Pharmacist tempPharm = DataSerialisation.createPharmacist(ID, Name, DOB, Gender); // creates a new Pharmacist
-                        pharmacists.add(tempPharm); //adds it into the ArrayList<Pharmacists>
+                        this.pharmacists.add(tempPharm); //adds it into the ArrayList<Pharmacists>
                         break;
 
                     case "AD":
@@ -103,7 +104,7 @@ public class UserInfoDatabase {
                         DOB = DataSerialisation.DeserialiseDate(temp.get(3));
                         Gender = Boolean.valueOf(temp.get(4));
                         Administrator tempAdmin = DataSerialisation.createAdministrator(ID, Name, DOB, Gender);
-                        administrators.add(tempAdmin);
+                        this.administrators.add(tempAdmin);
                         break;
                 }
             }
@@ -111,7 +112,6 @@ public class UserInfoDatabase {
         }catch(IOException e){
             e.printStackTrace();
         }
-
     }
     //This class method is to decrypt the string and return an ArrayList<String> which are the user info
     private static ArrayList<String> parseData(String string){
@@ -135,7 +135,7 @@ public class UserInfoDatabase {
 
     public BasePerson getPerson(int id, ROLE role){
 
-        BasePerson notReal = new BasePerson();
+        BasePerson notReal = null;
         String roleS;
         roleS = role.toString();
         switch (roleS){
@@ -180,7 +180,7 @@ public class UserInfoDatabase {
     }
     public BasePerson getPerson(String name, ROLE role){
 
-        BasePerson notReal = new BasePerson();
+        BasePerson notReal = null;
         String roleS;
         roleS = role.toString();
         switch (roleS){
@@ -235,10 +235,10 @@ public class UserInfoDatabase {
         this.allAppointments[0].addAppointment(apt);
 
         //To add the appointment inside Ongoing for Doctors
-        String docName = apt.getDoctorname();
+        int docName = apt.getDoctorID();
         Doctors foundDoc = null;
         for (Doctors doc: this.doctors){
-            if (doc.getName().equals(docName)){
+            if (doc.getID() == (docName)){
                 foundDoc = doc;
             }
         }
@@ -278,7 +278,7 @@ public class UserInfoDatabase {
         for (Appointment apt: this.allAppointments[1]){
             if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID())){
                 flagFound=1; // found in Ongoing appointments
-                allAppointments[1].removeAppointment(i); // remove appointment in Ongoing AppointmentList
+                this.allAppointments[1].removeAppointment(i); // remove appointment in Ongoing AppointmentList
             }
             i++;
         }
