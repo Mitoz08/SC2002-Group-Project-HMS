@@ -22,15 +22,19 @@ public class Patient extends BasePerson {
     private AppointmentList Completed;
     private PrescriptionList Medicine;
 
-    public Patient(int ID, String Name, Date DOB, Boolean Gender){
+    //This constructor is used to initialise from TXT file
+    public Patient(int ID, String Name, Date DOB, Boolean Gender, String bloodType, Contact contact){
         this.ID = ID;
         this.name = Name;
         this.DOB = DOB;
         this.gender = Gender;
+        this.bloodType = bloodType;
+        this.contact = contact;
+        this.role = ROLE.PATIENT;
     }
 
-    //THIS IS A SPECIFIC CONSTRUCTOR TO INITIALISE FROM THE TXT FILE
-    public Patient(int ID, String Name, Date DOB, Boolean Gender, String bloodType, Contact contact) {
+    //This constructor is used to add to TXT file
+    public Patient(String Name, Date DOB, Boolean Gender, String bloodType, Contact contact) {
         super(lastID++, Name, DOB, Gender);
         this.bloodType = bloodType;
         this.contact = contact;

@@ -6,11 +6,14 @@ import DataObject.PharmacyObjects.RestockRequest;
 import DepartmentObject.Pharmacy;
 import DepartmentObject.UserInfoDatabase;
 import HumanObject.Administrator.Administrator;
+import HumanObject.BasePerson;
 import HumanObject.Doctors.Doctors;
 import HumanObject.Pharmacist.Pharmacist;
 import InputHandler.Input;
+import Serialisation.DataSerialisation;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AdminUI extends BaseUI{
 
@@ -22,6 +25,7 @@ public class AdminUI extends BaseUI{
     public AdminUI(UserInfoDatabase database, Pharmacy pharmacy, Administrator admin){
         this.pharmacy = pharmacy;
         this.database = database;
+        this.admin = admin;
 
         int choice=0;
 
@@ -51,7 +55,7 @@ public class AdminUI extends BaseUI{
                             addStaff();
                             break;
                         case 2:
-                            fireStaff();
+                            removeStaff();
                             break;
                     }
                     break;
@@ -126,14 +130,47 @@ public class AdminUI extends BaseUI{
         return;
 
     }
-    private void addStaff(){
+    private BasePerson addStaff(){
+        BasePerson notReal = null;
+        int role = Input.ScanInt("What is the role of the new Staff?\n" +
+                                    "1. Doctor\n" +
+                                    "2. Pharmacist\n" +
+                                    "3. Administrator\n");
+        String name = Input.ScanString("What is the name of the new Staff?\n");
+        Boolean Gender = Input.ScanBoolean("Is the staff a female\n?");
+        Date DOB = Gender? DataSerialisation.DeserialiseDate(Input.ScanString("What is her Date of Birth: in YYYY-MM-DD")+"-00-00\n"):
+        DataSerialisation.DeserialiseDate(Input.ScanString("What is his Date of Birth: in YYYY-MM-DD")+"-00-00\n");
 
-
-        return;
+        switch(role){
+            case 1:
+                return new Doctors(name, DOB, Gender);
+            case 2:
+                return new Pharmacist(name, DOB, Gender);
+            case 3:
+                return new Administrator(name, DOB, Gender);
+            default:
+                return notReal;
+        }
     }
-    private void fireStaff(){
+    private void removeStaff(){
+        int choice1,choice2;
+        int index=1;
+        choice1 = Input.ScanInt("Do you want to fire a\n " +
+                                    "1. Doctor\n" +
+                                    "2. Pharmacist\n" +
+                                    "3. Administrator");
+        switch (choice1){
+            case 1:
+                ArrayList<Doctors> docList = this.database.getDoctors();
+                for (Doctors doc: docList){
+                    System.out.println(index + ": " + "Name: " + doc.getName() + ", ID: " + doc.getID());
+                }
+                choice2 = Input.ScanInt("Choose which doctor to remove");
+                break;
 
-        int choice = Input.ScanInt("Choose which staff to fire");
+        }
+
+
         return;
     }
 
