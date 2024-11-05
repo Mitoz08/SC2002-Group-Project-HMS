@@ -1,12 +1,8 @@
 package HumanObject.Administrator;
 
-import DepartmentObject.UserInfoDatabase;
 import HumanObject.BasePerson;
-import HumanObject.Doctors.Doctors;
-import HumanObject.Pharmacist.Pharmacist;
 import HumanObject.ROLE;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Administrator extends BasePerson {

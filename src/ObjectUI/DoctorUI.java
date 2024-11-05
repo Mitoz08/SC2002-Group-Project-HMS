@@ -2,10 +2,7 @@ package ObjectUI;
 
 import DataObject.PharmacyObjects.MedicineData;
 import DataObject.PharmacyObjects.MedicineRequest;
-import DataObject.Prescription.MED_STATUS;
 import DataObject.Prescription.Prescription;
-import DepartmentObject.Pharmacy;
-import DepartmentObject.UserInfoDatabase;
 import HumanObject.Doctors.Doctors;
 import DataObject.Appointment.Appointment;
 import HumanObject.Patient.ContactChecker;
@@ -13,7 +10,7 @@ import HumanObject.Patient.Patient;
 import HumanObject.ROLE;
 import InputHandler.Input;
 import Serialisation.DataSerialisation;
-import org.w3c.dom.ls.LSOutput;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -188,14 +185,24 @@ public class DoctorUI implements BaseUI {
     }
     public void viewSchedule(){
         Input.ClearConsole();
-        int flag = 0;
-        for(Appointment apt: doctor.getOngoingApt()){
-            apt.print(false);
-            flag = 1;
+//        int flag = 0;
+//        for(Appointment apt: doctor.getOngoingApt()){
+//            apt.print(false);
+//            flag = 1;
+//        }
+//        if(flag == 0){
+//            System.out.println("Schedule is currently empty.");
+//        }
+
+        System.out.println("  Mon   Tue   Wed   Thr   Fri   Sat   Sun");
+        for (int i=0; i<5; i++){
+            System.out.print(i+1 + " ");
+            for (int j=0; j<7; j++){
+                System.out.print(doctor.getAvailability()[j][i]+ "  ");
+            }
+            System.out.println(" ");
         }
-        if(flag == 0){
-            System.out.println("Schedule is currently empty.");
-        }
+        Input.ScanString("Enter to continue...");
     }
 
     public void setAvailability(){

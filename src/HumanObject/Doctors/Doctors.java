@@ -1,13 +1,9 @@
 package HumanObject.Doctors;
 
-import DataObject.Appointment.Appointment;
 import DataObject.Appointment.AppointmentList;
-import DepartmentObject.UserInfoDatabase;
 import HumanObject.BasePerson;
-import HumanObject.Patient.Patient;
 import HumanObject.ROLE;
-import InputHandler.Input;
-import org.w3c.dom.NameList;
+
 
 import java.util.Date;
 

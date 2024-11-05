@@ -1,18 +1,14 @@
 package ObjectUI;
 
 import DataObject.Appointment.Appointment;
-import DataObject.Appointment.AppointmentList;
 import DataObject.PharmacyObjects.MedicineRequest;
 import DataObject.Prescription.PrescriptionList;
-import DepartmentObject.Pharmacy;
-import DepartmentObject.UserInfoDatabase;
 import HumanObject.Doctors.Doctors;
 import HumanObject.Patient.Patient;
 import HumanObject.ROLE;
 import InputHandler.Input;
 import HumanObject.Patient.ContactChecker;
 
-import javax.print.Doc;
 import java.util.ArrayList;
 
 public class PatientUI implements BaseUI {
