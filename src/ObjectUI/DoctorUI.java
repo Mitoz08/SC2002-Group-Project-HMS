@@ -7,9 +7,11 @@ import DepartmentObject.Pharmacy;
 import DepartmentObject.UserInfoDatabase;
 import HumanObject.Doctors.Doctors;
 import DataObject.Appointment.Appointment;
+import HumanObject.Patient.ContactChecker;
 import HumanObject.Patient.Patient;
 import HumanObject.ROLE;
 import InputHandler.Input;
+import Serialisation.DataSerialisation;
 import org.w3c.dom.ls.LSOutput;
 
 public class DoctorUI extends BaseUI {
@@ -69,8 +71,14 @@ public class DoctorUI extends BaseUI {
 
     public void viewPatient(){
         Input.ClearConsole();
+        int flag = 0;
         for(Appointment apt: doctor.getOngoingApt()){
             System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName());
+            flag=1;
+        }
+        if(flag == 0){
+            System.out.println("There are no patients under you now. ");
+            return;
         }
         int choice = Input.ScanInt("Enter the Patient ID");
         Patient patient = (Patient) database.getPerson(choice, ROLE.PATIENT);
@@ -81,8 +89,6 @@ public class DoctorUI extends BaseUI {
                 apt.print(false);
             }
         }
-        //choice = Input.ScanInt("Enter the appointment ID");
-
     }
 
     public void updatePatientMR(){
@@ -92,9 +98,89 @@ public class DoctorUI extends BaseUI {
         }
         int choice = Input.ScanInt("Enter the Patient ID");
         Patient patient = (Patient) database.getPerson(choice, ROLE.PATIENT);
-        //update paitient medical record
+        do{
+            System.out.println("1) Patient ID");
+            System.out.println("2) Patient name");
+            System.out.println("3) Date of birth");
+            System.out.println("4) Gender");
+            System.out.println("5) Contact information");
+            System.out.println("6) Blood type");
+            System.out.println("7) Exit");
+            choice = Input.ScanInt("Which part of the medical record do you want to update?");
+            switch(choice){
+                case 1:
+                    Input.ClearConsole();
+                    patient.setID(Input.ScanInt("Enter Patient new ID"));
+                    break;
+                case 2:
+                    Input.ClearConsole();
+                    patient.setName(Input.ScanString("Enter Patient new name"));
+                    break;
+                case 3:
+                    Input.ClearConsole();
+                    patient.setDOB(DataSerialisation.DeserialiseDate(Input.ScanString("Enter date of birth in this format YYYY-MM-DD-HH-MM:")));
+                    break;
+                case 4:
+                    Input.ClearConsole();
+                    patient.setGender(Input.ScanBoolean("Is it male(1) or female(0):"));
+                case 5:
+                    int C2Choice;
+                    do{
+                        Input.ClearConsole();
+                        C2Choice = Input.ScanInt("What do you want to update?\n"+
+                                "1. Email Address\n" +
+                                "2. Contact Number\n"+
+                                "3. Go back\n");
+                        switch (C2Choice) {
+                            case 1:
+                                Input.ClearConsole();
+                                String email;
+                                do{
+                                    email = Input.ScanString("Enter a new email address: ");
+                                    if (ContactChecker.checkValidEmail(email)) {
+                                        patient.getContact().setEmail(email);
+                                    }
+                                    else {
+                                        System.out.println("That isn't a valid email address, try again");
+                                    }
+                                }
+                                while (!ContactChecker.checkValidEmail(email));
+                                break;
 
-        //database.update()
+                            case 2:
+                                String contactNo;
+                                Input.ClearConsole();
+                                do{
+                                    contactNo = Input.ScanString("Enter a new contact number: ");
+                                    if (ContactChecker.checkValidSingaporePhone(contactNo)) {
+                                        patient.getContact().setContactNumber(contactNo);
+                                    }
+                                    else {
+                                        System.out.println("That isn't a valid contact number, try again");
+                                    }
+                                }
+                                while (!ContactChecker.checkValidSingaporePhone(contactNo));
+                                break;
+
+                            case 3:
+                                break;
+                            default:
+                                System.out.println("That is the wrong input, try again\n");
+                                break;
+                        }
+                    }
+                    while (C2Choice != 3);
+                    break;
+                case 6:
+                    patient.setBloodType(Input.ScanString("Enter Patient new blood type"));
+                    break;
+                case 7:
+                    break;
+                default:
+                    System.out.println("Wrong input please enter again");
+            }
+        }while(choice !=7);
+
     }
     public void viewSchedule(){
         Input.ClearConsole();
@@ -116,7 +202,7 @@ public class DoctorUI extends BaseUI {
             for (int j=0; j<7; j++){
                 System.out.print(doctor.getAvailability()[j][i]+ "  ");
             }
-            System.out.println("");
+            System.out.println(" ");
         }
         System.out.println("Which timings do you want to change your availability? ");
         int []dateSlot = new int[2];
