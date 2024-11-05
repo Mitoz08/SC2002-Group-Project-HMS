@@ -1,13 +1,8 @@
 package Serialisation;
 
-import DataObject.Appointment.APT_STATUS;
-import DataObject.Appointment.Appointment;
-import DataObject.PharmacyObjects.MedicineData;
-import DataObject.PharmacyObjects.MedicineRequest;
-import DataObject.PharmacyObjects.RestockRequest;
-import DataObject.Prescription.MED_STATUS;
-import DataObject.Prescription.Prescription;
-import DataObject.Prescription.PrescriptionList;
+import DataObject.Appointment.*;
+import DataObject.PharmacyObjects.*;
+import DataObject.Prescription.*;
 import HumanObject.Administrator.Administrator;
 import HumanObject.Doctors.Doctors;
 import HumanObject.Patient.Contact;

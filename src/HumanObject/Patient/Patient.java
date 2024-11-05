@@ -1,7 +1,6 @@
 package HumanObject.Patient;
 
 import DataObject.Appointment.AppointmentList;
-import DataObject.Prescription.Prescription;
 import DataObject.Prescription.PrescriptionList;
 import HumanObject.BasePerson;
 import HumanObject.ROLE;

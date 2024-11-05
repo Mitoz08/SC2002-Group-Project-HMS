@@ -7,8 +7,6 @@ import DataObject.PharmacyObjects.MedicineRequest;
 import DataObject.PharmacyObjects.RestockRequest;
 import DataObject.Prescription.Prescription;
 import DataObject.Prescription.PrescriptionList;
-import DepartmentObject.Pharmacy;
-import DepartmentObject.UserInfoDatabase;
 import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
 import HumanObject.ROLE;
@@ -17,7 +15,6 @@ import Serialisation.DataSerialisation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class PharmacistUI implements BaseUI {
 

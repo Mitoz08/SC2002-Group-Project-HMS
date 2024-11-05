@@ -1,12 +1,10 @@
 package HumanObject;
 
-import DataObject.Prescription.PrescriptionList;
 
 import InputHandler.Input;
 import Serialisation.DataSerialisation;
 
 import java.util.Date;
-import java.util.Scanner;
 
 public class BasePerson {
     protected int ID;

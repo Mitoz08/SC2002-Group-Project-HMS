@@ -1,6 +1,5 @@
 package DataObject.Appointment;
 
-import DataObject.Prescription.Prescription;
 
 import java.util.Iterator;
 

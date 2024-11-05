@@ -1,15 +1,13 @@
 package DepartmentObject;
 
 import java.io.*;
-import java.nio.Buffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
-import DataObject.Appointment.Appointment;
-import DataObject.Appointment.AppointmentList;
+import DataObject.Appointment.*;
 import DataObject.Prescription.PrescriptionList;
 import HumanObject.Administrator.Administrator;
 import HumanObject.BasePerson;
@@ -21,7 +19,6 @@ import HumanObject.ROLE;
 import Serialisation.DataEncryption;
 import Serialisation.DataSerialisation;
 
-import javax.print.Doc;
 
 
 public class UserInfoDatabase {
