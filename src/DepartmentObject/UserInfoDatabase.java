@@ -1,6 +1,7 @@
 package DepartmentObject;
 
 import java.io.*;
+import java.nio.Buffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -235,10 +236,10 @@ public class UserInfoDatabase {
         this.allAppointments[0].addAppointment(apt);
 
         //To add the appointment inside Ongoing for Doctors
-        int docName = apt.getDoctorID();
+        int docID = apt.getDoctorID();
         Doctors foundDoc = null;
         for (Doctors doc: this.doctors){
-            if (doc.getID() == (docName)){
+            if (doc.getID() == (docID)){
                 foundDoc = doc;
             }
         }
@@ -251,10 +252,10 @@ public class UserInfoDatabase {
 
 
         //To add the appointment inside the Ongoing for Patients
-        String patName = apt.getPatientName();
+        int patID= apt.getPatientID();
         Patient foundPat = null;
         for (Patient pat: this.patients){
-            if (pat.getName().equals(patName)){
+            if (pat.getID() == patID){
                 foundPat = pat;
             }
         }
@@ -290,10 +291,10 @@ public class UserInfoDatabase {
 
         //To remove the appointment inside Ongoing for Doctors
         i=0;
-        String docName = toCancelApt.getDoctorname();
+        int docID = toCancelApt.getDoctorID();
         Doctors foundDoc = null;
         for (Doctors doc: this.doctors){
-            if (doc.getName().equals(docName)){
+            if (doc.getID() == docID){
                 foundDoc = doc;
             }
         }
@@ -314,10 +315,10 @@ public class UserInfoDatabase {
 
         //To remove the appointment inside the Ongoing for Patients
         i=0;
-        String patName = toCancelApt.getPatientName();
+        int patID = toCancelApt.getPatientID();
         Patient foundPat = null;
         for (Patient pat: this.patients){
-            if (pat.getName().equals(patName)){
+            if (pat.getID() == patID){
                 foundPat = pat;
             }
         }
@@ -354,32 +355,33 @@ public class UserInfoDatabase {
 
         int flagFound = 0;
         for (Appointment apt: this.allAppointments[0]){
-            if (apt.getAppointmentID().equals(acceptApt.getAppointmentID())){
+            if (apt.getAppointmentID() == acceptApt.getAppointmentID()){
                 flagFound=1; // found in Pending appointments
                 this.allAppointments[0].removeAppointment(i); // remove appointment in Pending AppointmentList
                 if (accept){
                     this.allAppointments[1].addAppointment(acceptApt); // add the appointment in Ongoing AppointmentList
+                    System.out.println("The appointment has been accepted\n");
                 }
             }
             i++;
         }
         if (flagFound == 0){
-            System.out.println("The Appointment is not found in the Request List of Appointments");
+            System.out.println("The Appointment is not found in the Request List of Appointments\n");
             return;
         }
 
 
         //To remove the appointment inside Ongoing for Doctors
         i=0;
-        String docName = acceptApt.getDoctorname();
+        int docID = acceptApt.getDoctorID();
         Doctors foundDoc = null;
         for (Doctors doc: this.doctors){
-            if (doc.getName().equals(docName)){
+            if (doc.getID() == docID){
                 foundDoc = doc;
             }
         }
         if (foundDoc == null){
-            System.out.println("Check if this is the correct doctor");
+            System.out.println("Check if this is the correct doctor\n");
             return;
         }
         temp = foundDoc.getPendingApt();
@@ -388,6 +390,7 @@ public class UserInfoDatabase {
                 foundDoc.getPendingApt().removeAppointment(i); //remove appointment in Pending AppointmentList
                 if (accept){
                     foundDoc.getOngoingApt().addAppointment(acceptApt);//add appointment in Ongoing AppointmentList
+                    System.out.println("The appointment has been added into the Ongoing List for Doctor\n");
                 }
 
                 break;
@@ -399,14 +402,15 @@ public class UserInfoDatabase {
 
         //To remove the appointment inside the Ongoing for Patients
         i=0;
-        String patName = acceptApt.getPatientName();
+        int patID = acceptApt.getPatientID();
         Patient foundPat = null;
         for (Patient pat: this.patients){
-            if (pat.getName().equals(patName)){
+            if (pat.getID() == patID){
                 foundPat = pat;
             }
         }
         if (foundPat == null){
+            System.out.println("Check if this is the correct Patient\n");
             return;
         }
         temp = foundPat.getPending();
@@ -415,6 +419,7 @@ public class UserInfoDatabase {
                 foundPat.getPending().removeAppointment(i); //remove appointment in Pending AppointmentList
                 if (accept){
                     foundPat.getOngoing().addAppointment(acceptApt);//add appointment in Ongoing AppointmentList
+                    System.out.println("The appointment has been added to the Ongoing list for Patient");
                 }
 
                 break;
@@ -451,17 +456,17 @@ public class UserInfoDatabase {
         String roleStr = "";
         ROLE roleToStr = role;
         switch(roleToStr){
-            case ROLE.ADMINISTRATOR:
+            case ADMINISTRATOR:
                 roleStr = "AD";
                 break;
-            case ROLE.DOCTOR:
+            case DOCTOR:
                 roleStr = "DR";
                 break;
-            case ROLE.PHARMACIST:
+            case PHARMACIST:
                 roleStr = "PH";
                 break;
         }
-        str.append(roleToStr).append("*");
+        str.append(roleStr).append("*");
         str.append(id).append("*");
         str.append(name).append("*");
         temp = DataSerialisation.SerialiseDate(DOB);
@@ -471,8 +476,64 @@ public class UserInfoDatabase {
 
     }
     //is used by administrator to addStaff and fireStaff
-    public void updateUserInfoDatabaseFile(BasePerson basePerson){
+    public void addToUserInfoDatabaseFile(BasePerson basePerson){
 
+        ROLE role = basePerson.getRole();
+        int ID = basePerson.getID();
+        String Name = basePerson.getName();
+        Date DOB = basePerson.getDOB();
+        Boolean Gender = basePerson.getGender();
+
+        String normal = UserInfoDatabase.serialiseDataStaff(role, ID, Name, DOB, Gender);
+        String encrypted = DataEncryption.cipher(normal);
+
+        try{
+            BufferedWriter writer = new BufferedWriter(new FileWriter("HMS.txt",true));
+            writer.write(encrypted + "\n");
+            writer.close();
+        }catch (IOException e){
+            System.out.println("The file was not updated\n");
+        }
+        //MUST HAVE A LOGIC THAT ADDS THE ACCOUNT INTO DATABASE
+
+    }
+    public void toRemoveFromUserDatabaseFile(BasePerson basePerson){
+        ArrayList<String> fileToArrayList = new ArrayList<String>();
+        ArrayList<String> temp = new ArrayList<String>();
+        String line;
+
+        int ID= basePerson.getID();
+        String name = basePerson.getName();
+
+
+       try{
+           BufferedReader reader = new BufferedReader(new FileReader("HMS.txt"));
+           while ((line = reader.readLine()) != null){
+               fileToArrayList.add(line);
+           }
+           reader.close();
+       }catch(IOException e){
+           System.out.println("The file was not read\n");
+       }
+       //This for loop finds the String that needs to be removed
+       for (String str: fileToArrayList){
+           temp = UserInfoDatabase.parseData(str);
+           if (Integer.parseInt(temp.get(1)) == ID && temp.get(2).equals(name)){
+               fileToArrayList.remove(temp);
+           }
+       }
+       //This next one creates and overwrites the file HMS.txt
+        try{
+            BufferedWriter writer = new BufferedWriter(new FileWriter("HMS.txt"));
+            for (String str: fileToArrayList){
+                writer.write(str + "\n");
+            }
+            writer.close();
+        }catch(IOException e){
+            System.out.println("The file was not updated");
+        }
+
+        //MUST ALSO HAVE A LOGIC THAT REMOVES THE ACCOUNT FROM ACCOUNTINFODATABASE
     }
 
 
