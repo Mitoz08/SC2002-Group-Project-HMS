@@ -85,13 +85,13 @@ public class Appointment implements Comparable<Appointment> {
      * @param prescriptionList List of all the prescription
      * @param appointmentID Appointment ID loaded from file
      */
-    public Appointment(APT_STATUS status, String nameOfApt, int patientID, int doctorID, Date date, String notes, PrescriptionList prescriptionList, String appointmentID) {
+    public Appointment(APT_STATUS status, String nameOfApt, int patientID, String patientName, int doctorID, String doctorName, Date date, String notes, PrescriptionList prescriptionList, String appointmentID) {
         this.status = status;
         this.nameOfApt = nameOfApt;
         this.patientID = patientID;
-        this.patientName = "patientName"; //To be added, maybe a database function that returns name when given the ID
+        this.patientName = patientName; //To be added, maybe a database function that returns name when given the ID
         this.doctorID = doctorID;
-        this.doctorname = "doctorName"; //To be added, maybe a database function that returns name when given the ID
+        this.doctorname = doctorName; //To be added, maybe a database function that returns name when given the ID
         this.appointmentTime = date;
         this.notes = notes;
         this.prescriptionList = prescriptionList;
