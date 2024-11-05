@@ -58,6 +58,7 @@ public class PatientUI extends BaseUI {
                     break;
                 case 4:
                     scheduleAppointment();
+                    this.patient.getPending().getAppointment(0).print();
                     break;
                 case 5:
                     rescheduleApt();
