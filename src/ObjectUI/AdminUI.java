@@ -9,6 +9,7 @@ import HumanObject.Administrator.Administrator;
 import HumanObject.BasePerson;
 import HumanObject.Doctors.Doctors;
 import HumanObject.Pharmacist.Pharmacist;
+import HumanObject.ROLE;
 import InputHandler.Input;
 import Serialisation.DataSerialisation;
 
@@ -52,10 +53,29 @@ public class AdminUI extends BaseUI{
                     int add = Input.ScanInt("1. Add staff\n" + "2. Remove Staff");
                     switch(add){
                         case 1:
-                            addStaff();
+                            BasePerson toAdd = addStaff();
+                            ROLE role = toAdd.getRole();
+                            switch (role){
+                                case DOCTOR:
+                                    this.database.getDoctors().add((Doctors) toAdd);
+                                    break;
+                                case ADMINISTRATOR:
+                                    this.database.getAdministrators().add((Administrator) toAdd);
+                                    break;
+                                case PHARMACIST:
+                                    this.database.getPharmacists().add((Pharmacist) toAdd);
+                                    break;
+                                default:
+                                    System.out.println("There is an error while adding the new staff");
+                                    break;
+                            }
+                            this.database.addToUserInfoDatabaseFile(toAdd);
+                            System.out.println("The Staff has been added to the Database\n");
                             break;
                         case 2:
-                            removeStaff();
+                            BasePerson toRemove = removeStaff();
+                            this.database.toRemoveFromUserDatabaseFile(toRemove);
+                            System.out.println("The Staff has been removed from the Database\n");
                             break;
                     }
                     break;
@@ -105,17 +125,41 @@ public class AdminUI extends BaseUI{
     }
     private void viewAppointments(){
 
+        if (database.getAllAppointments() == null){
+            System.out.println();
+        }
         AppointmentList[] allAppointments = this.database.getAllAppointments();
-        for (Appointment apt: allAppointments[0]){
-            apt.print();
+        AppointmentList allPending = allAppointments[0];
+        AppointmentList allOngoing = allAppointments[1];
+        AppointmentList allCompleted = allAppointments[2];
+
+        if (allPending != null) {
+            for (Appointment apt : allPending) {
+                apt.print();
+            }
         }
-        for (Appointment apt: allAppointments[1]){
-            apt.print();
+        else if (allPending == null) {
+            System.out.println("The Pending list is empty\n");
         }
-        for (Appointment apt: allAppointments[2]){
-            apt.print();
+
+        if (allOngoing != null) {
+            for (Appointment apt : allOngoing) {
+                apt.print();
+            }
+        }
+        else if (allOngoing == null){
+            System.out.println("The Ongoing List is empty\n");
+        }
+        if (allCompleted != null) {
+            for (Appointment apt : allCompleted) {
+                apt.print();
+            }
+        }
+        else if (allCompleted == null){
+            System.out.println("The Completed List is empty\n");
         }
         return;
+
 
     }
     private void viewMedicationInventory(){
@@ -131,15 +175,15 @@ public class AdminUI extends BaseUI{
 
     }
     private BasePerson addStaff(){
-        BasePerson notReal = null;
+
         int role = Input.ScanInt("What is the role of the new Staff?\n" +
                                     "1. Doctor\n" +
                                     "2. Pharmacist\n" +
                                     "3. Administrator\n");
         String name = Input.ScanString("What is the name of the new Staff?\n");
         Boolean Gender = Input.ScanBoolean("Is the staff a female\n?");
-        Date DOB = Gender? DataSerialisation.DeserialiseDate(Input.ScanString("What is her Date of Birth: in YYYY-MM-DD")+"-00-00\n"):
-        DataSerialisation.DeserialiseDate(Input.ScanString("What is his Date of Birth: in YYYY-MM-DD")+"-00-00\n");
+        Date DOB = Gender? DataSerialisation.DeserialiseDate(Input.ScanString("What is her Date of Birth: in YYYY-MM-DD")):
+        DataSerialisation.DeserialiseDate(Input.ScanString("What is his Date of Birth: in YYYY-MM-DD"));
 
         switch(role){
             case 1:
@@ -149,11 +193,11 @@ public class AdminUI extends BaseUI{
             case 3:
                 return new Administrator(name, DOB, Gender);
             default:
-                return notReal;
+                return null;
         }
     }
-    private void removeStaff(){
-        int choice1,choice2;
+    private BasePerson removeStaff(){
+        int choice1,choice2, i=1;
         int index=1;
         choice1 = Input.ScanInt("Do you want to fire a\n " +
                                     "1. Doctor\n" +
@@ -164,14 +208,56 @@ public class AdminUI extends BaseUI{
                 ArrayList<Doctors> docList = this.database.getDoctors();
                 for (Doctors doc: docList){
                     System.out.println(index + ": " + "Name: " + doc.getName() + ", ID: " + doc.getID());
+                    index++;
                 }
-                choice2 = Input.ScanInt("Choose which doctor to remove");
+                choice2 = Input.ScanInt("Choose which doctor to remove\n");
+                for (Doctors doc: docList){
+                    if (i == choice2){
+                        System.out.println("This doctor is to be removed\n" + doc.getName());
+                        this.database.getDoctors().remove(doc);
+                        return doc;
+                    }
+                    i++;
+                }
                 break;
-
+            case 2:
+                ArrayList<Pharmacist> pharList = this.database.getPharmacists();
+                for (Pharmacist ph: pharList){
+                    System.out.println(index + ": " + "Name: " + ph.getName() + ", ID: " + ph.getID());
+                    index++;
+                }
+                choice2 = Input.ScanInt("Choose which Pharmacist to remove\n");
+                for (Pharmacist ph: pharList){
+                    if (i == choice2){
+                        System.out.println("This pharmacist is to be removed\n");
+                        this.database.getPharmacists().remove(ph);
+                        return ph;
+                    }
+                    i++;
+                }
+                break;
+            case 3:
+                ArrayList<Administrator> adList = this.database.getAdministrators();
+                for (Administrator ad: adList){
+                    System.out.println(index + ": " + "Name: " + ad.getName() + ", ID: " + ad.getID());
+                    index++;
+                }
+                choice2 = Input.ScanInt("Choose which Administrator to remove\n");
+                for (Administrator ad:adList){
+                    if (i == choice2){
+                        System.out.println("This administrator is to be removed\n");
+                        this.database.getAdministrators().remove(ad);
+                        return ad;
+                    }
+                    i++;
+                }
+                break;
+            default:
+                return null;
         }
 
 
-        return;
+        return null;
     }
 
 }

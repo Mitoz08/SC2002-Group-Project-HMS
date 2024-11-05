@@ -18,11 +18,13 @@ public class DoctorUI extends BaseUI {
     int choice;
 
     public DoctorUI(UserInfoDatabase database, Pharmacy pharmacy, Doctors doctor){
-        this.doctor=doctor;
+        this.doctor = doctor;
+        this.database = database;
+        this.pharmacy = pharmacy;
 
         do{
             Input.ClearConsole();
-            System.out.println("Pharmacist UI \n" +
+            System.out.println("Doctor UI \n" +
                     "1: View Patient Medical Record\n" +
                     "2: Update Patient Medical Records \n" +
                     "3: View Personal Schedule \n" +
@@ -183,7 +185,7 @@ public class DoctorUI extends BaseUI {
     }
     public void viewOngoingAPT(){
         Input.ClearConsole();
-        for(Appointment apt: doctor.getPendingApt()){
+        for(Appointment apt: this.doctor.getPendingApt()){
             System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName() + "Appointment ID: " + apt.getAppointmentID());
         }
     }
