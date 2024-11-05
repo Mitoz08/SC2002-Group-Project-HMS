@@ -56,17 +56,20 @@ public class Appointment implements Comparable<Appointment> {
 
     /**
      * Creates appointment object with given input (Used for creating a new appointment)
-     * @param nameOfApt        Name of the appointment
+     * @param nameOfApt
      * @param patientID
+     * @param patientName
      * @param doctorID
+     * @param doctorName
+     * @param slot
      */
-    public Appointment(String nameOfApt, int patientID, int doctorID, int[] slot) {
+    public Appointment(String nameOfApt, int patientID, String patientName, int doctorID, String doctorName, int[] slot) {
         this.status = APT_STATUS.PENDING;
         this.nameOfApt = nameOfApt;
         this.patientID = patientID;
-        this.patientName = "patientName"; //To be added, maybe a database function that returns name when given the ID
+        this.patientName = patientName; //To be added, maybe a database function that returns name when given the ID
         this.doctorID = doctorID;
-        this.doctorname = "doctorName"; //To be added, maybe a database function that returns name when given the ID
+        this.doctorname = doctorName; //To be added, maybe a database function that returns name when given the ID
         this.appointmentTime = createDate(slot[0],slot[1]);
         this.notes = "Empty";
         this.prescriptionList = new PrescriptionList();
@@ -75,23 +78,24 @@ public class Appointment implements Comparable<Appointment> {
 
     /**
      * Creates appointment object with given input (Used for loading in from save file)
-     *
-     * @param status           PENDING, APPORVED, REJECTED, CANCELLED, COMPLETED
-     * @param nameOfApt        Name of the appointment
+     * @param status
+     * @param nameOfApt
      * @param patientID
+     * @param patientName
      * @param doctorID
-     * @param date             date object  (e.g. Date(YYYY,MM,DD,HH,MM)
+     * @param doctorName
+     * @param date
      * @param notes
-     * @param prescriptionList List of all the prescription
-     * @param appointmentID Appointment ID loaded from file
+     * @param prescriptionList
+     * @param appointmentID
      */
-    public Appointment(APT_STATUS status, String nameOfApt, int patientID, int doctorID, Date date, String notes, PrescriptionList prescriptionList, String appointmentID) {
+    public Appointment(APT_STATUS status, String nameOfApt, int patientID, String patientName, int doctorID, String doctorName, Date date, String notes, PrescriptionList prescriptionList, String appointmentID) {
         this.status = status;
         this.nameOfApt = nameOfApt;
         this.patientID = patientID;
-        this.patientName = "patientName"; //To be added, maybe a database function that returns name when given the ID
+        this.patientName = patientName; //To be added, maybe a database function that returns name when given the ID
         this.doctorID = doctorID;
-        this.doctorname = "doctorName"; //To be added, maybe a database function that returns name when given the ID
+        this.doctorname = doctorName; //To be added, maybe a database function that returns name when given the ID
         this.appointmentTime = date;
         this.notes = notes;
         this.prescriptionList = prescriptionList;
