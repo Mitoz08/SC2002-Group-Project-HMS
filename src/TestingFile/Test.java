@@ -40,7 +40,7 @@ public class Test {
     }
 
     public static void Run3() {
-//        UserInfoDatabase database = new UserInfoDatabase();
+       UserInfoDatabase database = new UserInfoDatabase();
         Pharmacy pharmacy = new Pharmacy();
 
         UserInfoDatabase database = null; // new UserInfoDatabase();

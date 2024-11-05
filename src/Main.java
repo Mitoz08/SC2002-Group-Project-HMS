@@ -27,9 +27,9 @@ public class Main {
         Pharmacist pharma = database.getPharmacists().getFirst();
 
         //PatientUI patui = new PatientUI(database,pharmacy,patient);
-        //DoctorUI docUI = new DoctorUI(database,pharmacy,doctor);
+        DoctorUI docUI = new DoctorUI(database,pharmacy,doctor);
         //PharmacistUI pharmUI = new PharmacistUI(database,pharmacy,pharma);
-        AdminUI adminUI = new AdminUI(database,pharmacy,admin);
+        //AdminUI adminUI = new AdminUI(database,pharmacy,admin);
 
     }
 }

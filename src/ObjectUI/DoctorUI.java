@@ -10,6 +10,7 @@ import DataObject.Appointment.Appointment;
 import HumanObject.Patient.Patient;
 import HumanObject.ROLE;
 import InputHandler.Input;
+import org.w3c.dom.ls.LSOutput;
 
 public class DoctorUI extends BaseUI {
     private UserInfoDatabase database;
@@ -97,8 +98,13 @@ public class DoctorUI extends BaseUI {
     }
     public void viewSchedule(){
         Input.ClearConsole();
+        int flag = 0;
         for(Appointment apt: doctor.getOngoingApt()){
             apt.print(false);
+            flag = 1;
+        }
+        if(flag == 0){
+            System.out.println("Schedule is currently empty.");
         }
     }
 
@@ -110,6 +116,7 @@ public class DoctorUI extends BaseUI {
             for (int j=0; j<7; j++){
                 System.out.print(doctor.getAvailability()[j][i]+ "  ");
             }
+            System.out.println("");
         }
         System.out.println("Which timings do you want to change your availability? ");
         int []dateSlot = new int[2];
@@ -161,40 +168,53 @@ public class DoctorUI extends BaseUI {
     }
     public void aptReq(){
         Input.ClearConsole();
-        viewOngoingAPT();
-        String choice = Input.ScanString("Enter appointment ID to accept/decline ");
-        int index = 0;
-        for(Appointment apt: doctor.getPendingApt()){
-            if(apt.getAppointmentID().equals(choice)){
-                int option = Input.ScanInt("0) Decline\n"+
-                                                   "1) Accept");
-            if(option == 0){
-                database.docAcceptApt(apt, false);
-                //doctor.getPendingApt().removeAppointment(index);
-                }
-            else if(option ==1){
-                database.docAcceptApt(apt,true);
-                //doctor.getOngoingApt().addAppointment(apt);
-                //doctor.getPendingApt().removeAppointment(index);
-                int[] dateSlot = apt.getAptSlot();
-                doctor.getAvailability()[dateSlot[0]][dateSlot[1]]= true;
-            }
-            }
-            index++;
+        int flag = 0;
+        for(Appointment apt: this.doctor.getPendingApt()){
+            System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName() + "Appointment ID: " + apt.getAppointmentID());
+            flag = 1;
         }
+        if(flag == 1) {
+            String choice = Input.ScanString("Enter appointment ID to accept/decline ");
+            int index = 0;
+            for (Appointment apt : doctor.getPendingApt()) {
+                if (apt.getAppointmentID().equals(choice)) {
+                    int option = Input.ScanInt("0) Decline\n" +
+                            "1) Accept");
+                    if (option == 0) {
+                        database.docAcceptApt(apt, false);
+                    } else if (option == 1) {
+                        database.docAcceptApt(apt, true);
+                        int[] dateSlot = apt.getAptSlot();
+                        doctor.getAvailability()[dateSlot[0]][dateSlot[1]] = true;
+                    }
+                }
+                index++;
+            }
+        }
+        else{
+            System.out.println("There are currently no pending appointments");
+        }
+
     }
     public void viewOngoingAPT(){
         Input.ClearConsole();
-        for(Appointment apt: this.doctor.getPendingApt()){
+        int flag = 0;
+        for(Appointment apt: this.doctor.getOngoingApt()){
             System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName() + "Appointment ID: " + apt.getAppointmentID());
+            flag = 1;
+        }
+        if(flag == 0){
+            System.out.println("There are currently no ongoing appointments");
         }
     }
 
     public void recordAptOutcome(){
         Input.ClearConsole();
         Appointment apt = doctor.getOngoingApt().getAppointment(0);
-        //String medicineName = Input.ScanString("Enter medicine name:");
-        //int amt = Input.ScanInt("Enter medicine amt");
+        if(apt == null){
+            System.out.println("There are no Ongoing appointments to record outcome.");
+            return;
+        }
         Prescription prescription = new Prescription(); //= new Prescription(MED_STATUS.PENDING,medicineName,amt);
         MedicineRequest req = new MedicineRequest(apt.getPatientID(), apt.getDoctorID(), apt.getAppointmentID());
         pharmacy.requestMedicine(req);
