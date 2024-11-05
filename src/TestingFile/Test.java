@@ -42,7 +42,8 @@ public class Test {
     public static void Run3() {
 //        UserInfoDatabase database = new UserInfoDatabase();
         Pharmacy pharmacy = new Pharmacy();
-        //UserInfoDatabase database = nullnew UserInfoDatabase();
+
+        UserInfoDatabase database = null; // new UserInfoDatabase();
         Pharmacist pharmacist = new Pharmacist("Tim", new Date(1000,10,1),true);
         PharmacistUI pharmacistUI = new PharmacistUI(database,pharmacy, pharmacist);
         pharmacy.endPharmacy();
