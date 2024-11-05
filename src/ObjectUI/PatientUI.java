@@ -112,6 +112,7 @@ public class PatientUI extends BaseUI {
                         email = Input.ScanString("Enter a new email address: ");
                         if (ContactChecker.checkValidEmail(email)) {
                             patient.getContact().setEmail(email);
+                            System.out.println("Email has been changed successfully!\n");
                         }
                         else {
                             System.out.println("That isn't a valid email address, try again");
@@ -127,6 +128,7 @@ public class PatientUI extends BaseUI {
                         contactNo = Input.ScanString("Enter a new contact number: ");
                         if (ContactChecker.checkValidSingaporePhone(contactNo)) {
                             patient.getContact().setContactNumber(contactNo);
+                            System.out.println("Contact number has been changed successfully!\n");
                         }
                         else {
                             System.out.println("That isn't a valid contact number, try again");
