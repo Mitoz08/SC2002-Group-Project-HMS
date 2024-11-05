@@ -12,6 +12,7 @@ import HumanObject.ROLE;
 import InputHandler.Input;
 import HumanObject.Patient.ContactChecker;
 
+import javax.print.Doc;
 import java.util.ArrayList;
 
 public class PatientUI extends BaseUI {
@@ -236,7 +237,8 @@ public class PatientUI extends BaseUI {
 
         String service = Input.ScanString("What service are you booking for?\n");
         int doctorID = Input.ScanInt("Enter the doctor ID: \n");
-        apt = new Appointment(service, patient.getID(), doctorID, dateSlot);
+        Doctors doctor = (Doctors) database.getPerson(doctorID, ROLE.DOCTOR);
+        apt = new Appointment(service, patient.getID(),patient.getName(), doctor.getID(), doctor.getName() ,dateSlot);
         database.scheduleApt(apt);
     }
 
