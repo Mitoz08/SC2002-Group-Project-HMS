@@ -401,6 +401,73 @@ public class UserInfoDatabase {
         return;
 
     }
+
+    public void completeApt(Appointment completedApt) {
+        completedApt.setStatus(2);
+        int i=0;
+        AppointmentList temp = null;
+        int flagFound = 0;
+        for (Appointment apt: this.allAppointments[1]){
+            if (apt.getAppointmentID().equals(completedApt.getAppointmentID())){
+                flagFound=1; // found in Ongoing appointments
+                this.allAppointments[1].removeAppointment(i); // remove appointment in Ongoing AppointmentList
+            }
+            i++;
+        }
+        if (flagFound == 0){
+            System.out.println("The Appointment is not found in the List of Ongoing Appointments");
+            return;
+        }
+
+        //To remove the appointment inside Ongoing for Doctors
+        int docID = completedApt.getDoctorID();
+        Doctors foundDoc = null;
+        for (Doctors doc: this.doctors){
+            if (doc.getID() == docID){
+                foundDoc = doc;
+            }
+        }
+        if (foundDoc == null){
+            System.out.println("The doctor was not found in the database, possibly not in the list of Ongoing Appointments ");
+            return;
+        };
+        i = 0;
+        for (Appointment apt : foundDoc.getOngoingApt()){
+            if (apt.getAppointmentID().equals(completedApt.getAppointmentID())){
+                foundDoc.getOngoingApt().removeAppointment(i);
+                break;
+            }
+            i++;
+
+        }
+
+
+        //To remove the appointment inside the Ongoing for Patients
+        int patID = completedApt.getPatientID();
+        Patient foundPat = null;
+        for (Patient pat: this.patients){
+            if (pat.getID() == patID){
+                foundPat = pat;
+            }
+        }
+        if (foundPat == null){
+            System.out.println("The patient was not found in the database, possibly not in the list of Ongoing Appointments");
+            return;
+        }
+        i = 0;
+        for (Appointment apt: foundPat.getOngoing()){
+            if (apt.getAppointmentID().equals(completedApt.getAppointmentID())){
+                foundPat.getOngoing().removeAppointment(i);
+                break;
+            }
+            i++;
+        }
+
+        allAppointments[2].addAppointment(completedApt);
+        foundDoc.getCompletedApt().addAppointment(completedApt);
+        foundPat.getCompleted().addAppointment(completedApt);
+    }
+
     public void docAcceptApt(Appointment acceptApt, Boolean accept){
         int i=0;
         AppointmentList temp = null;
@@ -505,7 +572,6 @@ public class UserInfoDatabase {
         return str.toString();
 
     }
-
     private static String serialiseDataStaff(ROLE role, int id, String name, Date DOB, Boolean Gender){
         String temp;
         StringBuilder str = new StringBuilder();
@@ -553,6 +619,7 @@ public class UserInfoDatabase {
         //MUST HAVE A LOGIC THAT ADDS THE ACCOUNT INTO DATABASE
 
     }
+
     public void toRemoveFromUserDatabaseFile(BasePerson basePerson){
         ArrayList<String> fileToArrayList = new ArrayList<String>();
         ArrayList<String> temp = new ArrayList<String>();
@@ -708,5 +775,4 @@ public class UserInfoDatabase {
         for (AppointmentList list: allAppointments) for (Appointment apt: list) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialiseAppointment(apt)) + "\n");
 
     }
-
 }

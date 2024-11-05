@@ -37,6 +37,11 @@ public class Pharmacy {
 //        testRun();
     }
 
+    public HashMap<Integer,MedicineData> getMedicine() {
+        HashMap<Integer,MedicineData> temp = (HashMap<Integer,MedicineData>) this.medicineStorage.clone();
+        return temp;
+    }
+
     public void endPharmacy() {
         saveFile();
     }
@@ -158,6 +163,12 @@ public class Pharmacy {
         return medicineStorage.containsKey(ID);
     }
 
+    public int convertNameToID(String medicineName){
+        medicineName = medicineName.toLowerCase();
+        //System.out.println(medicineName);
+        return nameToID.get(medicineName);
+    }
+
     private void updateCurrentStock(RestockRequest request) {
         for (Map.Entry<Integer,Integer> o: request.getRequestAmount().entrySet()) {
             int ID = o.getKey();
@@ -172,12 +183,6 @@ public class Pharmacy {
         pendingAmount.put(medicine.ID,0);
         nameToID.put(medicine.name.toLowerCase(),medicine.ID);
         return true;
-    }
-
-    private int convertNameToID(String medicineName){
-        medicineName = medicineName.toLowerCase();
-        //System.out.println(medicineName);
-        return nameToID.get(medicineName);
     }
 
     public void loadFile() {
@@ -301,4 +306,7 @@ public class Pharmacy {
         }
     }
 
+    public boolean isMedicine(String medicine) {
+        return nameToID.containsKey(medicine.toLowerCase());
+    }
 }
