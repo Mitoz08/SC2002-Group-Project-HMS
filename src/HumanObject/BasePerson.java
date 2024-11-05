@@ -41,6 +41,20 @@ public class BasePerson {
     public Boolean getGender() {return this.gender;}
     public ROLE getRole() {return this.role;}
 
+    public void setID(int ID){
+        this.ID = ID;
+    }
+    public void setName(String name){
+        this.name = name;
+    }
+    public void setDOB(Date date){
+        this.DOB = date;
+    }
+    public void setGender(Boolean gender){
+        this.gender = gender;
+    }
+
+
 
     public String getStrID() {
         StringBuilder str = new StringBuilder();
