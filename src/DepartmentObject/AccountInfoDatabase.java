@@ -37,9 +37,20 @@ public class AccountInfoDatabase {
     public AccountInfoDatabase() {
         this.fileName = "Login.txt";
 //        addNewAccount("Admin", "AD1005");
+//        testRun();
     }
 
-
+    private void testRun()
+    {
+        addNewAccount("John", "PA1001");
+        addNewAccount("May", "PA1002");
+        addNewAccount("Ben", "DR1003");
+        addNewAccount("Fae", "DR1004");
+        addNewAccount("Summer", "AD1005");
+        addNewAccount("Alfred", "AD1006");
+        addNewAccount("Pharah", "PH1007");
+        addNewAccount("Winston", "PH1008");
+    }
     public String login(){
         String username;
         String password;
@@ -100,7 +111,7 @@ public class AccountInfoDatabase {
     private String verify(String username, String Password) {
         String[] Encrypted = new String[] {DataEncryption.SHA3(username), DataEncryption.SHA3(Password)};
         int slot = hashValue(Encrypted[0]);
-        System.out.println(slot);
+//        System.out.println(slot);
         File file = new File(fileName);
         String UserID = null;
         Scanner fileReader = null;
@@ -122,9 +133,11 @@ public class AccountInfoDatabase {
             i++;
         }
 
-        String data = textLine.getLast();
+        String data = textLine.get(slot-1);
         String[] dataArray = data.split("/");
         for (int j = 0; j < dataArray.length; j += 3) {
+            System.out.println(dataArray[j]);
+            System.out.println(dataArray[j+1]);
             if (Encrypted[0].equals(dataArray[j]) && Encrypted[1].equals(dataArray[j+1])){
                 UserID = DataEncryption.decipher(dataArray[j+2], slot);
             }
@@ -214,6 +227,6 @@ public class AccountInfoDatabase {
                 value += ch - '0';
             }
         }
-        return value % hashValue;
+        return value % hashValue + 1;
     }
 }

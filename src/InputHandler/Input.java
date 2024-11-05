@@ -34,7 +34,7 @@ public class Input {
     public static int ScanInt(String prompt){
         while (true) {
             System.out.print(prompt + " ");
-            String output = sc.nextLine();
+            String output = sc.nextLine().trim();
             try {
                 return Integer.valueOf(output);
             } catch (Exception e) {
@@ -46,7 +46,7 @@ public class Input {
     public static long ScanLong(String prompt){
         while (true) {
             System.out.print(prompt + " ");
-            String output = sc.nextLine();
+            String output = sc.nextLine().trim();
             try {
                 return Long.valueOf(output);
             } catch (Exception e) {
@@ -59,7 +59,7 @@ public class Input {
     public static float ScanFloat(String prompt){
         while (true) {
             System.out.print(prompt + " ");
-            String output = sc.nextLine();
+            String output = sc.nextLine().trim();
             try {
                 return Float.valueOf(output);
             } catch (Exception e) {
@@ -72,7 +72,7 @@ public class Input {
     public static double ScanDouble(String prompt){
          while (true) {
             System.out.print(prompt + " ");
-            String output = sc.nextLine();
+            String output = sc.nextLine().trim();
             try {
                 return Double.valueOf(output);
             } catch (Exception e) {

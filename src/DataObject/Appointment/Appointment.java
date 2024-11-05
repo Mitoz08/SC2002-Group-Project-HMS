@@ -134,13 +134,28 @@ public class Appointment implements Comparable<Appointment> {
         System.out.printf("|%-8s:%-20s|\n", "Status", this.status);
         System.out.printf("|%-8s:%-20s|\n", "Event", this.nameOfApt);
         if (Patient)
-            System.out.printf("|%-8s:%03d%-17s|\n", "Doctor", this.doctorID, ""); // Need to change to name of doctor once classes are made
+            System.out.printf("|%-8s:%03d%-16s|\n", "Doctor", this.doctorID, ""); // Need to change to name of doctor once classes are made
         else
             System.out.printf("|%-8s:%04d%-16s|\n", "Patient", this.patientID, ""); // Need to change to name of doctor once classes are made
         System.out.printf("|%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth(), this.appointmentTime.getYear(), "");
         System.out.printf("|%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
         if (!this.notes.equals("Empty")) System.out.printf("|%-8s:%-20s|\n", "Notes", this.notes);
         System.out.println("______________________________");
+    }
+
+    public void print(boolean Patient, int index) {
+        System.out.printf("%3d)______________________________\n", index);
+        System.out.printf("    |%-8s:%-20s|\n", "APT ID", this.appointmentID);
+        System.out.printf("    |%-8s:%-20s|\n", "Status", this.status);
+        System.out.printf("    |%-8s:%-20s|\n", "Event", this.nameOfApt);
+        if (Patient)
+            System.out.printf("    |%-8s:%03d%-16s|\n", "Doctor", this.doctorID, ""); // Need to change to name of doctor once classes are made
+        else
+            System.out.printf("    |%-8s:%04d%-16s|\n", "Patient", this.patientID, ""); // Need to change to name of doctor once classes are made
+        System.out.printf("    |%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth(), this.appointmentTime.getYear(), "");
+        System.out.printf("    |%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
+        if (!this.notes.equals("Empty")) System.out.printf("    |%-8s:%-20s|\n", "Notes", this.notes);
+        System.out.println("    ______________________________");
     }
 
     /**
@@ -151,12 +166,25 @@ public class Appointment implements Comparable<Appointment> {
         System.out.printf("|%-8s:%-20s|\n", "APT ID", this.appointmentID);
         System.out.printf("|%-8s:%-20s|\n", "Status", this.status);
         System.out.printf("|%-8s:%-20s|\n", "Event", this.nameOfApt);
-        System.out.printf("|%-8s:%03d%-17s|\n", "Doctor", this.doctorID, ""); // Need to change to name of doctor once classes are made
+        System.out.printf("|%-8s:%03d%-16s|\n", "Doctor", this.doctorID, ""); // Need to change to name of doctor once classes are made
         System.out.printf("|%-8s:%04d%-16s|\n", "Patient", this.patientID, ""); // Need to change to name of doctor once classes are made
         System.out.printf("|%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth(), this.appointmentTime.getYear(), "");
         System.out.printf("|%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
         if (!this.notes.equals("Empty")) System.out.printf("|%-8s:%-20s|\n", "Notes", this.notes);
         System.out.println("______________________________");
+    }
+
+    public void print(int index) {
+        System.out.printf("%3d)______________________________\n",index);
+        System.out.printf("    |%-8s:%-20s|\n", "APT ID", this.appointmentID);
+        System.out.printf("    |%-8s:%-20s|\n", "Status", this.status);
+        System.out.printf("    |%-8s:%-20s|\n", "Event", this.nameOfApt);
+        System.out.printf("    |%-8s:%03d%-16s|\n", "Doctor", this.doctorID, ""); // Need to change to name of doctor once classes are made
+        System.out.printf("    |%-8s:%04d%-16s|\n", "Patient", this.patientID, ""); // Need to change to name of doctor once classes are made
+        System.out.printf("    |%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth(), this.appointmentTime.getYear(), "");
+        System.out.printf("    |%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
+        if (!this.notes.equals("Empty")) System.out.printf("    |%-8s:%-20s|\n", "Notes", this.notes);
+        System.out.println("    ______________________________");
     }
 
     /**
@@ -242,5 +270,5 @@ public class Appointment implements Comparable<Appointment> {
     public void setNameOfApt(String name){
         this.nameOfApt = name;
     }
-    //hi
+    public void setStatus(int value) { this.status = APT_STATUS.values()[value];}
 }

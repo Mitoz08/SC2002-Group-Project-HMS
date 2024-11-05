@@ -48,8 +48,8 @@ public class Pharmacy {
         addMedicine(m1);
         addMedicine(m2);
 
-        MedicineRequest request = new MedicineRequest(1001,001,"APT0000001");
-        requestMedicine(request);
+//        MedicineRequest request = new MedicineRequest(1001,001,"APT0000001");
+//        requestMedicine(request);
 
     }
 

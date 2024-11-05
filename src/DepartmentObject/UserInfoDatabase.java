@@ -20,6 +20,8 @@ import HumanObject.ROLE;
 import Serialisation.DataEncryption;
 import Serialisation.DataSerialisation;
 
+import javax.print.Doc;
+
 
 public class UserInfoDatabase {
 
@@ -58,62 +60,86 @@ public class UserInfoDatabase {
 
 
 
-        try{
-            BufferedReader reader = new BufferedReader(new FileReader("HMS.txt"));
-            String line;
-            while ((line = reader.readLine()) != null){
-                temp = UserInfoDatabase.parseData(line); //Gets an ArrayList<String> of userInfo which has been already decrypted
-                System.out.println(temp);
-                String role = temp.get(0); //Check the role and create BasePerson Accordingly
-
-                switch(role){
-                    case "PA":
-                        ID = Integer.parseInt(temp.get(1));
-                        Name = temp.get(2);
-                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
-                        Gender = Boolean.valueOf(temp.get(4));
-                        bloodType = temp.get(5);
-                        String[] split = temp.get(6).split("|");
-                        String email = split[0];
-                        String contactNo = split[1];
-                        Contact contactPat = new Contact(email, contactNo);
-                        Patient tempPat = DataSerialisation.createPatient(ID,Name,DOB,Gender,bloodType,contactPat);
-                        this.patients.add(tempPat);
-                        System.out.println("Added patient");
-                        break;
-                    case "DR":
-
-                        ID = Integer.parseInt(temp.get(1));
-                        Name = temp.get(2);
-                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
-                        Gender = Boolean.valueOf(temp.get(4));
-                        Doctors tempDoc = DataSerialisation.createDoctor(ID,Name,DOB,Gender);
-                        this.doctors.add(tempDoc);
-                        break;
-                    case "PH":
-                        ID = Integer.parseInt(temp.get(1));
-                        Name = temp.get(2);
-                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
-                        Gender = Boolean.valueOf(temp.get(4));
-                        Pharmacist tempPharm = DataSerialisation.createPharmacist(ID, Name, DOB, Gender); // creates a new Pharmacist
-                        this.pharmacists.add(tempPharm); //adds it into the ArrayList<Pharmacists>
-                        break;
-
-                    case "AD":
-                        ID = Integer.parseInt(temp.get(1));
-                        Name = temp.get(2);
-                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
-                        Gender = Boolean.valueOf(temp.get(4));
-                        Administrator tempAdmin = DataSerialisation.createAdministrator(ID, Name, DOB, Gender);
-                        this.administrators.add(tempAdmin);
-                        break;
-                }
-            }
-
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+//        try{
+//            BufferedReader reader = new BufferedReader(new FileReader("HMS.txt"));
+//            String line;
+//            while ((line = reader.readLine()) != null){
+//                temp = UserInfoDatabase.parseData(line); //Gets an ArrayList<String> of userInfo which has been already decrypted
+//                System.out.println(temp);
+//                String role = temp.get(0); //Check the role and create BasePerson Accordingly
+//
+//                switch(role){
+//                    case "PA":
+//                        ID = Integer.parseInt(temp.get(1));
+//                        Name = temp.get(2);
+//                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
+//                        Gender = Boolean.valueOf(temp.get(4));
+//                        bloodType = temp.get(5);
+//                        String[] split = temp.get(6).split("|");
+//                        String email = split[0];
+//                        String contactNo = split[1];
+//                        Contact contactPat = new Contact(email, contactNo);
+//                        Patient tempPat = DataSerialisation.createPatient(ID,Name,DOB,Gender,bloodType,contactPat);
+//                        this.patients.add(tempPat);
+//                        System.out.println("Added patient");
+//                        break;
+//                    case "DR":
+//
+//                        ID = Integer.parseInt(temp.get(1));
+//                        Name = temp.get(2);
+//                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
+//                        Gender = Boolean.valueOf(temp.get(4));
+//                        Doctors tempDoc = DataSerialisation.createDoctor(ID,Name,DOB,Gender);
+//                        this.doctors.add(tempDoc);
+//                        break;
+//                    case "PH":
+//                        ID = Integer.parseInt(temp.get(1));
+//                        Name = temp.get(2);
+//                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
+//                        Gender = Boolean.valueOf(temp.get(4));
+//                        Pharmacist tempPharm = DataSerialisation.createPharmacist(ID, Name, DOB, Gender); // creates a new Pharmacist
+//                        this.pharmacists.add(tempPharm); //adds it into the ArrayList<Pharmacists>
+//                        break;
+//
+//                    case "AD":
+//                        ID = Integer.parseInt(temp.get(1));
+//                        Name = temp.get(2);
+//                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
+//                        Gender = Boolean.valueOf(temp.get(4));
+//                        Administrator tempAdmin = DataSerialisation.createAdministrator(ID, Name, DOB, Gender);
+//                        this.administrators.add(tempAdmin);
+//                        break;
+//                }
+//            }
+//
+//        }catch(IOException e){
+//            e.printStackTrace();
+//        }
+        testRun();
     }
+
+    private void testRun() {
+        Patient P = new Patient(1001,"John", new Date(99,1,21), true, "O+", new Contact("John@gmail.com", "91234590"));
+        this.patients.add(P);
+        P = new Patient(1002,"May", new Date(103,0,11), false, "AB-", new Contact("May@outlook.com", "81736531"));
+        this.patients.add(P);
+
+        Doctors D = new Doctors(1003,"Ben", new Date(85,10,23), true);
+        this.doctors.add(D);
+        D = new Doctors(1004,"Fae", new Date(70,0,8), false);
+        this.doctors.add(D);
+
+        Administrator A = new Administrator(1005, "Summer", new Date(90,11,31), false);
+        this.administrators.add(A);
+        A = new Administrator(1006, "Alfred", new Date(99,0,4), true);
+        this.administrators.add(A);
+
+        Pharmacist PH = new Pharmacist(1007, "Pharah", new Date(99,3,5), false);
+        this.pharmacists.add(PH);
+        PH = new Pharmacist(1008, "Winston", new Date(65,4,22), true);
+        this.pharmacists.add(PH);
+    }
+
     //This class method is to decrypt the string and return an ArrayList<String> which are the user info
     private static ArrayList<String> parseData(String string){
         String decrypt = DataEncryption.decipher(string);
@@ -359,6 +385,7 @@ public class UserInfoDatabase {
                 flagFound=1; // found in Pending appointments
                 this.allAppointments[0].removeAppointment(i); // remove appointment in Pending AppointmentList
                 if (accept){
+                    apt.setStatus(1);
                     this.allAppointments[1].addAppointment(acceptApt); // add the appointment in Ongoing AppointmentList
                     System.out.println("The appointment has been accepted\n");
                 }

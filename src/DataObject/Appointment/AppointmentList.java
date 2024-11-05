@@ -39,15 +39,27 @@ public class AppointmentList implements Iterable<Appointment> {
      * With either PatientID/DoctorID base on the boolean input
      * @param Patient
      */
-    public void print(boolean Patient) {
+    public int print(boolean Patient) {
         AppointmentNode curRef = this.headRef;
-        if (curRef == null) return;
+        if (curRef == null) return 1;
         int index = 1;
         while (curRef != null) {
-            System.out.println(index++ + ".");
-            curRef.appointment.print(Patient);
+            curRef.appointment.print(Patient,index++);
             curRef = curRef.nextNode;
         }
+        return index;
+    }
+
+
+    public int print(boolean Patient, int lastIndex) {
+        AppointmentNode curRef = this.headRef;
+        if (curRef == null) return 1;
+        int index = lastIndex;
+        while (curRef != null) {
+            curRef.appointment.print(Patient,index++);
+            curRef = curRef.nextNode;
+        }
+        return index;
     }
 
     /**
@@ -55,6 +67,7 @@ public class AppointmentList implements Iterable<Appointment> {
      * @param appointment
      */
     public void addAppointment(Appointment appointment) {
+        this.count++;
         AppointmentNode insert = new AppointmentNode();
         insert.appointment = appointment;
 
@@ -84,7 +97,6 @@ public class AppointmentList implements Iterable<Appointment> {
             insert.nextNode = curRef.nextNode;
             curRef.nextNode = insert;
         }
-        this.count++;
     }
 
     /**
