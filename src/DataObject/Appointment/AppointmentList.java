@@ -125,7 +125,7 @@ public class AppointmentList implements Iterable<Appointment> {
 
     @Override
     public Iterator<Appointment> iterator() {
-        return null;
+        return new AppointmentIterator(this);
     }
 }
 

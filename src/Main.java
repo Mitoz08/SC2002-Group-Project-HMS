@@ -30,5 +30,6 @@ public class Main {
         //DoctorUI docUI = new DoctorUI(database,pharmacy,doctor);
         //PharmacistUI pharmUI = new PharmacistUI(database,pharmacy,pharma);
         AdminUI adminUI = new AdminUI(database,pharmacy,admin);
+
     }
 }
