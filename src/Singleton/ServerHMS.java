@@ -16,6 +16,12 @@ public class ServerHMS {
         this.database = new UserInfoDatabase();
         this.login = new AccountInfoDatabase();
         this.pharmacy = new Pharmacy();
+
+        database.testRun();
+        pharmacy.testRun();
+
+//        database.loadFile(); // Change back to private before submitting code
+//        pharmacy.loadFile();
     }
 
     public UserInfoDatabase getDatabase() {
@@ -32,7 +38,7 @@ public class ServerHMS {
 
     public void closeServer() {
         this.pharmacy.endPharmacy();
-
+        this.database.endUserInfoDatabase();
     }
 
     public static synchronized ServerHMS getInstance() {

@@ -56,6 +56,9 @@ public class Doctors extends BasePerson {
         return availability;
     }
 
+    public void toggleAvailability(int[] Slot, boolean b) {
+        availability[Slot[0]][Slot[1]] = b;
+    }
 }
 
 

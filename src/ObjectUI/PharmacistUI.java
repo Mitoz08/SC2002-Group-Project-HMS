@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class PharmacistUI extends BaseUI {
+public class PharmacistUI implements BaseUI {
 
     // Attribute
     private Pharmacist pharmacist;

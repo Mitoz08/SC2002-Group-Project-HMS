@@ -14,7 +14,7 @@ import InputHandler.Input;
 import Serialisation.DataSerialisation;
 import org.w3c.dom.ls.LSOutput;
 
-public class DoctorUI extends BaseUI {
+public class DoctorUI implements BaseUI {
     private Doctors doctor;
     private int choice;
 
@@ -256,7 +256,7 @@ public class DoctorUI extends BaseUI {
         Input.ClearConsole();
         int flag = 0;
         for(Appointment apt: this.doctor.getPendingApt()){
-            System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName() + "Appointment ID: " + apt.getAppointmentID());
+            System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName() + ", Appointment ID: " + apt.getAppointmentID());
             flag = 1;
         }
         if(flag == 1) {

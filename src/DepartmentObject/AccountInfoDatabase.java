@@ -37,9 +37,9 @@ public class AccountInfoDatabase {
         String UserID;
         while (true) {
             username = Input.ScanString("Username:").trim();
-            char[] pass = System.console().readPassword("Password: ");
-            password = String.copyValueOf(pass);
-//            password = Input.ScanString("Password:").trim();
+//            char[] pass = System.console().readPassword("Password: ");
+//            password = String.copyValueOf(pass);
+            password = Input.ScanString("Password:").trim();
             UserID = verify(username, password);
             if (UserID == null){
                 System.out.println("Wrong Username/Password... \nTry again");
@@ -85,10 +85,8 @@ public class AccountInfoDatabase {
             textLine.add(fileReader.nextLine());
             i++;
         }
-        while (i < slot) {
-            textLine.add(fileReader.nextLine());
-            i++;
-        }
+
+        if (i < slot) return null;
 
         String data = textLine.get(slot-1);
         String[] dataArray = data.split("/");
@@ -117,6 +115,14 @@ public class AccountInfoDatabase {
         return true;
     }
 
+    public boolean removeAccount (String username, String userID) {
+        String[] Encrypted = new String[] {DataEncryption.SHA3(username), ""};
+        int slot = hashValue(Encrypted[0]);
+        Encrypted[1] = DataEncryption.cipher(userID,slot);
+        updateFile(Encrypted,slot,2);
+        return true;
+    }
+
     private boolean updateFile (String[] Encrypted, int slot, int mode) {
         File file = new File(fileName);
         Scanner fileReader = null;
@@ -136,7 +142,7 @@ public class AccountInfoDatabase {
             textLine.add("");
         }
 
-        if (mode == 0) {
+        if (mode == 0) { // Adding new account
             String prevText = textLine.get(slot-1);
             String addText = DataSerialisation.convertStringArraytoString(Encrypted, "/");
             if (prevText.isEmpty()) {
@@ -146,15 +152,30 @@ public class AccountInfoDatabase {
                 textLine.remove(slot-1);
                 textLine.add(slot-1, prevText + "/" + addText);
             }
-        } else if (mode == 1) {
+        } else if (mode == 1) { // Changing password
             String prevText = textLine.get(slot-1);
             String[] prevTextArray = prevText.split("/");
-            for (int i = 0; i < prevTextArray.length; i +=3) {
+            for (int i = 0; i < prevTextArray.length; i += 3) {
                 if (prevTextArray[i].equals(Encrypted[0]) && prevTextArray[i+1].equals(Encrypted[1])){
                     prevTextArray[i+1] = Encrypted[2];
                     break;
                 }
             }
+            textLine.remove(slot-1);
+            textLine.add(slot-1, DataSerialisation.convertStringArraytoString(prevTextArray, "/"));
+        } else if (mode == 2) { // Removing account
+            String prevText = textLine.get(slot-1);
+            String[] prevTextArray = prevText.split("/");
+            List<String> temp = Arrays.asList(prevTextArray);
+            for (int i = 0; i < temp.size(); i += 3) {
+                if (temp.get(i).equals(Encrypted[0]) && temp.get(i+2).equals(Encrypted[1])) {
+                    temp.remove(i);
+                    temp.remove(i);
+                    temp.remove(i);
+                }
+            }
+            prevTextArray = new String[temp.size()];
+            for (int i = 0; i < prevTextArray.length; i++) prevTextArray[i] = temp.removeFirst();
             textLine.remove(slot-1);
             textLine.add(slot-1, DataSerialisation.convertStringArraytoString(prevTextArray, "/"));
         }

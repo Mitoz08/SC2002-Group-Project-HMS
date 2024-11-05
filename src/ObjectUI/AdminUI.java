@@ -16,7 +16,7 @@ import Singleton.ServerHMS;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class AdminUI extends BaseUI{
+public class AdminUI implements BaseUI{
 
     //Attribute
     private AccountInfoDatabase login;
@@ -53,6 +53,7 @@ public class AdminUI extends BaseUI{
                         case 1:
                             BasePerson toAdd = addStaff();
                             ROLE role = toAdd.getRole();
+                            login.addNewAccount(toAdd.getName(),toAdd.getStrID());
                             switch (role){
                                 case DOCTOR:
                                     this.database.getDoctors().add((Doctors) toAdd);

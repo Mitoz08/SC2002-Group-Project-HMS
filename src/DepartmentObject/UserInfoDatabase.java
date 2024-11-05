@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Scanner;
 
 import DataObject.Appointment.Appointment;
 import DataObject.Appointment.AppointmentList;
@@ -115,10 +116,15 @@ public class UserInfoDatabase {
 //        }catch(IOException e){
 //            e.printStackTrace();
 //        }
-        testRun();
+//        testRun();
+//        loadFile();
     }
 
-    private void testRun() {
+    public void endUserInfoDatabase() {
+        saveFile();
+    }
+
+    public void testRun() {
         Patient P = new Patient(1001,"John", new Date(99,1,21), true, "O+", new Contact("John@gmail.com", "91234590"));
         this.patients.add(P);
         P = new Patient(1002,"May", new Date(103,0,11), false, "AB-", new Contact("May@outlook.com", "81736531"));
@@ -163,10 +169,8 @@ public class UserInfoDatabase {
     public BasePerson getPerson(int id, ROLE role){
 
         BasePerson notReal = null;
-        String roleS;
-        roleS = role.toString();
-        switch (roleS){
-            case "PA":
+        switch (role){
+            case PATIENT:
                 for (Patient pat: this.patients){
                     if (pat.getID() == id){
                         return pat;
@@ -174,7 +178,7 @@ public class UserInfoDatabase {
                 }
                 System.out.println("Patient not found in dataBase");
                 break;
-            case "DR":
+            case DOCTOR:
                 for (Doctors doc: this.doctors){
                     if (doc.getID() == id){
                         return doc;
@@ -182,7 +186,7 @@ public class UserInfoDatabase {
                 }
                 System.out.println("Doctor not found in database");
                 break;
-            case "AD":
+            case ADMINISTRATOR:
                 for (Administrator ad: this.administrators){
                     if (ad.getID() == id){
                         return ad;
@@ -190,7 +194,7 @@ public class UserInfoDatabase {
                 }
                 System.out.println("Administrator not found in database");
                 break;
-            case "PH":
+            case PHARMACIST:
                 for (Pharmacist ph: this.pharmacists){
                     if (ph.getID() == id){
                         return ph;
@@ -302,6 +306,14 @@ public class UserInfoDatabase {
         int i=0;
         AppointmentList temp = null;
         int flagFound = 0;
+        for (Appointment apt: this.allAppointments[0]){
+            if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID())){
+                flagFound=1; // found in Pending appointments
+                this.allAppointments[0].removeAppointment(i); // remove appointment in Pending AppointmentList
+            }
+            i++;
+        }
+        i = 0;
         for (Appointment apt: this.allAppointments[1]){
             if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID())){
                 flagFound=1; // found in Ongoing appointments
@@ -310,7 +322,7 @@ public class UserInfoDatabase {
             i++;
         }
         if (flagFound == 0){
-            System.out.println("The Appointment is not found in the List of Ongoing Appointments");
+            System.out.println("The Appointment is not found in the List of Pending/Ongoing Appointments");
             return;
         }
 
@@ -327,9 +339,18 @@ public class UserInfoDatabase {
         if (foundDoc == null){
             System.out.println("The doctor was not found in the database, possibly not in the list of Ongoing Appointments ");
             return;
+        };
+
+        for (Appointment apt : foundDoc.getPendingApt()){
+            if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID())){
+                foundDoc.getPendingApt().removeAppointment(i);
+                break;
+            }
+            i++;
+
         }
-        temp = foundDoc.getOngoingApt();
-        for (Appointment apt : temp){
+        i = 0;
+        for (Appointment apt : foundDoc.getOngoingApt()){
             if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID())){
                 foundDoc.getOngoingApt().removeAppointment(i);
                 break;
@@ -352,8 +373,16 @@ public class UserInfoDatabase {
             System.out.println("The patient was not found in the database, possibly not in the list of Ongoing Appointments");
             return;
         }
-        temp = foundPat.getOngoing();
-        for (Appointment apt: temp){
+
+        for (Appointment apt: foundPat.getPending()){
+            if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID())){
+                foundPat.getPending().removeAppointment(i);
+                break;
+            }
+            i++;
+        }
+        i = 0;
+        for (Appointment apt: foundPat.getOngoing()){
             if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID())){
                 foundPat.getOngoing().removeAppointment(i);
                 break;
@@ -563,7 +592,121 @@ public class UserInfoDatabase {
         //MUST ALSO HAVE A LOGIC THAT REMOVES THE ACCOUNT FROM ACCOUNTINFODATABASE
     }
 
+    public void loadFile() {
+        File savefile = new File("HMS.txt");
+        Scanner file;
+        try {
+            file = new Scanner(savefile);
+            loadAccount(file);
+            file.close();
+        } catch (Exception e) {
+            System.out.println("Error reading HMS.txt");
+            return;
+        } finally {
+//            System.out.println("Finish load function");
+        }
 
+        savefile = new File("APT.txt");
+        try {
+            file = new Scanner(savefile);
+            loadAppointment(file);
+            file.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error reading APT.txt");
+            return;
+        } finally {
+//            System.out.println("Finish load function");
+        }
+    }
 
+    private void loadAccount(Scanner fileReader) {
+        while (fileReader.hasNextLine()){
+            String text = fileReader.nextLine();
+            String[] temp = text.split("&");
+            switch (temp[0]) {
+                case "PA":
+                    patients.add(DataSerialisation.DeserialisePatient(temp[1]));
+                    break;
+                case "DR":
+                    doctors.add(DataSerialisation.DeserialiseDoctor(temp[1]));
+                    break;
+                case "PH":
+                    pharmacists.add(DataSerialisation.DeserialisePharmacist(temp[1]));
+                    break;
+                case "AD":
+                    administrators.add(DataSerialisation.DeserialiseAdministrator(temp[1]));
+                    break;
+            }
+        }
+    }
+
+    private void loadAppointment(Scanner fileWriter) {
+        while (fileWriter.hasNextLine()) {
+            Appointment apt = DataSerialisation.DeserialiseAppointment(fileWriter.nextLine());
+            Patient patient = (Patient) getPerson(apt.getPatientID(),ROLE.PATIENT);
+            Doctors doctor = (Doctors) getPerson(apt.getDoctorID(),ROLE.DOCTOR);
+            switch (apt.getStatus()) {
+                case PENDING:
+                    patient.getPending().addAppointment(apt);
+                    doctor.getPendingApt().addAppointment(apt);
+                    allAppointments[0].addAppointment(apt);
+                    break;
+                case ONGOING:
+                    patient.getOngoing().addAppointment(apt);
+                    doctor.getOngoingApt().addAppointment(apt);
+                    allAppointments[1].addAppointment(apt);
+                    break;
+                case COMPLETED:
+                    patient.getCompleted().addAppointment(apt);
+                    doctor.getCompletedApt().addAppointment(apt);
+                    allAppointments[2].addAppointment(apt);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void saveFile() {
+        File savefile = new File("HMS.txt");
+        FileWriter file;
+        try {
+            file = new FileWriter(savefile);
+            saveAccount(file);
+            file.close();
+        } catch (Exception e) {
+            System.out.println("Error writing into HMS.txt");
+        }
+
+        savefile = new File("APT.txt");
+
+        try {
+            file = new FileWriter(savefile);
+            saveAppointment(file);
+            file.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error writing into APT.txt");
+        }
+
+    }
+
+    private void saveAccount(FileWriter fileWriter) throws IOException {
+
+        for (Patient P: patients) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialisePatient(P)) + "\n");
+
+        for (Doctors D: doctors) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialisedDoctor(D)) + "\n");
+
+        for (Pharmacist P : pharmacists) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialisedPharmacist(P)) + "\n");
+
+        for (Administrator A: administrators) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialisedAdministrator(A)) + "\n");
+    }
+
+    private void saveAppointment(FileWriter fileWriter) throws  IOException {
+
+        for (AppointmentList list: allAppointments) for (Appointment apt: list) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialiseAppointment(apt)) + "\n");
+
+    }
 
 }

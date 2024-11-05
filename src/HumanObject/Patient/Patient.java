@@ -25,14 +25,9 @@ public class Patient extends BasePerson {
     //This constructor is used to initialise from TXT file
     public Patient(int ID, String Name, Date DOB, Boolean Gender, String bloodType, Contact contact){
         super(ID,Name, DOB, Gender);
-//        this.ID = ID;
-//        this.name = Name;
-//        this.DOB = DOB;
-//        this.gender = Gender;
         this.bloodType = bloodType;
         this.contact = contact;
         this.role = ROLE.PATIENT;
-        this.contact = new Contact("Empty","0202020");
         this.Pending = new AppointmentList(true);
         this.Ongoing = new AppointmentList(true);
         this.Completed = new AppointmentList(false);
@@ -53,7 +48,8 @@ public class Patient extends BasePerson {
     public void printMedicalRecord(){
         System.out.println("Patient ID: " +  this.getID());
         System.out.println("Patient Name: " + this.getName());
-        System.out.println("Patient Gender: " + this.getGender());
+        String gender = this.gender? "Male" : "Female";
+        System.out.println("Patient Gender: " + gender);
         System.out.println("Date of Birth: " + this.getDOB());
         System.out.println("Patient Contact Number: " + this.getContact().getContactNumber());
         System.out.println("Patient Email: " + this.getContact().getEmail());

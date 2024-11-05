@@ -40,6 +40,7 @@ public class DataSerialisation {
      * @return
      */
     public static String SerialisePrescriptionList(PrescriptionList pList) {
+        if (pList.getCount() == 0) return "Empty";
         String[] StringArray = new String[pList.getCount()];
         for (int i = 0; i < pList.getCount(); i++) StringArray[i] = SerialisePrescription(pList.getPrescription(i));
         return convertStringArraytoString(StringArray,"/");
@@ -98,6 +99,43 @@ public class DataSerialisation {
         return convertStringArraytoString(StringArray, "/");
     }
 
+    public static String SerialiseContact (Contact contact) {
+        String[] StringArray = new String[] { contact.getEmail(),contact.getContactNumber()};
+        return convertStringArraytoString(StringArray, "|");
+    }
+
+    public static String SerialisePatient(Patient patient) {
+        String[] StringArray = new String[]
+                { String.valueOf(patient.getID()), patient.getName(), SerialiseDate(patient.getDOB()),
+                String.valueOf(patient.getGender()), patient.getBloodType(), SerialiseContact(patient.getContact())};
+        String Serialised = convertStringArraytoString(StringArray, "/");
+        return "PA&" + Serialised;
+    }
+
+    public static String SerialisedDoctor(Doctors doctor) {
+        String[] StringArray = new String[]
+                { String.valueOf(doctor.getID()), doctor.getName(), SerialiseDate(doctor.getDOB()),
+                String.valueOf(doctor.getGender()) };
+        String Serialised = convertStringArraytoString(StringArray, "/");
+        return "DR&" + Serialised;
+    }
+
+    public static String SerialisedPharmacist(Pharmacist pharmacist) {
+        String[] StringArray = new String[]
+                { String.valueOf(pharmacist.getID()), pharmacist.getName(), SerialiseDate(pharmacist.getDOB()),
+                String.valueOf(pharmacist.getGender()) };
+        String Serialised = convertStringArraytoString(StringArray, "/");
+        return "PH&" + Serialised;
+    }
+
+    public static String SerialisedAdministrator(Administrator administrator) {
+        String[] StringArray = new String[]
+                { String.valueOf(administrator.getID()), administrator.getName(), SerialiseDate(administrator.getDOB()),
+                String.valueOf(administrator.getGender()) };
+        String Serialised = convertStringArraytoString(StringArray, "/");
+        return "AD&" + Serialised;
+    }
+
     // String to Object
 
     /**
@@ -143,7 +181,8 @@ public class DataSerialisation {
         Date appointmentTime = DeserialiseDate(Data[index++]);
         String notes = Data[index++];
         PrescriptionList list = new PrescriptionList();
-        while (true) {
+        while (!Data[index].equals("Empty")) {
+            System.out.println("test");
             try {
                 Prescription prescription = new Prescription(Data[index++]);
                 list.addPrescription(prescription);
@@ -203,6 +242,52 @@ public class DataSerialisation {
         return medicineData;
     }
 
+    public static Contact DeerialiseContact (String Serialised) {
+        String[] StringArray = Serialised.split("\\|");
+        return new Contact(StringArray[0],StringArray[1]);
+    }
+
+    public static Patient DeserialisePatient(String Serialised) {
+         String[] StringArray = Serialised.split("/");
+         int index = 0;
+         int ID = Integer.parseInt(StringArray[index++]);
+         String name = StringArray[index++];
+         Date DOB = DeserialiseDate(StringArray[index++]);
+         boolean Gender = Boolean.parseBoolean(StringArray[index++]);
+         String bloodType = StringArray[index++];
+         Contact contact = DeerialiseContact(StringArray[index++]);
+         return new Patient(ID, name, DOB, Gender, bloodType, contact);
+    }
+
+    public static Doctors DeserialiseDoctor(String Serialised) {
+         String[] StringArray = Serialised.split("/");
+         int index = 0;
+         int ID = Integer.parseInt(StringArray[index++]);
+         String name = StringArray[index++];
+         Date DOB = DeserialiseDate(StringArray[index++]);
+         boolean Gender = Boolean.parseBoolean(StringArray[index++]);
+         return new Doctors(ID, name, DOB, Gender);
+    }
+
+    public static Pharmacist DeserialisePharmacist(String Serialised) {
+         String[] StringArray = Serialised.split("/");
+         int index = 0;
+         int ID = Integer.parseInt(StringArray[index++]);
+         String name = StringArray[index++];
+         Date DOB = DeserialiseDate(StringArray[index++]);
+         boolean Gender = Boolean.parseBoolean(StringArray[index++]);
+         return new Pharmacist(ID, name, DOB, Gender);
+    }
+
+    public static Administrator DeserialiseAdministrator(String Serialised) {
+        String[] StringArray = Serialised.split("/");
+         int index = 0;
+         int ID = Integer.parseInt(StringArray[index++]);
+         String name = StringArray[index++];
+         Date DOB = DeserialiseDate(StringArray[index++]);
+         boolean Gender = Boolean.parseBoolean(StringArray[index++]);
+         return new Administrator(ID, name, DOB, Gender);
+    }
 
 
     /**
