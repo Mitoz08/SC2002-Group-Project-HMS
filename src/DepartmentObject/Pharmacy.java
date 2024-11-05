@@ -34,11 +34,10 @@ public class Pharmacy {
         this.pastRestockReq = new ArrayList<RestockRequest>();
 //        loadFile();
 //        Input.ScanString("");
-        testRun();
+//        testRun();
     }
 
     public void endPharmacy() {
-
         saveFile();
     }
 
@@ -181,7 +180,7 @@ public class Pharmacy {
         return nameToID.get(medicineName);
     }
 
-    private void loadFile() {
+    public void loadFile() {
         File savefile = new File("Pharmacy.txt");
         Scanner file;
         try {
@@ -189,10 +188,10 @@ public class Pharmacy {
             loadData(file);
             file.close();
         } catch (Exception e) {
-            System.out.println("Error");
+            System.out.println("Error reading Pharmacy.txt");
             return;
         } finally {
-            System.out.println("Finish load function");
+//            System.out.println("Finish load function");
         }
     }
 
@@ -228,7 +227,7 @@ public class Pharmacy {
                 //System.out.println(text);
                 MedicineData medicineData = DataSerialisation.DeserialiseMedicineData(text);
                 medicineStorage.put(medicineData.ID, medicineData);
-                System.out.println(medicineData.name + medicineData.ID);
+//                System.out.println(medicineData.name + medicineData.ID);
                 nameToID.put(medicineData.name.toLowerCase(),medicineData.ID);
                 if (!pendingAmount.containsKey(medicineData.ID)) pendingAmount.put(medicineData.ID,0);
             }
@@ -243,10 +242,10 @@ public class Pharmacy {
             saveData(file);
             file.close();
         } catch (Exception e) {
-            System.out.println("Error");
+            System.out.println("Error writing into Pharmacy.txt");
             return;
         } finally {
-            System.out.println("Finish save function");
+//            System.out.println("Finish save function");
         }
 
     }

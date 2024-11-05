@@ -4,13 +4,7 @@ import DepartmentObject.Pharmacy;
 import DepartmentObject.UserInfoDatabase;
 import Singleton.ServerHMS;
 
-public class BaseUI {
-
-    protected UserInfoDatabase database;
-    protected Pharmacy pharmacy;
-
-    public BaseUI() {
-        database = ServerHMS.getInstance().getDatabase();
-        pharmacy = ServerHMS.getInstance().getPharmacy();
-    }
+public interface BaseUI {
+    public UserInfoDatabase database = ServerHMS.getInstance().getDatabase();
+    public Pharmacy pharmacy = ServerHMS.getInstance().getPharmacy();
 }
