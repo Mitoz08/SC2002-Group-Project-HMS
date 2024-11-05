@@ -286,7 +286,7 @@ public class DoctorUI extends BaseUI {
         Input.ClearConsole();
         int flag = 0;
         for(Appointment apt: this.doctor.getOngoingApt()){
-            System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName() + "Appointment ID: " + apt.getAppointmentID());
+            System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName() + ", Appointment ID: " + apt.getAppointmentID());
             flag = 1;
         }
         if(flag == 0){
