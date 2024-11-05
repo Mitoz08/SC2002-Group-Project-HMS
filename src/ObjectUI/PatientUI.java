@@ -74,7 +74,7 @@ public class PatientUI implements BaseUI {
                     Input.ScanString("Press enter to continue\n");
                     break;
                 case 8:
-                    if (patient.getOngoing().getCount() == 0) {
+                    if (patient.getCompleted().getCount() == 0) {
                         System.out.println("No completed appointment");
                         Input.ScanString("Press enter to continue\n");
                         break;

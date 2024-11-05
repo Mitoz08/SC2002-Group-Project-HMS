@@ -1,5 +1,6 @@
 package ObjectUI;
 
+import DataObject.PharmacyObjects.MedicineData;
 import DataObject.PharmacyObjects.MedicineRequest;
 import DataObject.Prescription.MED_STATUS;
 import DataObject.Prescription.Prescription;
@@ -13,6 +14,9 @@ import HumanObject.ROLE;
 import InputHandler.Input;
 import Serialisation.DataSerialisation;
 import org.w3c.dom.ls.LSOutput;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DoctorUI implements BaseUI {
     private Doctors doctor;
@@ -301,12 +305,23 @@ public class DoctorUI implements BaseUI {
             System.out.println("There are no Ongoing appointments to record outcome.");
             return;
         }
-        Prescription prescription = new Prescription(); //= new Prescription(MED_STATUS.PENDING,medicineName,amt);
+        boolean choice = Input.ScanBoolean("Do you want to give a prescription");
+        HashMap<Integer, MedicineData> temp = pharmacy.getMedicine();
+        while (choice && !temp.isEmpty()) {
+            for (Map.Entry<Integer,MedicineData> o : temp.entrySet()) {
+                System.out.println(o.getValue().getIDString() + ": " + o.getValue().getName());
+            }
+            Prescription prescription = new Prescription();
+            int ID = pharmacy.convertNameToID(prescription.getMedicineName());
+            temp.remove(ID);
+            apt.getPrescriptionList().addPrescription(prescription);
+            if (temp.isEmpty()) break;
+            choice = Input.ScanBoolean("Do you still want to prescribe any more medicine.");
+        }
         MedicineRequest req = new MedicineRequest(apt.getPatientID(), apt.getDoctorID(), apt.getAppointmentID());
         pharmacy.requestMedicine(req);
-        apt.getPrescriptionList().addPrescription(prescription);
         apt.setNotes(Input.ScanString("Enter Consultation notes"));
-        apt.setNameOfApt(Input.ScanString("Enter type of service"));
+//        apt.setNameOfApt(Input.ScanString("Enter type of service"));
+        database.completeApt(apt);
     }
-
 }

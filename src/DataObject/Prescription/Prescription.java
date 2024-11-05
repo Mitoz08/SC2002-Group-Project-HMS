@@ -1,5 +1,8 @@
 package DataObject.Prescription;
 
+import InputHandler.Input;
+import Singleton.ServerHMS;
+
 import java.util.Scanner;
 
 /**
@@ -21,10 +24,12 @@ public class Prescription implements Comparable<Prescription> {
     public Prescription () {
         Scanner sc = new Scanner(System.in);
         this.status = MED_STATUS.PENDING;
-        System.out.print("Enter name of medicine: ");
-        this.medicineName = sc.nextLine();
-        System.out.print("Enter the amount: ");
-        this.amount = sc.nextInt();
+        do {
+            this.medicineName = Input.ScanString("Enter name of medicine: ");
+            if (ServerHMS.getInstance().getPharmacy().isMedicine(this.medicineName)) break;
+            System.out.println("Medicine does not exist.");
+        } while (!ServerHMS.getInstance().getPharmacy().isMedicine(this.medicineName));
+        this.amount = Input.ScanInt("Enter the amount: ");
     }
 
     /**
