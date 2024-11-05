@@ -15,15 +15,11 @@ import Serialisation.DataSerialisation;
 import org.w3c.dom.ls.LSOutput;
 
 public class DoctorUI extends BaseUI {
-    private UserInfoDatabase database;
-    Doctors doctor;
-    Pharmacy pharmacy;
-    int choice;
+    private Doctors doctor;
+    private int choice;
 
-    public DoctorUI(UserInfoDatabase database, Pharmacy pharmacy, Doctors doctor){
+    public DoctorUI(Doctors doctor){
         this.doctor = doctor;
-        this.database = database;
-        this.pharmacy = pharmacy;
 
         do{
             Input.ClearConsole();

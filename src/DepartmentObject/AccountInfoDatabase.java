@@ -14,26 +14,6 @@ public class AccountInfoDatabase {
 
     private String fileName;
 
-    // will be called in the start of the main function this inputs can be gathered by reading the HMSAccount.txt first
-
-//    Account info comes with username,Password,role,id KIV TO DELETE
-//    private String[] verifyLogin(String username, String Password){
-//        String line;
-//        String[] empty = new String[4];
-//        String[] parts = new String[4];
-//        try{
-//            BufferedReader reader = new BufferedReader(new FileReader("HMSAccount.txt"));
-//            while ((line = reader.readLine()) != null){
-//                parts = line.split("[,]");
-//                if (parts[0].equals(username) && parts[1].equals(Password)){
-//                    return parts;
-//                }
-//            }
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        }
-//        return empty;
-//    }
     public AccountInfoDatabase() {
         this.fileName = "Login.txt";
 //        addNewAccount("Admin", "AD1005");
@@ -56,8 +36,10 @@ public class AccountInfoDatabase {
         String password;
         String UserID;
         while (true) {
-            username = Input.ScanString("Username:");
-            password = Input.ScanString("Password:");
+            username = Input.ScanString("Username:").trim();
+            char[] pass = System.console().readPassword("Password: ");
+            password = String.copyValueOf(pass);
+//            password = Input.ScanString("Password:").trim();
             UserID = verify(username, password);
             if (UserID == null){
                 System.out.println("Wrong Username/Password... \nTry again");
@@ -66,29 +48,6 @@ public class AccountInfoDatabase {
             System.out.println("Login successful.");
             return UserID;
         }
-
-//        switch (role) {
-//            case PATIENT:
-//                for (Patient p : database.getPatients()) {
-//                    if (p.getID() == ID) return (BaseUI) new PatientUI(database, pharmacy, p);
-//                }
-//                break;
-//            case DOCTOR:
-//                for (Doctors d : database.getDoctors()) {
-//                    if (d.getID() == ID) return (BaseUI) new DoctorUI(database, pharmacy, d);
-//                }
-//                break;
-//            case PHARMACIST:
-//                for (Pharmacist p : database.getPharmacists()) {
-//                    if (p.getID() == ID) return (BaseUI) new PharmacistUI(database, pharmacy, p);
-//                }
-//                break;
-//            case ADMINISTRATOR:
-//                for (Administrator a : database.getAdministrators()) {
-//                    if (a.getID() == ID) return (BaseUI) new AdminUI(database, pharmacy, a);
-//                }
-//                break;
-//        }
     }
 
     public boolean changePassword() {
@@ -96,8 +55,8 @@ public class AccountInfoDatabase {
         String oldPass;
         String UserID;
         while (true) {
-            username = Input.ScanString("Username:");
-            oldPass = Input.ScanString("Password:");
+            username = Input.ScanString("Username:").trim();
+            oldPass = Input.ScanString("Password:").trim();
             UserID = verify(username, oldPass);
             if (UserID == null){
                 System.out.println("Wrong Username/Password... \nTry again");
@@ -111,7 +70,6 @@ public class AccountInfoDatabase {
     private String verify(String username, String Password) {
         String[] Encrypted = new String[] {DataEncryption.SHA3(username), DataEncryption.SHA3(Password)};
         int slot = hashValue(Encrypted[0]);
-//        System.out.println(slot);
         File file = new File(fileName);
         String UserID = null;
         Scanner fileReader = null;
@@ -128,7 +86,6 @@ public class AccountInfoDatabase {
             i++;
         }
         while (i < slot) {
-            System.out.println(i);
             textLine.add(fileReader.nextLine());
             i++;
         }
@@ -136,8 +93,6 @@ public class AccountInfoDatabase {
         String data = textLine.get(slot-1);
         String[] dataArray = data.split("/");
         for (int j = 0; j < dataArray.length; j += 3) {
-            System.out.println(dataArray[j]);
-            System.out.println(dataArray[j+1]);
             if (Encrypted[0].equals(dataArray[j]) && Encrypted[1].equals(dataArray[j+1])){
                 UserID = DataEncryption.decipher(dataArray[j+2], slot);
             }

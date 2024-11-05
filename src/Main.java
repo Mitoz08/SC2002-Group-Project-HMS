@@ -1,40 +1,59 @@
-import DepartmentObject.Pharmacy;
-import DepartmentObject.UserInfoDatabase;
+import DepartmentObject.*;
 import HumanObject.Administrator.Administrator;
 import HumanObject.Doctors.Doctors;
 import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
-import ObjectUI.AdminUI;
-import ObjectUI.DoctorUI;
-import ObjectUI.PatientUI;
-import ObjectUI.PharmacistUI;
-import Serialisation.DataEncryption;
-import TestingFile.Test;
+import InputHandler.Input;
+import ObjectUI.*;
+import Singleton.ServerHMS;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 
 public class Main {
     public static void main(String[] args) {
-//        Test.Run2();
-//        Test.Run3();
-//
-//        UserInfoDatabase database = new UserInfoDatabase();
-//        Pharmacy pharmacy = new Pharmacy();
-//        Patient patient = database.getPatients().getFirst();
-//        Doctors doctor = database.getDoctors().getFirst();
-//        Administrator admin = database.getAdministrators().getFirst();
-//        Pharmacist pharma = database.getPharmacists().getFirst();
-//
-//        //PatientUI patui = new PatientUI(database,pharmacy,patient);
-//        DoctorUI docUI = new DoctorUI(database,pharmacy,doctor);
-//        //PharmacistUI pharmUI = new PharmacistUI(database,pharmacy,pharma);
-//        //AdminUI adminUI = new AdminUI(database,pharmacy,admin);
+        Input.ClearConsole();
+        AccountInfoDatabase login = ServerHMS.getInstance().getLogin();
+        UserInfoDatabase database = ServerHMS.getInstance().getDatabase();
+        int choice;
 
+        do {
+            System.out.println("Welcome to HMS\n1. Login\n2. Change password\n3. Exit program");
+            choice = Input.ScanInt("Choose one option:");
+            switch (choice) {
+                case 1:
+                    String UserID = login.login();
+                    String role = UserID.substring(0,2);
+                    int ID = Integer.parseInt(UserID.substring(2));
+                    switch (role) {
+                        case "PA":
+                            for (Patient p : database.getPatients()) {
+                                if (p.getID() == ID) new PatientUI(p);
+                            }
+                            break;
+                        case "DR":
+                            for (Doctors d : database.getDoctors()) {
+                                if (d.getID() == ID) new DoctorUI(d);
+                            }
+                            break;
+                        case "PH":
+                            for (Pharmacist p : database.getPharmacists()) {
+                                if (p.getID() == ID) new PharmacistUI(p);
+                            }
+                            break;
+                        case "AD":
+                            for (Administrator a : database.getAdministrators()) {
+                                if (a.getID() == ID) new AdminUI(a);
+                            }
+                            break;
+                    }
+                    break;
+                case 2:
+                    login.changePassword();
+                    break;
+                default:
+                    break;
+            }
 
-
-        Test.Run4();
-
+        } while (choice < 3);
+        ServerHMS.getInstance().closeServer();
     }
 }

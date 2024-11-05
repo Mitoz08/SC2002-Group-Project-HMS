@@ -3,8 +3,7 @@ package ObjectUI;
 import DataObject.Appointment.Appointment;
 import DataObject.Appointment.AppointmentList;
 import DataObject.PharmacyObjects.RestockRequest;
-import DepartmentObject.Pharmacy;
-import DepartmentObject.UserInfoDatabase;
+import DepartmentObject.*;
 import HumanObject.Administrator.Administrator;
 import HumanObject.BasePerson;
 import HumanObject.Doctors.Doctors;
@@ -12,6 +11,7 @@ import HumanObject.Pharmacist.Pharmacist;
 import HumanObject.ROLE;
 import InputHandler.Input;
 import Serialisation.DataSerialisation;
+import Singleton.ServerHMS;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,13 +19,11 @@ import java.util.Date;
 public class AdminUI extends BaseUI{
 
     //Attribute
-    private UserInfoDatabase database;
-    private Pharmacy pharmacy;
+    private AccountInfoDatabase login;
     private Administrator admin;
 
-    public AdminUI(UserInfoDatabase database, Pharmacy pharmacy, Administrator admin){
-        this.pharmacy = pharmacy;
-        this.database = database;
+    public AdminUI(Administrator admin){
+        this.login = ServerHMS.getInstance().getLogin();
         this.admin = admin;
 
         int choice=0;
