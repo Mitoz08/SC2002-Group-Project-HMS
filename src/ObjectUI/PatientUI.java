@@ -27,6 +27,7 @@ public class PatientUI extends BaseUI {
         int choice;
 
         do {
+            System.out.println(patient.getPending().getCount());
             Input.ClearConsole();
             System.out.println("Patient UI \n" +
                     "1: View Medical Records\n" +
@@ -48,6 +49,7 @@ public class PatientUI extends BaseUI {
             switch (choice) {
                 case 1: // View patient's own medical record
                     patient.printMedicalRecord();
+                    Input.ScanString("Press enter to continue\n");
 //                    patient = (Patient) database.getPerson(patient.getID(), ROLE.PATIENT);
                     break;
                 case 2: // Update Patient's personal information
@@ -67,12 +69,24 @@ public class PatientUI extends BaseUI {
                     cancelApt();
                     break;
                 case 7:
+                    if (patient.getOngoing().getCount() == 0) {
+                        System.out.println("No ongoing appointment");
+                        Input.ScanString("Press enter to continue\n");
+                        break;
+                    }
                     System.out.println("Here are your scheduled appointments");
                     patient.getOngoing().print(true);
+                    Input.ScanString("Press enter to continue\n");
                     break;
                 case 8:
+                    if (patient.getOngoing().getCount() == 0) {
+                        System.out.println("No completed appointment");
+                        Input.ScanString("Press enter to continue\n");
+                        break;
+                    }
                     System.out.println("Here are your completed appointments");
                     patient.getCompleted().print(true);
+                    Input.ScanString("Press enter to continue\n");
                     break;
                 case 9:
                     break;
@@ -191,6 +205,22 @@ public class PatientUI extends BaseUI {
                 "3) 1PM-2PM\n" +
                 "4) 2PM-3PM\n" +
                 "5) 3PM-4PM\n") - 1;
+
+        for (Appointment apt : patient.getPending()) {
+            if (apt.getAppointmentTime().equals(Appointment.createDate(dateSlot[0], dateSlot[1]))){
+                System.out.println("A pending appointment already exist at that slot.");
+                Input.ScanString("Press enter to continue\n");
+                return;
+            }
+        }
+        for (Appointment apt : patient.getOngoing()) {
+            if (apt.getAppointmentTime().equals(Appointment.createDate(dateSlot[0], dateSlot[1]))){
+                System.out.println("An ongoing appointment already exist at that slot.");
+                Input.ScanString("Press enter to continue\n");
+                return;
+            }
+        }
+
         ArrayList<Doctors> doctorsArrayList = database.getDoctors();
         for (Doctors doctor : doctorsArrayList) {
             if (doctor.getAvailability()[dateSlot[0]][dateSlot[1]]) {
@@ -219,10 +249,20 @@ public class PatientUI extends BaseUI {
         boolean check;
         do {
             check = false;
-            patient.getOngoing().print(true);
-            int index = Input.ScanInt("Enter the index of the appointment you wish to delete\n");
-            Appointment apt = patient.getOngoing().getAppointment(index - 1);
+            int last = patient.getPending().print(true);
+            patient.getOngoing().print(true,last);
+            int index = Input.ScanInt("Enter the index of the appointment you wish to delete or -1 to exit\n");
+            if(index == -1){
+                return;
+            }
+            Appointment apt;
+            if (index <= patient.getPending().getCount() ) apt = patient.getPending().getAppointment(index-1);
+            else apt = patient.getOngoing().getAppointment(index - 1);
             Input.ClearConsole();
+            if (apt == null) {
+                System.out.println("No appointment found. Please enter the correct index");
+                continue;
+            };
             int yn = Input.ScanInt("Please confirm that this is the appointment you want?\n" + "1. Yes\n" + "2. No\n");
             if (yn == 1){
                 check = true;

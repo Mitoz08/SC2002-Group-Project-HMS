@@ -39,15 +39,15 @@ public class Test {
 //        PharmacistUI pharmacistUI = new PharmacistUI(pharmacy, pharmacist);
     }
 
-//    public static void Run3() {
-//       UserInfoDatabase database = new UserInfoDatabase();
-//        Pharmacy pharmacy = new Pharmacy();
-//
-//        UserInfoDatabase database = null; // new UserInfoDatabase();
-//        Pharmacist pharmacist = new Pharmacist("Tim", new Date(1000,10,1),true);
-//        PharmacistUI pharmacistUI = new PharmacistUI(database,pharmacy, pharmacist);
-//        pharmacy.endPharmacy();
-//    }
+    public static void Run3() {
+       //UserInfoDatabase database = new UserInfoDatabase();
+        Pharmacy pharmacy = new Pharmacy();
+
+        UserInfoDatabase database = null; // new UserInfoDatabase();
+        Pharmacist pharmacist = new Pharmacist("Tim", new Date(1000,10,1),true);
+        PharmacistUI pharmacistUI = new PharmacistUI(database,pharmacy, pharmacist);
+        pharmacy.endPharmacy();
+    }
 
     public static void Run4() {
         UserInfoDatabase database = new UserInfoDatabase();

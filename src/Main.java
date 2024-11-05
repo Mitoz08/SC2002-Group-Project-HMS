@@ -8,6 +8,7 @@ import ObjectUI.AdminUI;
 import ObjectUI.DoctorUI;
 import ObjectUI.PatientUI;
 import ObjectUI.PharmacistUI;
+import Serialisation.DataEncryption;
 import TestingFile.Test;
 
 import java.io.File;
@@ -18,18 +19,22 @@ public class Main {
     public static void main(String[] args) {
 //        Test.Run2();
 //        Test.Run3();
+//
+//        UserInfoDatabase database = new UserInfoDatabase();
+//        Pharmacy pharmacy = new Pharmacy();
+//        Patient patient = database.getPatients().getFirst();
+//        Doctors doctor = database.getDoctors().getFirst();
+//        Administrator admin = database.getAdministrators().getFirst();
+//        Pharmacist pharma = database.getPharmacists().getFirst();
+//
+//        //PatientUI patui = new PatientUI(database,pharmacy,patient);
+//        DoctorUI docUI = new DoctorUI(database,pharmacy,doctor);
+//        //PharmacistUI pharmUI = new PharmacistUI(database,pharmacy,pharma);
+//        //AdminUI adminUI = new AdminUI(database,pharmacy,admin);
 
-        UserInfoDatabase database = new UserInfoDatabase();
-        Pharmacy pharmacy = new Pharmacy();
-        Patient patient = database.getPatients().getFirst();
-        Doctors doctor = database.getDoctors().getFirst();
-        Administrator admin = database.getAdministrators().getFirst();
-        Pharmacist pharma = database.getPharmacists().getFirst();
 
-        //PatientUI patui = new PatientUI(database,pharmacy,patient);
-        DoctorUI docUI = new DoctorUI(database,pharmacy,doctor);
-        //PharmacistUI pharmUI = new PharmacistUI(database,pharmacy,pharma);
-        //AdminUI adminUI = new AdminUI(database,pharmacy,admin);
+
+        Test.Run4();
 
     }
 }
