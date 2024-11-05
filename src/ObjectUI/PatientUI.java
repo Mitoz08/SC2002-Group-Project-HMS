@@ -16,14 +16,10 @@ import javax.print.Doc;
 import java.util.ArrayList;
 
 public class PatientUI extends BaseUI {
-    private Pharmacy pharmacy;
     private Patient patient;
-    private UserInfoDatabase database;
     private Appointment apt;
 
-    public PatientUI(UserInfoDatabase database, Pharmacy pharmacy, Patient patient) {
-        this.database = database;
-        this.pharmacy = pharmacy;
+    public PatientUI(Patient patient) {
         this.patient = patient;
         int choice;
 

@@ -22,13 +22,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class PharmacistUI extends BaseUI {
 
     // Attribute
-    private UserInfoDatabase database;
-    private Pharmacy pharmacy;
     private Pharmacist pharmacist;
 
-    public PharmacistUI(UserInfoDatabase database, Pharmacy pharmacy, Pharmacist pharmacist) {
-        this.database = database;
-        this.pharmacy = pharmacy;
+    public PharmacistUI(Pharmacist pharmacist) {
         this.pharmacist = pharmacist;
 
         int choice;
