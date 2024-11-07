@@ -21,6 +21,12 @@ public class AccountInfoDatabase {
 
     private void testRun()
     {
+        try {
+            FileWriter fileWriter = new FileWriter(new File(fileName));
+            fileWriter.close();
+        } catch (Exception e) {
+            System.out.println("Error writing into Login.txt");
+        }
         addNewAccount("Johnathan", "PA1001", ROLE.PATIENT);
         addNewAccount("May", "PA1002", ROLE.PATIENT);
         addNewAccount("Benjamin", "DR1001", ROLE.DOCTOR);
@@ -36,9 +42,11 @@ public class AccountInfoDatabase {
         String UserID;
         while (true) {
             username = Input.ScanString("Username:").trim();
+            if (username.equals("-1")) return null;
 //            char[] pass = System.console().readPassword("Password: ");
 //            password = String.copyValueOf(pass);
             password = Input.ScanString("Password:").trim();
+            if (password.equals("-1")) return null;
             UserID = verify(username, password);
             if (UserID == null){
                 System.out.println("Wrong Username/Password... \nTry again");
@@ -115,7 +123,7 @@ public class AccountInfoDatabase {
         int slot = hashValue(Encrypted[0]);
         Encrypted[2] = DataEncryption.cipher(person.getStrID(), slot);
         updateFile(Encrypted,slot,0);
-        Input.ScanString("This is your username: " + username + ". With the default password as \"Password\""+"\nEnter to continue...");
+        System.out.println("This is your username: " + username + ". With the default password as \"Password\"");
         return true;
     }
 
