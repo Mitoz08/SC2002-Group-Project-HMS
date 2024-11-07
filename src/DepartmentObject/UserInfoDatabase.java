@@ -126,21 +126,25 @@ public class UserInfoDatabase {
         this.patients.add(P);
         P = new Patient(1002,"May", new Date(103,0,11), false, "AB-", new Contact("May@outlook.com", "81736531"));
         this.patients.add(P);
+        Patient.setLastID(1003);
 
-        Doctors D = new Doctors(1003,"Ben", new Date(85,10,23), true);
+        Doctors D = new Doctors(1001,"Ben", new Date(85,10,23), true);
         this.doctors.add(D);
-        D = new Doctors(1004,"Fae", new Date(70,0,8), false);
+        D = new Doctors(1002,"Fae", new Date(70,0,8), false);
         this.doctors.add(D);
+        Doctors.setLastID(1003);
 
-        Administrator A = new Administrator(1005, "Summer", new Date(90,11,31), false);
+        Administrator A = new Administrator(1001, "Summer", new Date(90,11,31), false);
         this.administrators.add(A);
-        A = new Administrator(1006, "Alfred", new Date(99,0,4), true);
+        A = new Administrator(1002, "Alfred", new Date(99,0,4), true);
         this.administrators.add(A);
+        Administrator.setLastID(1003);
 
-        Pharmacist PH = new Pharmacist(1007, "Pharah", new Date(99,3,5), false);
+        Pharmacist PH = new Pharmacist(1001, "Pharah", new Date(99,3,5), false);
         this.pharmacists.add(PH);
-        PH = new Pharmacist(1008, "Winston", new Date(65,4,22), true);
+        PH = new Pharmacist(1002, "Winston", new Date(65,4,22), true);
         this.pharmacists.add(PH);
+        Pharmacist.setLastID(1003);
     }
 
     //This class method is to decrypt the string and return an ArrayList<String> which are the user info
@@ -701,6 +705,14 @@ public class UserInfoDatabase {
                 case "AD":
                     administrators.add(DataSerialisation.DeserialiseAdministrator(temp[1]));
                     break;
+                case "Static":
+                    String[] textArray = temp[1].split("/");
+                    int index = 0;
+                    Patient.setLastID(Integer.parseInt(textArray[index++]));
+                    Doctors.setLastID(Integer.parseInt(textArray[index++]));
+                    Pharmacist.setLastID(Integer.parseInt(textArray[index++]));
+                    Administrator.setLastID(Integer.parseInt(textArray[index++]));
+                    break;
             }
         }
     }
@@ -765,6 +777,11 @@ public class UserInfoDatabase {
         for (Pharmacist P : pharmacists) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialisedPharmacist(P)) + "\n");
 
         for (Administrator A: administrators) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialisedAdministrator(A)) + "\n");
+
+        String[] textArray = new String[] {String.valueOf(Patient.getLastID()), String.valueOf(Doctors.getLastID()), String.valueOf(Pharmacist.getLastID()),
+                String.valueOf(Administrator.getLastID())};
+        String text = "Static&" + DataSerialisation.convertStringArraytoString(textArray, "/");
+        fileWriter.write(DataEncryption.cipher(text));
     }
 
     private void saveAppointment(FileWriter fileWriter) throws  IOException {

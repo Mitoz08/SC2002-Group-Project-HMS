@@ -25,9 +25,9 @@ public class Administrator extends BasePerson {
         this.role = ROLE.ADMINISTRATOR;
     }
 
-    public static void setLastID(int lastID1){
-        lastID = lastID1;
-    }
+    public static void setLastID(int ID) {lastID = ID;}
+
+    public static int getLastID() {return lastID;}
 
     public void addPatient(){
         //Uses updateFile

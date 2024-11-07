@@ -1,5 +1,7 @@
 package DepartmentObject;
 
+import HumanObject.BasePerson;
+import HumanObject.ROLE;
 import InputHandler.Input;
 import Serialisation.DataEncryption;
 import Serialisation.DataSerialisation;
@@ -14,19 +16,19 @@ public class AccountInfoDatabase {
     public AccountInfoDatabase() {
         this.fileName = "Login.txt";
 //        addNewAccount("Admin", "AD1005");
-//        testRun();
+        testRun();
     }
 
     private void testRun()
     {
-        addNewAccount("John", "PA1001");
-        addNewAccount("May", "PA1002");
-        addNewAccount("Ben", "DR1003");
-        addNewAccount("Fae", "DR1004");
-        addNewAccount("Summer", "AD1005");
-        addNewAccount("Alfred", "AD1006");
-        addNewAccount("Pharah", "PH1007");
-        addNewAccount("Winston", "PH1008");
+        addNewAccount("Johnathan", "PA1001", ROLE.PATIENT);
+        addNewAccount("May", "PA1002", ROLE.PATIENT);
+        addNewAccount("Benjamin", "DR1001", ROLE.DOCTOR);
+        addNewAccount("Fae Wong", "DR1002", ROLE.DOCTOR);
+        addNewAccount("Summer", "AD1001", ROLE.ADMINISTRATOR);
+        addNewAccount("Alfred", "AD1002", ROLE.ADMINISTRATOR);
+        addNewAccount("Pharah", "PH1001", ROLE.PHARMACIST);
+        addNewAccount("Winston", "PH1002", ROLE.PHARMACIST);
     }
     public String login(){
         String username;
@@ -95,12 +97,25 @@ public class AccountInfoDatabase {
         return UserID;
     }
 
-    public boolean addNewAccount(String username, String userID){
+    public boolean addNewAccount(String name, String UserID, ROLE role){
         // PA0001,Username,Password
+        String username = usernameGenerator(name, Integer.parseInt(UserID.substring(2)), role);
         String[] Encrypted = new String[] {DataEncryption.SHA3(username), DataEncryption.SHA3("Password"), ""};
         int slot = hashValue(Encrypted[0]);
-        Encrypted[2] = DataEncryption.cipher(userID, slot);
+        Encrypted[2] = DataEncryption.cipher(UserID, slot);
         updateFile(Encrypted,slot,0);
+        System.out.println("This is your username: " + username + ". With the default password as \"Password\"");
+        return true;
+    }
+
+    public boolean addNewAccount(BasePerson person){
+        // PA0001,Username,Password
+        String username = usernameGenerator(person.getName(), person.getID(), person.getRole());
+        String[] Encrypted = new String[] {DataEncryption.SHA3(username), DataEncryption.SHA3("Password"), ""};
+        int slot = hashValue(Encrypted[0]);
+        Encrypted[2] = DataEncryption.cipher(person.getStrID(), slot);
+        updateFile(Encrypted,slot,0);
+        Input.ScanString("This is your username: " + username + ". With the default password as \"Password\""+"\nEnter to continue...");
         return true;
     }
 
@@ -202,4 +217,36 @@ public class AccountInfoDatabase {
         }
         return value % hashValue + 1;
     }
+
+    private String usernameGenerator(String name, int ID, ROLE role) {
+        String username = "";
+
+        switch (role){
+            case PATIENT:
+                username = username + "PA_";
+                break;
+
+            case DOCTOR:
+                username = username + "DR_";
+                break;
+
+            case PHARMACIST:
+                username = username + "PH_";
+                break;
+
+            case ADMINISTRATOR:
+                username = username + "AD_";
+                break;
+        }
+
+        String newName = name.replaceAll("\\s+", "").toUpperCase();
+        if (newName.length() < 4) {
+            newName = newName + "0000";
+        }
+        newName = newName.substring(0,4);
+        username = username + newName + String.valueOf(ID);
+
+        return username;
+    }
+
 }

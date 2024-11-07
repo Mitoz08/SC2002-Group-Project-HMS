@@ -52,7 +52,7 @@ public class AdminUI implements BaseUI{
                         case 1:
                             BasePerson toAdd = addStaff();
                             ROLE role = toAdd.getRole();
-                            login.addNewAccount(toAdd.getName(),toAdd.getStrID());
+                            login.addNewAccount(toAdd);
                             switch (role){
                                 case DOCTOR:
                                     this.database.getDoctors().add((Doctors) toAdd);

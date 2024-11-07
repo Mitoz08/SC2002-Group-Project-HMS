@@ -13,8 +13,8 @@ public class ServerHMS {
     private Pharmacy pharmacy;
 
     private ServerHMS() {
-        this.database = new UserInfoDatabase();
         this.login = new AccountInfoDatabase();
+        this.database = new UserInfoDatabase();
         this.pharmacy = new Pharmacy();
 
         database.testRun();
