@@ -21,14 +21,7 @@ import java.util.Date;
  * The patient class extends {@link BasePerson} and adds additional attributes
  * related to the patient's health and medical interactions.
  * </p>
- *
- * @see BasePerson for shared attributes and behaviors
- * @see AppointmentList for managing the patient's appointment records
- * @see PrescriptionList for managing prescriptions for the patient
- * @see Contact for storing patient contact information
- * @see ROLE for defining the role of the patient in the system
  */
-
 public class Patient extends BasePerson {
 
     private static int lastID=0;
@@ -173,7 +166,6 @@ public class Patient extends BasePerson {
      *
      * @return The {@code Contact} object containing the patient's contact details.
      */
-
     public Contact getContact() {return this.contact;}
 
     /**
@@ -181,7 +173,6 @@ public class Patient extends BasePerson {
      *
      * @return A list of doctor names assigned to the patient.
      */
-
     public ArrayList<String> getDoctorAssigned() {return this.doctorAssigned;}
 
     /**
@@ -189,7 +180,6 @@ public class Patient extends BasePerson {
      *
      * @return The {@code AppointmentList} object containing ongoing appointments.
      */
-
     public AppointmentList getOngoing() {return this.Ongoing;}
 
     /**
@@ -197,7 +187,6 @@ public class Patient extends BasePerson {
      *
      * @return The {@code AppointmentList} object containing completed appointments.
      */
-
     public AppointmentList getCompleted() {return this.Completed;}
 
     /**
@@ -205,7 +194,6 @@ public class Patient extends BasePerson {
      *
      * @return The {@code AppointmentList} object containing pending appointments.
      */
-
     public AppointmentList getPending() {return this.Pending;}
 
     /**
@@ -213,7 +201,6 @@ public class Patient extends BasePerson {
      *
      * @return The {@code PrescriptionList} object containing the patient's prescriptions.
      */
-
     public PrescriptionList getMedicine() {return this.Medicine;}
 
     /**
@@ -221,7 +208,6 @@ public class Patient extends BasePerson {
      *
      * @param bloodType The blood type to set for the patient.
      */
-
     public void setBloodType(String bloodType) {this.bloodType = bloodType;}
 
     /**
@@ -229,7 +215,6 @@ public class Patient extends BasePerson {
      *
      * @param contact The {@code Contact} object containing the new contact details.
      */
-
     public void setContact(Contact contact) {this.contact = contact;}
 
     /**
@@ -237,7 +222,6 @@ public class Patient extends BasePerson {
      *
      * @param doctorAssigned The list of doctor names to assign to the patient.
      */
-
     public void setDoctorAssigned(ArrayList<String> doctorAssigned) {this.doctorAssigned = doctorAssigned;}
 
     /**
@@ -245,7 +229,6 @@ public class Patient extends BasePerson {
      *
      * @param ongoing The {@code AppointmentList} object containing ongoing appointments.
      */
-
     public void setOngoing(AppointmentList ongoing) {this.Ongoing = ongoing;}
 
     /**
@@ -253,7 +236,6 @@ public class Patient extends BasePerson {
      *
      * @param pending The {@code AppointmentList} object containing pending appointments.
      */
-
     public void setPending(AppointmentList pending) {this.Pending = pending;}
 
     /**
@@ -261,7 +243,6 @@ public class Patient extends BasePerson {
      *
      * @param completed The {@code AppointmentList} object containing completed appointments.
      */
-
     public void setCompleted(AppointmentList completed) {this.Completed = completed;}
 
     /**
@@ -269,7 +250,6 @@ public class Patient extends BasePerson {
      *
      * @param medicine The {@code PrescriptionList} object containing the patient's prescriptions.
      */
-
     public void setMedicine(PrescriptionList medicine) {this.Medicine = medicine;}
 
     /**
@@ -277,7 +257,6 @@ public class Patient extends BasePerson {
      *
      * @param ID The ID value to set as the last used patient ID.
      */
-
     public static void setLastID(int ID) {lastID = ID;}
 
     /**
@@ -285,7 +264,6 @@ public class Patient extends BasePerson {
      *
      * @return The last used patient ID.
      */
-
     public static int getLastID() {return lastID;}
 }
 
