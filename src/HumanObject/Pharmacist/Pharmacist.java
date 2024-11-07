@@ -52,9 +52,11 @@ public class Pharmacist extends BasePerson {
 
     /**
      * To be used during initialisation to ensure there is unique ID for each pharmacist
-     * @param lastID1
+     * @param ID
      */
-    public static void setLastID(int lastID1) {lastID = lastID1;}
+    public static void setLastID(int ID) {lastID = ID;}
+
+    public static int getLastID() {return lastID;}
 
 
 }

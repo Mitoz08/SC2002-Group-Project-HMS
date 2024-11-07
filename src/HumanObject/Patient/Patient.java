@@ -38,7 +38,6 @@ public class Patient extends BasePerson {
         this.bloodType = bloodType;
         this.contact = contact;
         this.role = ROLE.PATIENT;
-        this.contact = new Contact("Empty","0202020");
         this.Pending = new AppointmentList(true);
         this.Ongoing = new AppointmentList(true);
         this.Completed = new AppointmentList(false);
@@ -111,5 +110,9 @@ public class Patient extends BasePerson {
     public void setMedicine(PrescriptionList medicine){
         this.Medicine = medicine;
     }
+
+    public static void setLastID(int ID) {lastID = ID;}
+
+    public static int getLastID() {return lastID;}
 }
 

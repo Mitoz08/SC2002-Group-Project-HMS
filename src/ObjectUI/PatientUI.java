@@ -18,7 +18,6 @@ public class PatientUI implements BaseUI {
     public PatientUI(Patient patient) {
         this.patient = patient;
         int choice;
-
         do {
             Input.ClearConsole();
             System.out.println("Patient UI \n" +
@@ -101,34 +100,12 @@ public class PatientUI implements BaseUI {
             switch (C2Choice) {
                 case 1:
                     Input.ClearConsole();
-                    String email;
-                    do{
-                        email = Input.ScanString("Enter a new email address: ");
-                        if (ContactChecker.checkValidEmail(email)) {
-                            patient.getContact().setEmail(email);
-                            System.out.println("Email has been changed successfully!\n");
-                        }
-                        else {
-                            System.out.println("That isn't a valid email address, try again");
-                        }
-                    }
-                    while (!ContactChecker.checkValidEmail(email));
+                    patient.getContact().setEmail();
                     break;
 
                 case 2:
-                    String contactNo;
                     Input.ClearConsole();
-                    do{
-                        contactNo = Input.ScanString("Enter a new contact number: ");
-                        if (ContactChecker.checkValidSingaporePhone(contactNo)) {
-                            patient.getContact().setContactNumber(contactNo);
-                            System.out.println("Contact number has been changed successfully!\n");
-                        }
-                        else {
-                            System.out.println("That isn't a valid contact number, try again");
-                        }
-                    }
-                    while (!ContactChecker.checkValidSingaporePhone(contactNo));
+                    patient.getContact().setContactNumber();
                     break;
 
                 case 3:

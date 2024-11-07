@@ -36,9 +36,8 @@ public class Doctors extends BasePerson {
         super(lastID++, Name, DOB, Gender);
         this.role = ROLE.DOCTOR;
     }
-    public static void setLastID(int lastID1){
-        lastID = lastID1;
-    }
+    public static void setLastID(int ID) {lastID = ID;}
+    public static int getLastID() {return lastID;}
     public AppointmentList getOngoingApt(){
         return Ongoing;
     }
