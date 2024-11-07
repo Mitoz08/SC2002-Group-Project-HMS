@@ -42,7 +42,7 @@ public class DataSerialisation {
     }
 
     /**
-     * To serialise appointment object to e.g. APT000001/0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10
+     * To serialise appointment object to e.g. APT000001/0/Chemo/1001/P_Name/001/D_Name/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10
      * @param apt
      * @return
      */
@@ -176,7 +176,7 @@ public class DataSerialisation {
         Date appointmentTime = DeserialiseDate(Data[index++]);
         String notes = Data[index++];
         PrescriptionList list = new PrescriptionList();
-        while (!Data[index].equals("Empty")) {
+        while (index < Data.length && !Data[index].equals("Empty")) {
             System.out.println("test");
             try {
                 Prescription prescription = new Prescription(Data[index++]);

@@ -2,6 +2,8 @@ package ObjectUI;
 
 import DataObject.Appointment.Appointment;
 import DataObject.Appointment.AppointmentList;
+import DataObject.PharmacyObjects.MedicineRequest;
+import DataObject.PharmacyObjects.RestockRequest;
 import DepartmentObject.*;
 import HumanObject.Administrator.Administrator;
 import HumanObject.BasePerson;
@@ -165,8 +167,14 @@ public class AdminUI implements BaseUI{
     }
     private void ApproveReplenishmentRequests(){
 
-        this.pharmacy.viewRestockRequest();
+        int size = this.pharmacy.viewRestockRequest();
+        if (size == 0) {
+            Input.ScanString("No existing request\nEnter to continue...");
+            return;
+        }
         int choice = Input.ScanInt("Which restock do you want to fulfill");
+        RestockRequest request = this.pharmacy.getRestockRequest(choice-1);
+        request.ApprovedRequest(this.admin.getID());
         this.pharmacy.approveRestock(choice-1);
 
         return;

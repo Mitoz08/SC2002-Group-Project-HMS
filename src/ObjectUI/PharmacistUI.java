@@ -39,29 +39,34 @@ public class PharmacistUI implements BaseUI {
             choice = Input.ScanInt("Choose an option:");
 
             int index;
+            Patient p;
             MedicineRequest request;
-
             PrescriptionList list;
+            Appointment appointment = null;
+            AppointmentList appointments;
 
             switch (choice) {
                 case 1:
 
                     Input.ClearConsole();
                     int size = pharmacy.viewMedRequest();
+                    if (size == 0) {
+                        Input.ScanString("No existing request\nEnter to continue...");
+                        break;
+                    }
                     do {
                         index = Input.ScanInt("Choose an request to view:") - 1;
                         if (index >= size) System.out.println("Incorrect index.");
                     } while (index >= size);
                     request = pharmacy.getMedRequest(index);
 
-                    Appointment appointment = null;
                     // Waiting on Database function to fetch appointment
-                    Patient p = (Patient) database.getPerson(request.getPatientID(), ROLE.PATIENT);
+                    p = (Patient) database.getPerson(request.getPatientID(), ROLE.PATIENT);
                     if (p == null) {
                         System.out.println("Error getting Patient object in PharmacistUI");
                         break;
                     }
-                    AppointmentList appointments = p.getCompleted();
+                    appointments = p.getCompleted();
                     for (Appointment apt : appointments) {
                         if (apt.getAppointmentID().equals(request.getAppointmentID())) appointment = apt;
                     }
@@ -70,13 +75,13 @@ public class PharmacistUI implements BaseUI {
                         System.out.println("Appointment does not exist!");
                         break;
                     }
-                    appointment = DataSerialisation.DeserialiseAppointment("APT000001/0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10");
+//                    appointment = DataSerialisation.DeserialiseAppointment("APT000001/0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10");
 
                     list = appointment.getPrescriptionList();
 
                     if (printFulfillable(list)) break;
 
-                    if (providePrescription(list)) continue;
+                    providePrescription(list);
 
                     Input.ClearConsole();
                     if (appointment.isPrescribed()) {
@@ -91,13 +96,27 @@ public class PharmacistUI implements BaseUI {
 
                     Input.ClearConsole();
                     request = pharmacy.getMedRequest(0);
-                    appointment = DataSerialisation.DeserialiseAppointment("APT0000001/0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10"); // Get appointment from database using APT_ID/PatientID/DoctorID
+                    if (request == null) {
+                        Input.ScanString("No existing request\nEnter to continue...");
+                        break;
+                    }
+                    //appointment = DataSerialisation.DeserialiseAppointment("APT000001/0/Chemo/1001/P_Name/001/D_Name/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10"); // Get appointment from database using APT_ID/PatientID/DoctorID
+                    p = (Patient) database.getPerson(request.getPatientID(), ROLE.PATIENT);
+                    if (p == null) {
+                        System.out.println("Error getting Patient object in PharmacistUI");
+                        break;
+                    }
+                    appointments = p.getCompleted();
+                    for (Appointment apt : appointments) {
+                        if (apt.getAppointmentID().equals(request.getAppointmentID())) appointment = apt;
+                    }
+
 
                     list = appointment.getPrescriptionList();
 
                     if (printFulfillable(list)) break;
 
-                    if (providePrescription(list)) continue;
+                    providePrescription(list);
 
                     Input.ClearConsole();
                     if (appointment.isPrescribed()) {
@@ -109,10 +128,12 @@ public class PharmacistUI implements BaseUI {
                     }
                     break;
                 case 3:
+                    Input.ClearConsole();
                     pharmacy.viewStock();
                     Input.ScanString("Press enter to continue...");
                     break;
                 case 4:
+                    Input.ClearConsole();
                     pharmacy.requestRestock(createRestockReq());
                     break;
                 default:
@@ -234,7 +255,11 @@ public class PharmacistUI implements BaseUI {
             Input.ClearConsole();
             pharmacy.viewStock(indentStock);
         }
-
+        if(indentStock.isEmpty()) {
+            System.out.println("Nothing is indented.\nRequest not created");
+            Input.ScanString("Enter to continue...");
+            return null;
+        }
         RestockRequest request = new RestockRequest(indentStock,pharmacist.getID());
         return request;
     }

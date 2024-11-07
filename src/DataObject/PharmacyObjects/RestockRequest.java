@@ -50,12 +50,21 @@ public class RestockRequest {
     }
 
     public void print() {
-        System.out.println("_______________________________");
+        System.out.printf("_______________________________\n");
         for (Map.Entry<Integer,Integer> e : requestAmmount.entrySet()){
             System.out.printf("|%-6s:%-8s %-6s:%-8s|\n", "MED ID", MedicineData.getStrID(e.getKey()), "Amount", e.getValue());
         }
         System.out.printf("|%-12s:%-18d|\n", "PharmacistID", this.pharmacistID);
         System.out.println("_______________________________");
+    }
+
+    public void print(int index) {
+        System.out.printf("%2d)_______________________________\n",index);
+        for (Map.Entry<Integer,Integer> e : requestAmmount.entrySet()){
+            System.out.printf("   |%-6s:%-8s %-6s:%-8s|\n", "MED ID", MedicineData.getStrID(e.getKey()), "Amount", e.getValue());
+        }
+        System.out.printf("   |%-12s:%-18d|\n", "PharmacistID", this.pharmacistID);
+        System.out.println("   _______________________________");
     }
 
 }
