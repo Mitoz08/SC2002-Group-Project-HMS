@@ -11,10 +11,31 @@ import HumanObject.Patient.ContactChecker;
 
 import java.util.ArrayList;
 
+/**
+ * The {@code PatientUI} class provides a command-line user interface for patients to
+ * manage personal information, appointments, and medical records. It interacts with
+ * a {@code Patient} instance to perform various patient-related operations.
+ *
+ * <p>This class allows patients to:
+ * <ul>
+ *   <li>View and update personal information</li>
+ *   <li>Schedule, reschedule, and cancel appointments</li>
+ *   <li>View available appointment slots and outcomes of past appointments</li>
+ * </ul>
+ * </p>
+ */
 public class PatientUI implements BaseUI {
     private Patient patient;
     private Appointment apt;
 
+    /**
+     * Constructs a {@code PatientUI} instance for the specified {@code Patient}.
+     * It presents a menu that allows the patient to perform various operations
+     * such as viewing and updating information, scheduling appointments, and
+     * viewing medical records.
+     *
+     * @param patient the {@code Patient} for whom the UI is created
+     */
     public PatientUI(Patient patient) {
         this.patient = patient;
         int choice;
@@ -89,6 +110,10 @@ public class PatientUI implements BaseUI {
 
     }
 
+    /**
+     * Allows the patient to update their contact information, including email address
+     * and contact number, based on their selection from a provided menu.
+     */
     public void updateContact(){
         int C2Choice;
         do{
@@ -119,6 +144,11 @@ public class PatientUI implements BaseUI {
         Input.ClearConsole();
     }
 
+    /**
+     * Displays available appointment slots for the patient based on the availability of doctors.
+     * Allows the patient to select a day and time slot, checking which doctors are available.
+     * If no doctors are available, prompts the user to select another slot.
+     */
     public void viewAvailableAppointments(){
         int []dateSlot = new int[2];
         boolean check;
@@ -155,6 +185,11 @@ public class PatientUI implements BaseUI {
         Input.ScanString("Press enter to continue\n");
     }
 
+    /**
+     * Schedules a new appointment for the patient by allowing them to choose an available time slot.
+     * Checks for any existing pending or ongoing appointments at the chosen slot, and if the slot is
+     * available, allows the patient to select a doctor and book the appointment.
+     */
     public void scheduleAppointment(){
         int []dateSlot = new int[2];
         boolean check;
@@ -213,6 +248,11 @@ public class PatientUI implements BaseUI {
         apt.print();
     }
 
+    /**
+     * Reschedules an existing appointment by first scheduling a new appointment and then canceling
+     * the previous one. This operation ensures the patient does not have conflicting appointments.
+     * If there are no existing appointments, the method informs the patient accordingly.
+     */
     public void rescheduleApt(){
         if (patient.getOngoing().getCount()==0 && patient.getPending().getCount() == 0) {
             System.out.println("No existing appointments to reschedule.");
@@ -222,6 +262,12 @@ public class PatientUI implements BaseUI {
         scheduleAppointment();
         cancelApt();
     }
+
+    /**
+     * Cancels an existing appointment by displaying the patient's ongoing and pending appointments,
+     * allowing them to choose which to cancel. The patient is prompted to confirm the cancellation
+     * before proceeding. If there are no existing appointments, the method informs the patient.
+     */
 
     public void cancelApt(){
         if (patient.getOngoing().getCount()==0 && patient.getPending().getCount() == 0) {
