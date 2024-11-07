@@ -39,10 +39,18 @@ public class MedicineRequest {
     public int getPharmacistID() {return this.pharmacistID;}
 
     public void print() {
-        System.out.println("______________________________");
+        System.out.printf("______________________________\n");
         System.out.printf("|%-10s:%-18s|\n", "APT ID", this.appointmentID);
         System.out.printf("|%-10s:%-18d|\n", "PatientID", this.patientID);
         System.out.printf("|%-10s:%-18d|\n", "DoctorID", this.doctorID);
         System.out.println("______________________________");
+    }
+
+    public void print(int index) {
+        System.out.printf("%2d)______________________________\n", index);
+        System.out.printf("   |%-10s:%-18s|\n", "APT ID", this.appointmentID);
+        System.out.printf("   |%-10s:%-18d|\n", "PatientID", this.patientID);
+        System.out.printf("   |%-10s:%-18d|\n", "DoctorID", this.doctorID);
+        System.out.println("   ______________________________");
     }
 }

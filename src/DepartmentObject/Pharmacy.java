@@ -63,6 +63,7 @@ public class Pharmacy {
     }
 
     public void requestRestock(RestockRequest request) {
+        if (request == null) return;
         updatePendingRestock(true , request);
         this.restockRequests.add(request);
         Input.ScanString("Request has been added. \nPress enter to continue...");
@@ -87,21 +88,21 @@ public class Pharmacy {
     public int viewMedRequest() {
         int index = 1;
         for (MedicineRequest o : this.medicineRequests) {
-            System.out.println(index++ + ")");
-            o.print();
+            o.print(index++);
         }
         return this.medicineRequests.size();
     }
 
-    public void viewRestockRequest() {
+    public int viewRestockRequest() {
         int index = 1;
         for (RestockRequest o : this.restockRequests) {
-            System.out.println(index++ + ")");
-            o.print();
+            o.print(index++);
         }
+        return this.restockRequests.size();
     }
 
     public MedicineRequest getMedRequest(int index) {
+        if (this.medicineRequests.isEmpty()) return null;
         return this.medicineRequests.get(index);
     }
 
