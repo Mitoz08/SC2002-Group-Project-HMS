@@ -8,11 +8,18 @@ import InputHandler.Input;
 import ObjectUI.*;
 import Singleton.ServerHMS;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.Date;
 
 
 public class Main {
     public static void main(String[] args) {
+
+        ServerHMS.setMode(Input.ScanBoolean("Run debug mode?"));
+
         Input.ClearConsole();
         AccountInfoDatabase login = ServerHMS.getInstance().getLogin();
         UserInfoDatabase database = ServerHMS.getInstance().getDatabase();

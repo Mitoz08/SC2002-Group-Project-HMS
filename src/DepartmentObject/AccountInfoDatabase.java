@@ -16,10 +16,9 @@ public class AccountInfoDatabase {
     public AccountInfoDatabase() {
         this.fileName = "Login.txt";
 //        addNewAccount("Admin", "AD1005");
-        testRun();
     }
 
-    private void testRun()
+    public void testRun()
     {
         try {
             FileWriter fileWriter = new FileWriter(new File(fileName));
