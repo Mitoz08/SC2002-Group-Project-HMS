@@ -47,105 +47,126 @@ public class PharmacistUI implements BaseUI {
 
             switch (choice) {
                 case 1:
-
-                    Input.ClearConsole();
-                    int size = pharmacy.viewMedRequest();
-                    if (size == 0) {
-                        Input.ScanString("No existing request\nEnter to continue...");
-                        break;
-                    }
-                    do {
-                        index = Input.ScanInt("Choose an request to view:") - 1;
-                        if (index >= size) System.out.println("Incorrect index.");
-                    } while (index >= size);
-                    request = pharmacy.getMedRequest(index);
-
-                    // Waiting on Database function to fetch appointment
-                    p = (Patient) database.getPerson(request.getPatientID(), ROLE.PATIENT);
-                    if (p == null) {
-                        System.out.println("Error getting Patient object in PharmacistUI");
-                        break;
-                    }
-                    appointments = p.getCompleted();
-                    for (Appointment apt : appointments) {
-                        if (apt.getAppointmentID().equals(request.getAppointmentID())) appointment = apt;
-                    }
-
-                    if (appointment == null) {
-                        System.out.println("Appointment does not exist!");
-                        break;
-                    }
-//                    appointment = DataSerialisation.DeserialiseAppointment("APT000001/0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10");
-
-                    list = appointment.getPrescriptionList();
-
-                    if (printFulfillable(list)) break;
-
-                    providePrescription(list);
-
-                    Input.ClearConsole();
-                    if (appointment.isPrescribed()) {
-                        request.ApproveRequest(pharmacist.getID());
-                        pharmacy.approveMedicine(index);
-                        Input.ScanString("Request completed. \nPress enter to continue...");
-                    } else {
-                        Input.ScanString("Request not completed. \nPress enter to continue...");
-                    }
+                    Option1();
                     break;
                 case 2:
-
-                    Input.ClearConsole();
-                    request = pharmacy.getMedRequest(0);
-                    if (request == null) {
-                        Input.ScanString("No existing request\nEnter to continue...");
-                        break;
-                    }
-                    //appointment = DataSerialisation.DeserialiseAppointment("APT000001/0/Chemo/1001/P_Name/001/D_Name/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10"); // Get appointment from database using APT_ID/PatientID/DoctorID
-                    p = (Patient) database.getPerson(request.getPatientID(), ROLE.PATIENT);
-                    if (p == null) {
-                        System.out.println("Error getting Patient object in PharmacistUI");
-                        break;
-                    }
-                    appointments = p.getCompleted();
-                    for (Appointment apt : appointments) {
-                        if (apt.getAppointmentID().equals(request.getAppointmentID())) appointment = apt;
-                    }
-
-
-                    list = appointment.getPrescriptionList();
-
-                    if (printFulfillable(list)) break;
-
-                    providePrescription(list);
-
-                    Input.ClearConsole();
-                    if (appointment.isPrescribed()) {
-                        request.ApproveRequest(pharmacist.getID());
-                        pharmacy.approveMedicine(0);
-                        Input.ScanString("Request completed. \nPress enter to continue...");
-                    } else {
-                        Input.ScanString("Request not completed. \nPress enter to continue...");
-                    }
+                    Option2();
                     break;
                 case 3:
-                    Input.ClearConsole();
-                    pharmacy.viewStock();
-                    Input.ScanString("Press enter to continue...");
+                    Option3();
                     break;
                 case 4:
-                    Input.ClearConsole();
-                    pharmacy.requestRestock(createRestockReq());
+                    Option4();
                     break;
                 default:
                     break;
             }
-
-
-
-
-
         } while (choice < 5);
 
+    }
+
+    private void Option1() {
+        Input.ClearConsole();
+        int index;
+        MedicineRequest request;
+        Patient p;
+        AppointmentList appointments;
+        Appointment appointment = null;
+        PrescriptionList prescriptions;
+
+        int size = pharmacy.viewMedRequest();
+        if (size == 0) {
+            Input.ScanString("No existing request\nEnter to continue...");
+            return;
+        }
+        do {
+            index = Input.ScanInt("Choose an request to view:") - 1;
+            if (index >= size) System.out.println("Incorrect index.");
+        } while (index >= size);
+        request = pharmacy.getMedRequest(index);
+
+        // Waiting on Database function to fetch appointment
+        p = (Patient) database.getPerson(request.getPatientID(), ROLE.PATIENT);
+        if (p == null) {
+            System.out.println("Error getting Patient object in PharmacistUI");
+            return;
+        }
+        appointments = p.getCompleted();
+        for (Appointment apt : appointments) {
+            if (apt.getAppointmentID().equals(request.getAppointmentID())) appointment = apt;
+        }
+
+        if (appointment == null) {
+            System.out.println("Appointment does not exist!");
+            return;
+        }
+//                    appointment = DataSerialisation.DeserialiseAppointment("APT000001/0/Chemo/1001/001/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10");
+
+        prescriptions = appointment.getPrescriptionList();
+
+        if (printFulfillable(prescriptions)) return;
+
+        providePrescription(prescriptions);
+
+        Input.ClearConsole();
+        if (appointment.isPrescribed()) {
+            request.ApproveRequest(pharmacist.getID());
+            pharmacy.approveMedicine(index);
+            Input.ScanString("Request completed. \nPress enter to continue...");
+        } else {
+            Input.ScanString("Request not completed. \nPress enter to continue...");
+        }
+    }
+
+    private void Option2() {
+        Input.ClearConsole();
+        MedicineRequest request;
+        Patient p;
+        AppointmentList appointments;
+        Appointment appointment = null;
+        PrescriptionList prescriptions;
+
+        request = pharmacy.getMedRequest(0);
+        if (request == null) {
+            Input.ScanString("No existing request\nEnter to continue...");
+            return;
+        }
+        //appointment = DataSerialisation.DeserialiseAppointment("APT000001/0/Chemo/1001/P_Name/001/D_Name/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10"); // Get appointment from database using APT_ID/PatientID/DoctorID
+        p = (Patient) database.getPerson(request.getPatientID(), ROLE.PATIENT);
+        if (p == null) {
+            System.out.println("Error getting Patient object in PharmacistUI");
+            return;
+        }
+        appointments = p.getCompleted();
+        for (Appointment apt : appointments) {
+            if (apt.getAppointmentID().equals(request.getAppointmentID())) appointment = apt;
+        }
+
+        prescriptions = appointment.getPrescriptionList();
+
+        if (printFulfillable(prescriptions)) return;
+
+        providePrescription(prescriptions);
+
+        Input.ClearConsole();
+        if (appointment.isPrescribed()) {
+            request.ApproveRequest(pharmacist.getID());
+            pharmacy.approveMedicine(0);
+            Input.ScanString("Request completed. \nPress enter to continue...");
+        } else {
+            Input.ScanString("Request not completed. \nPress enter to continue...");
+        }
+    }
+
+    private void Option3() {
+        Input.ClearConsole();
+        pharmacy.viewStock();
+        Input.ScanString("Press enter to continue...");
+    }
+
+    private void Option4() {
+        Input.ClearConsole();
+        pharmacy.requestRestock(createRestockReq());
     }
 
     private boolean printFulfillable(PrescriptionList list) {
