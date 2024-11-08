@@ -7,21 +7,27 @@ import DepartmentObject.UserInfoDatabase;
 public class ServerHMS {
 
     private static ServerHMS instance = null;
+    private static boolean mode;
 
     private UserInfoDatabase database;
     private AccountInfoDatabase login;
     private Pharmacy pharmacy;
+
+    public static void setMode(boolean Debug) { mode = Debug;}
 
     private ServerHMS() {
         this.login = new AccountInfoDatabase();
         this.database = new UserInfoDatabase();
         this.pharmacy = new Pharmacy();
 
-        database.testRun();
-        pharmacy.testRun();
-
-//        database.loadFile(); // Change back to private before submitting code
-//        pharmacy.loadFile();
+        if (mode) {
+            database.testRun();
+            pharmacy.testRun();
+            login.testRun();
+        } else {
+            database.loadFile(); // Change back to private before submitting code
+            pharmacy.loadFile();
+        }
     }
 
     public UserInfoDatabase getDatabase() {

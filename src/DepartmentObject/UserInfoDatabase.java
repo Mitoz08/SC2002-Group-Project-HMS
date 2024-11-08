@@ -719,7 +719,7 @@ public class UserInfoDatabase {
 
     private void loadAppointment(Scanner fileWriter) {
         while (fileWriter.hasNextLine()) {
-            Appointment apt = DataSerialisation.DeserialiseAppointment(fileWriter.nextLine());
+            Appointment apt = DataSerialisation.DeserialiseAppointment(DataEncryption.decipher(fileWriter.nextLine()));
             Patient patient = (Patient) getPerson(apt.getPatientID(),ROLE.PATIENT);
             Doctors doctor = (Doctors) getPerson(apt.getDoctorID(),ROLE.DOCTOR);
             switch (apt.getStatus()) {
