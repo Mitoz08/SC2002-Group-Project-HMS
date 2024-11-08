@@ -188,8 +188,8 @@ public class AdminUI implements BaseUI{
                                     "3. Administrator\n");
         String name = Input.ScanString("What is the name of the new Staff?\n");
         Boolean Gender = Input.ScanBoolean("Is the staff a female\n?");
-        Date DOB = Gender? DataSerialisation.DeserialiseDate(Input.ScanString("What is her Date of Birth: in YYYY-MM-DD")):
-        DataSerialisation.DeserialiseDate(Input.ScanString("What is his Date of Birth: in YYYY-MM-DD"));
+        Date DOB = Gender?  Input.ScanDate("What is her Date of Birth"):
+                            Input.ScanDate("What is his Date of Birth");
 
         switch(role){
             case 1:

@@ -41,13 +41,17 @@ public class Doctors extends BasePerson {
         availability.put(date, timeSlot);
     }
     public  void addTimeSlot(Date date, int time){
-        availability.get(date)[time-1] = true;
+        Boolean[] timeSlot = availability.get(date);
+        if (timeSlot == null) createTimeSlot(date);
+        availability.get(date)[time] = true;
     }
 
 
     // Check available times for a specific date
     public Boolean[] getTimeSlot(Date date) {
-        return availability.getOrDefault(date, new Boolean[5]);
+        if (availability.containsKey(date)) return availability.get(date);
+        return null;
+        //return availability.getOrDefault(date, new Boolean[5]); this will never return null and thus will not work with your code in DoctorUI
     }
 
     // Book an appointment and remove the booked time

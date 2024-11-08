@@ -117,7 +117,7 @@ public class DoctorUI implements BaseUI {
                         break;
                     case 3:
                         Input.ClearConsole();
-                        patient.setDOB(DataSerialisation.DeserialiseDate(Input.ScanString("Enter date of birth in this format YYYY-MM-DD-HH-MM:")));
+                        patient.setDOB(Input.ScanDate("Enter date of birth"));
                         break;
                     case 4:
                         Input.ClearConsole();
@@ -177,21 +177,20 @@ public class DoctorUI implements BaseUI {
         Input.ClearConsole();
         viewSchedule();
         System.out.println("Which date and time do you want to change your availability? ");
-        Date date = Input.ScanDate("Choose the date");
+        Date date = Input.ScanFutureDate("Choose the date");
 
         int time = Input.ScanInt("Choose the timing:\n" +
                                         "1) 10AM-11AM\n" +
                                         "2) 11AM-12PM\n" +
                                         "3) 1PM-2PM\n" +
                                         "4) 2PM-3PM\n" +
-                                        "5) 3PM-4PM\n");
+                                        "5) 3PM-4PM\n") - 1;
 
         int choice = Input.ScanInt("What do you want to change your availability to?\n"+
                                            "1) Not Available\n"+
                                            "2) Available\n");
         if(doctor.getTimeSlot(date) == null) {
             if(choice == 1) {
-                doctor.createTimeSlot(date);
                 doctor.addTimeSlot(date, time);
             }
             else{
@@ -246,8 +245,7 @@ public class DoctorUI implements BaseUI {
                         database.docAcceptApt(apt, false);
                     } else if (option == 1) {
                         database.docAcceptApt(apt, true);
-                        int[] dateSlot = apt.getAptSlot();
-                        doctor.addTimeSlot(apt.getAppointmentTime(),//apt.gettime);
+                        doctor.addTimeSlot(apt.getDate(), apt.getTimeSlot());
                     }
                 }
                 index++;

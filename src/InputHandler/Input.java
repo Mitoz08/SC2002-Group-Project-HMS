@@ -148,8 +148,8 @@ public class Input {
             if (inputDay < curDay && month && year){
                 System.out.println("Invalid day input. Has to be at least " + curDay);
                 continue;
-            } else if (maxDay < curDay) {
-                System.out.println("Day has to be smaller than" + maxDay);
+            } else if (maxDay < inputDay) {
+                System.out.println("Day has to be smaller than " + maxDay);
                 continue;
             }
             break;

@@ -61,16 +61,16 @@ public class Appointment implements Comparable<Appointment> {
      * @param patientName
      * @param doctorID
      * @param doctorName
-     * @param slot
+     * @param date
      */
-    public Appointment(String nameOfApt, int patientID, String patientName, int doctorID, String doctorName, int[] slot) {
+    public Appointment(String nameOfApt, int patientID, String patientName, int doctorID, String doctorName, Date date) {
         this.status = APT_STATUS.PENDING;
         this.nameOfApt = nameOfApt;
         this.patientID = patientID;
         this.patientName = patientName; //To be added, maybe a database function that returns name when given the ID
         this.doctorID = doctorID;
         this.doctorname = doctorName; //To be added, maybe a database function that returns name when given the ID
-        this.appointmentTime = createDate(slot[0],slot[1]);
+        this.appointmentTime = date;
         this.notes = "Empty";
         this.prescriptionList = new PrescriptionList();
         this.appointmentID = AppointmentIDGenerator();
@@ -142,7 +142,7 @@ public class Appointment implements Comparable<Appointment> {
             System.out.printf("|%-8s:%03d%-16s|\n", "Doctor", this.doctorID, ""); // Need to change to name of doctor once classes are made
         else
             System.out.printf("|%-8s:%04d%-16s|\n", "Patient", this.patientID, ""); // Need to change to name of doctor once classes are made
-        System.out.printf("|%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth(), this.appointmentTime.getYear(), "");
+        System.out.printf("|%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
         System.out.printf("|%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
         if (!this.notes.equals("Empty")) System.out.printf("|%-8s:%-20s|\n", "Notes", this.notes);
         System.out.println("______________________________");
@@ -157,7 +157,7 @@ public class Appointment implements Comparable<Appointment> {
             System.out.printf("    |%-8s:%03d%-16s|\n", "Doctor", this.doctorID, ""); // Need to change to name of doctor once classes are made
         else
             System.out.printf("    |%-8s:%04d%-16s|\n", "Patient", this.patientID, ""); // Need to change to name of doctor once classes are made
-        System.out.printf("    |%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth(), this.appointmentTime.getYear(), "");
+        System.out.printf("|%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
         System.out.printf("    |%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
         if (!this.notes.equals("Empty")) System.out.printf("    |%-8s:%-20s|\n", "Notes", this.notes);
         System.out.println("    ______________________________");
@@ -173,7 +173,7 @@ public class Appointment implements Comparable<Appointment> {
         System.out.printf("|%-8s:%-20s|\n", "Event", this.nameOfApt);
         System.out.printf("|%-8s:%03d%-16s|\n", "Doctor", this.doctorID, ""); // Need to change to name of doctor once classes are made
         System.out.printf("|%-8s:%04d%-16s|\n", "Patient", this.patientID, ""); // Need to change to name of doctor once classes are made
-        System.out.printf("|%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth(), this.appointmentTime.getYear(), "");
+        System.out.printf("|%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
         System.out.printf("|%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
         if (!this.notes.equals("Empty")) System.out.printf("|%-8s:%-20s|\n", "Notes", this.notes);
         System.out.println("______________________________");
@@ -186,7 +186,7 @@ public class Appointment implements Comparable<Appointment> {
         System.out.printf("    |%-8s:%-20s|\n", "Event", this.nameOfApt);
         System.out.printf("    |%-8s:%03d%-16s|\n", "Doctor", this.doctorID, ""); // Need to change to name of doctor once classes are made
         System.out.printf("    |%-8s:%04d%-16s|\n", "Patient", this.patientID, ""); // Need to change to name of doctor once classes are made
-        System.out.printf("    |%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth(), this.appointmentTime.getYear(), "");
+        System.out.printf("    |%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
         System.out.printf("    |%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
         if (!this.notes.equals("Empty")) System.out.printf("    |%-8s:%-20s|\n", "Notes", this.notes);
         System.out.println("    ______________________________");
@@ -197,28 +197,25 @@ public class Appointment implements Comparable<Appointment> {
      */
     public void printPrescription() {this.prescriptionList.print();}
 
-    public int[] getAptSlot() {
-        int[] AptSlot = new int[2];
-
-        AptSlot[0] = appointmentTime.getDay()-1;
+    public int getTimeSlot() {
         switch (appointmentTime.getHours()) {
             case 10:
-                AptSlot[1] = 0;
-                break;
+                return 0;
             case 11:
-                AptSlot[1] = 1;
-                break;
+                return 1;
             case 13:
-                AptSlot[1] = 2;
-                break;
+                return 2;
             case 14:
-                AptSlot[1] = 3;
-                break;
+                return 3;
             case 15:
-                AptSlot[1] = 4;
-                break;
+                return 4;
         }
-        return AptSlot;
+        return -1;
+    }
+
+    public Date getDate() {
+        Date date = new Date(appointmentTime.getYear(), appointmentTime.getMonth(), appointmentTime.getDate());
+        return  date;
     }
 
     /**
@@ -242,16 +239,10 @@ public class Appointment implements Comparable<Appointment> {
         return true;
     }
 
-    public static Date createDate(int Day, int TimeSlot) {
+    public static Date createDate(Date date, int TimeSlot) {
         int[] slot = new int[] {10,11,13,14,15};
-        LocalDateTime today = LocalDateTime.now();
-        int day = today.getDayOfMonth();
-        day += (Day-today.getDayOfWeek().ordinal());
-        if (Day-today.getDayOfWeek().ordinal() < 0) day += 7;
-        if (Day-today.getDayOfWeek().ordinal() == 0) {
-            if (today.getHour() > slot[TimeSlot]) day += 7;
-        }
-        return new Date(today.getYear() - 1900 , today.getMonthValue() - 1, day, slot[TimeSlot],00);
+        date.setHours(slot[TimeSlot]);
+        return date;
     }
 
     // Private methods
