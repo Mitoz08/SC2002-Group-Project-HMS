@@ -16,14 +16,14 @@ public class Doctors extends BasePerson {
     private AppointmentList Ongoing;
     private AppointmentList Completed;
     private AppointmentList Pending;
-    private Map<Date, Boolean[]>availability;
+    private HashMap<Date, Boolean[]>availability;
 
 
     //This constructor is used for Initialising from TXT File
-    public Doctors(int ID, String Name, Date DOB, Boolean Gender) {
+    public Doctors(int ID, String Name, Date DOB, Boolean Gender, HashMap<Date, Boolean[]> dateHashMap) {
         super(ID, Name, DOB, Gender);
         this.role = ROLE.DOCTOR;
-        this.availability = new HashMap<>();
+        this.availability = dateHashMap;
         this.Ongoing = new AppointmentList(true);
         this.Completed = new AppointmentList(false);
         this.Pending = new AppointmentList(true);
@@ -34,10 +34,14 @@ public class Doctors extends BasePerson {
     public Doctors(String Name, Date DOB, Boolean Gender) {
         super(lastID++, Name, DOB, Gender);
         this.role = ROLE.DOCTOR;
+        this.availability = new HashMap<>();
+        this.Ongoing = new AppointmentList(true);
+        this.Completed = new AppointmentList(false);
+        this.Pending = new AppointmentList(true);
     }
 
     public void createTimeSlot(Date date) {
-        Boolean[] timeSlot = new Boolean[5];
+        Boolean[] timeSlot = new Boolean[] {false,false,false,false,false};
         availability.put(date, timeSlot);
     }
     public  void addTimeSlot(Date date, int time){
@@ -137,7 +141,7 @@ public class Doctors extends BasePerson {
         return Pending;
     }
 
-    public Map<Date, Boolean[]> getAvailability() {
+    public HashMap<Date, Boolean[]> getAvailability() {
         return availability;
     }
 }
