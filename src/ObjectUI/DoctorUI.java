@@ -5,13 +5,13 @@ import DataObject.PharmacyObjects.MedicineRequest;
 import DataObject.Prescription.Prescription;
 import HumanObject.Doctors.Doctors;
 import DataObject.Appointment.Appointment;
-import HumanObject.Patient.ContactChecker;
 import HumanObject.Patient.Patient;
 import HumanObject.ROLE;
 import InputHandler.Input;
 import Serialisation.DataSerialisation;
 
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -167,84 +167,67 @@ public class DoctorUI implements BaseUI {
     }
     public void viewSchedule(){
         Input.ClearConsole();
-//        int flag = 0;
-//        for(Appointment apt: doctor.getOngoingApt()){
-//            apt.print(false);
-//            flag = 1;
-//        }
-//        if(flag == 0){
-//            System.out.println("Schedule is currently empty.");
-//        }
 
         System.out.println("  Mon   Tue   Wed   Thr   Fri   Sat   Sun");
-        for (int i=0; i<5; i++){
-            System.out.print(i+1 + " ");
-            for (int j=0; j<7; j++){
-                System.out.print(doctor.getAvailability()[j][i]+ "  ");
-            }
-            System.out.println(" ");
-        }
+        doctor.printFirstWeekTimeSlot();
         Input.ScanString("Enter to continue...");
     }
 
     public void setAvailability(){
         Input.ClearConsole();
-        System.out.println("  Mon   Tue   Wed   Thr   Fri   Sat   Sun");
-        for (int i=0; i<5; i++){
-            System.out.print(i+1 + " ");
-            for (int j=0; j<7; j++){
-                System.out.print(doctor.getAvailability()[j][i]+ "  ");
-            }
-            System.out.println(" ");
-        }
-        System.out.println("Which timings do you want to change your availability? ");
-        int []dateSlot = new int[2];
-        dateSlot[0] = Input.ScanInt("Choose the day: \n" +
-                                            "0) Monday\n"+
-                                            "1) Tuesday\n"+
-                                            "2) Wednesday\n"+
-                                            "3) Thursday\n"+
-                                            "4) Friday\n"+
-                                            "5) Saturday\n"+
-                                            "6) Sunday\n");
-        dateSlot[1] = Input.ScanInt("Choose the timing:\n" +
-                                            "0) 10AM-11AM\n"+
-                                            "1) 11AM-12AM\n"+
-                                            "2) 1PM-2Pm\n"+
-                                            "3) 2PM-3Pm\n"+
-                                            "4) 3PM-4PM\n");
-        int choice = Input.ScanInt("What do you want to change your availability to?\n"+
-                                           "0) Not Available\n"+
-                                           "1) Available\n");
+        viewSchedule();
+        System.out.println("Which date and time do you want to change your availability? ");
+        Date date = Input.ScanDate("Choose the date");
 
-        if(choice == 0){
-            if(doctor.getAvailability()[dateSlot[0]][dateSlot[1]]){//if availability = true
-                doctor.getAvailability()[dateSlot[0]][dateSlot[1]] = false;
+        int time = Input.ScanInt("Choose the timing:\n" +
+                                        "1) 10AM-11AM\n" +
+                                        "2) 11AM-12PM\n" +
+                                        "3) 1PM-2PM\n" +
+                                        "4) 2PM-3PM\n" +
+                                        "5) 3PM-4PM\n");
+
+        int choice = Input.ScanInt("What do you want to change your availability to?\n"+
+                                           "1) Not Available\n"+
+                                           "2) Available\n");
+        if(doctor.getTimeSlot(date) == null) {
+            if(choice == 1) {
+                doctor.createTimeSlot(date);
+                doctor.addTimeSlot(date, time);
             }
             else{
-                System.out.println("It is already Unavailable");
+                System.out.println("Timing is already available");
             }
         }
-        else if (choice == 1){
-            if(!doctor.getAvailability()[dateSlot[0]][dateSlot[1]]){// if availability = false
-                boolean i = true;
-                for(Appointment apt: doctor.getOngoingApt()){
-                    if(apt.getAptSlot()==dateSlot){// means doctor is trying to set availability to true when there is an ongoing appointment
-                        System.out.println("There is an Ongoing appointment, you are unavailable at that timing ");
-                        i = false;
+        else {
+
+            if (choice == 1) {//if choose not available
+                if (doctor.getTimeSlot(date)[time]) {//if not available = true
+                    System.out.println("Slot is already unavailable");
+                }
+                else {
+                    doctor.addTimeSlot(date,time);
+                }
+            }
+            else if (choice == 2) {
+                if (doctor.getTimeSlot(date)[time]) {// if not available = true
+                    for (Appointment apt : doctor.getOngoingApt()) {
+                        if (apt.getAppointmentTime() == date) {// means doctor is trying to set availability to true when there is an ongoing appointment
+                            //if(timing match) to be added
+                            System.out.println("There is an Ongoing appointment, you are unavailable at that timing ");
+                        }
+                        else{
+                            doctor.getTimeSlot(date)[time] = false;//set to aailable
+                        }
                     }
                 }
-                if(i){// means there is no ongoing appointment with the same timing
-                    doctor.getAvailability()[dateSlot[0]][dateSlot[1]] = true;
+                else{
+                    doctor.getTimeSlot(date)[time] = false;//set to aailable
+
                 }
             }
         }
-        else{
-            System.out.println("wrong option");
-        }
-
-
     }
+
     public void aptReq(){
         Input.ClearConsole();
         int flag = 0;
@@ -258,13 +241,13 @@ public class DoctorUI implements BaseUI {
             for (Appointment apt : doctor.getPendingApt()) {
                 if (apt.getAppointmentID().equals(choice)) {
                     int option = Input.ScanInt("0) Decline\n" +
-                            "1) Accept");
+                                                       "1) Accept");
                     if (option == 0) {
                         database.docAcceptApt(apt, false);
                     } else if (option == 1) {
                         database.docAcceptApt(apt, true);
                         int[] dateSlot = apt.getAptSlot();
-                        doctor.getAvailability()[dateSlot[0]][dateSlot[1]] = true;
+                        doctor.addTimeSlot(apt.getAppointmentTime(),//apt.gettime);
                     }
                 }
                 index++;

@@ -21,10 +21,10 @@ public class Appointment implements Comparable<Appointment> {
     private int doctorID;
     private String doctorname;
     private Date appointmentTime;
+    private int time;
     private String notes;
     private PrescriptionList prescriptionList;
     private String appointmentID;
-
     private static int lastID = 0;
     public static final int IDLength = 10;
     public static final String IDPrefix = "APT";
@@ -113,6 +113,7 @@ public class Appointment implements Comparable<Appointment> {
     public String getNotes() {return this.notes; }
     public PrescriptionList getPrescriptionList() {return this.prescriptionList; }
     public String getAppointmentID() {return this.appointmentID;}
+
 
     /**
      * Used at the start to reload the last unused ID
