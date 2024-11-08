@@ -16,14 +16,14 @@ public class Doctors extends BasePerson {
     private AppointmentList Ongoing;
     private AppointmentList Completed;
     private AppointmentList Pending;
-    private Map<Date, Boolean[]>availability;
+    private HashMap<Date, Boolean[]>availability;
 
 
     //This constructor is used for Initialising from TXT File
-    public Doctors(int ID, String Name, Date DOB, Boolean Gender) {
+    public Doctors(int ID, String Name, Date DOB, Boolean Gender, HashMap<Date, Boolean[]> dateHashMap) {
         super(ID, Name, DOB, Gender);
         this.role = ROLE.DOCTOR;
-        this.availability = new HashMap<>();
+        this.availability = dateHashMap;
         this.Ongoing = new AppointmentList(true);
         this.Completed = new AppointmentList(false);
         this.Pending = new AppointmentList(true);
@@ -34,20 +34,28 @@ public class Doctors extends BasePerson {
     public Doctors(String Name, Date DOB, Boolean Gender) {
         super(lastID++, Name, DOB, Gender);
         this.role = ROLE.DOCTOR;
+        this.availability = new HashMap<>();
+        this.Ongoing = new AppointmentList(true);
+        this.Completed = new AppointmentList(false);
+        this.Pending = new AppointmentList(true);
     }
 
     public void createTimeSlot(Date date) {
-        Boolean[] timeSlot = new Boolean[5];
+        Boolean[] timeSlot = new Boolean[] {false,false,false,false,false};
         availability.put(date, timeSlot);
     }
     public  void addTimeSlot(Date date, int time){
-        availability.get(date)[time-1] = true;
+        Boolean[] timeSlot = availability.get(date);
+        if (timeSlot == null) createTimeSlot(date);
+        availability.get(date)[time] = true;
     }
 
 
     // Check available times for a specific date
     public Boolean[] getTimeSlot(Date date) {
-        return availability.getOrDefault(date, new Boolean[5]);
+        if (availability.containsKey(date)) return availability.get(date);
+        return null;
+        //return availability.getOrDefault(date, new Boolean[5]); this will never return null and thus will not work with your code in DoctorUI
     }
 
     // Book an appointment and remove the booked time
@@ -133,7 +141,7 @@ public class Doctors extends BasePerson {
         return Pending;
     }
 
-    public Map<Date, Boolean[]> getAvailability() {
+    public HashMap<Date, Boolean[]> getAvailability() {
         return availability;
     }
 }

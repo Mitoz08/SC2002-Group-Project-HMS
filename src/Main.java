@@ -1,3 +1,4 @@
+import DataObject.Appointment.Appointment;
 import DepartmentObject.*;
 import HumanObject.Administrator.Administrator;
 import HumanObject.Doctors.Doctors;
@@ -61,27 +62,17 @@ public class Main {
                     login.changePassword();
                     break;
                 case 3: // Register Patient
-                    try {
-                        System.out.println("Registering as Patient, input -1 to cancel.");
-                        String Name = Input.ScanString("Full name:");
-                        if (Name.equals("-1")) throw new Exception("Cancelling");
-                        String temp = Input.ScanString("Date of birth (YYYY-MM-DD):");
-                        if (temp.equals("-1")) throw new Exception("Cancelling");
-                        if (!temp.matches("\\d{4}-\\d{2}-\\d{2}")) throw new Exception("Wrong date input");
-                        String[] tempArray = temp.split("-");
-                        Date DOB = new Date(Integer.parseInt(tempArray[0])-1900, Integer.parseInt(tempArray[1])-1, Integer.parseInt(tempArray[2]));
-                        boolean Gender = Input.ScanBoolean("Are you a male?");
-                        String BloodType = Input.ScanString("What is your blood type:");
-                        Contact contact = new Contact();
-                        Patient patient = new Patient(Name, DOB, Gender, BloodType, contact);
-                        database.getPatients().add(patient);
-                        login.addNewAccount(patient);
-                        System.out.println("Account successfully created.");
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    } finally {
-                        Input.ScanString("Enter to continue...");
-                    }
+                    System.out.println("Registering as Patient.");
+                    String Name = Input.ScanString("Full name:");
+                    Date DOB = Input.ScanDate("Date of birth");
+                    boolean Gender = Input.ScanBoolean("Are you a male?");
+                    String BloodType = Input.ScanString("What is your blood type:");
+                    Contact contact = new Contact();
+                    Patient patient = new Patient(Name, DOB, Gender, BloodType, contact);
+                    database.getPatients().add(patient);
+                    login.addNewAccount(patient);
+                    System.out.println("Account successfully created.");
+                    Input.ScanString("Enter to continue...");
                     break;
                 default:
                     break;

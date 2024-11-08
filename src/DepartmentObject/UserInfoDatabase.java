@@ -2,10 +2,7 @@ package DepartmentObject;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 import DataObject.Appointment.*;
 import DataObject.Prescription.PrescriptionList;
@@ -128,9 +125,9 @@ public class UserInfoDatabase {
         this.patients.add(P);
         Patient.setLastID(1003);
 
-        Doctors D = new Doctors(1001,"Ben", new Date(85,10,23), true);
+        Doctors D = new Doctors(1001,"Ben", new Date(85,10,23), true, new HashMap<>());
         this.doctors.add(D);
-        D = new Doctors(1002,"Fae", new Date(70,0,8), false);
+        D = new Doctors(1002,"Fae", new Date(70,0,8), false, new HashMap<>());
         this.doctors.add(D);
         Doctors.setLastID(1003);
 
@@ -771,13 +768,9 @@ public class UserInfoDatabase {
     private void saveAccount(FileWriter fileWriter) throws IOException {
 
         for (Patient P: patients) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialisePatient(P)) + "\n");
-
-        for (Doctors D: doctors) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialisedDoctor(D)) + "\n");
-
-        for (Pharmacist P : pharmacists) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialisedPharmacist(P)) + "\n");
-
-        for (Administrator A: administrators) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialisedAdministrator(A)) + "\n");
-
+        for (Doctors D: doctors) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialiseDoctor(D)) + "\n");
+        for (Pharmacist P : pharmacists) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialisePharmacist(P)) + "\n");
+        for (Administrator A: administrators) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialiseAdministrator(A)) + "\n");
         String[] textArray = new String[] {String.valueOf(Patient.getLastID()), String.valueOf(Doctors.getLastID()), String.valueOf(Pharmacist.getLastID()),
                 String.valueOf(Administrator.getLastID())};
         String text = "Static&" + DataSerialisation.convertStringArraytoString(textArray, "/");

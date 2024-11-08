@@ -9,6 +9,7 @@ import HumanObject.Patient.Contact;
 import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
 
+import java.time.chrono.MinguoDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -107,15 +108,29 @@ public class DataSerialisation {
         return "PA&" + Serialised;
     }
 
-    public static String SerialisedDoctor(Doctors doctor) {
+    public static String SerialiseDoctor(Doctors doctor) {
         String[] StringArray = new String[]
                 { String.valueOf(doctor.getID()), doctor.getName(), SerialiseDate(doctor.getDOB()),
-                String.valueOf(doctor.getGender()) };
+                String.valueOf(doctor.getGender()), SerialiseDrAvailability(doctor.getAvailability()) };
         String Serialised = convertStringArraytoString(StringArray, "/");
         return "DR&" + Serialised;
     }
 
-    public static String SerialisedPharmacist(Pharmacist pharmacist) {
+    public static String SerialiseDrAvailability (Map<Date, Boolean[]> map){
+        if (map.isEmpty()) return "Empty";
+        StringBuilder Serialised = new StringBuilder();
+        for (Map.Entry<Date,Boolean[]> o : map.entrySet()){
+            Serialised.append(SerialiseDate(o.getKey()));
+            for (Boolean b : o.getValue()) {
+                Serialised.append("-" + String.valueOf(b));
+            }
+            Serialised.append("|");
+        }
+        Serialised.deleteCharAt(Serialised.length()-1);
+        return Serialised.toString();
+    }
+
+    public static String SerialisePharmacist(Pharmacist pharmacist) {
         String[] StringArray = new String[]
                 { String.valueOf(pharmacist.getID()), pharmacist.getName(), SerialiseDate(pharmacist.getDOB()),
                 String.valueOf(pharmacist.getGender()) };
@@ -123,7 +138,7 @@ public class DataSerialisation {
         return "PH&" + Serialised;
     }
 
-    public static String SerialisedAdministrator(Administrator administrator) {
+    public static String SerialiseAdministrator(Administrator administrator) {
         String[] StringArray = new String[]
                 { String.valueOf(administrator.getID()), administrator.getName(), SerialiseDate(administrator.getDOB()),
                 String.valueOf(administrator.getGender()) };
@@ -262,7 +277,28 @@ public class DataSerialisation {
          String name = StringArray[index++];
          Date DOB = DeserialiseDate(StringArray[index++]);
          boolean Gender = Boolean.parseBoolean(StringArray[index++]);
-         return new Doctors(ID, name, DOB, Gender);
+         HashMap<Date, Boolean[]> map = DeserialiseDrAvailability(StringArray[index++]);
+         return new Doctors(ID, name, DOB, Gender, map);
+    }
+
+    public static HashMap<Date, Boolean[]> DeserialiseDrAvailability(String Serialised){
+        if (Serialised.equals("Empty")) return new HashMap<>();
+        String[] StringArray = Serialised.split("\\|");
+        HashMap<Date, Boolean[]> map = new HashMap<>();
+        for (String s : StringArray) {
+            int index = 0;
+            String[] DataArray = s.split("-");
+            Date date = DeserialiseDate(DataArray[index++]);
+            Boolean[] slot = new Boolean[] {
+                    Boolean.parseBoolean(DataArray[index++]),
+                    Boolean.parseBoolean(DataArray[index++]),
+                    Boolean.parseBoolean(DataArray[index++]),
+                    Boolean.parseBoolean(DataArray[index++]),
+                    Boolean.parseBoolean(DataArray[index++]),
+            };
+            map.put(date,slot);
+        }
+        return map;
     }
 
     public static Pharmacist DeserialisePharmacist(String Serialised) {
@@ -298,19 +334,4 @@ public class DataSerialisation {
             sb.append(str).append(delimiter);
         return sb.substring(0, sb.length() - 1);
     }
-    // The 4 functions below are used in intialising from HMS.txt
-    public static Patient createPatient(int ID, String name, Date DOB, Boolean gender, String bloodType, Contact contactPat){
-        return new Patient(ID, name, DOB, gender, bloodType, contactPat);
-    }
-    public static Doctors createDoctor(int ID, String Name, Date DOB, Boolean Gender){
-        return new Doctors(ID,Name,DOB,Gender);
-    }
-    public static Pharmacist createPharmacist(int ID, String Name, Date DOB, Boolean Gender){
-        return new Pharmacist(ID, Name, DOB, Gender);
-    }
-    public static Administrator createAdministrator(int ID, String Name, Date DOB, Boolean Gender){
-        return new Administrator(ID, Name, DOB, Gender);
-    }
-
-
 }

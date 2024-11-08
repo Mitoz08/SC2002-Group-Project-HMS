@@ -10,6 +10,7 @@ import InputHandler.Input;
 import HumanObject.Patient.ContactChecker;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * The {@code PatientUI} class provides a command-line user interface for patients to
@@ -150,21 +151,13 @@ public class PatientUI implements BaseUI {
      * If no doctors are available, prompts the user to select another slot.
      */
     public void viewAvailableAppointments(){
-        int []dateSlot = new int[2];
         boolean check;
         do {
             Input.ClearConsole();
             check = false;
-            System.out.println("Which timing do you want to choose?\n");
-            dateSlot[0] = Input.ScanInt("Choose the day: \n" +
-                    "1) Monday\n" +
-                    "2) Tuesday\n" +
-                    "3) Wednesday\n" +
-                    "4) Thursday\n" +
-                    "5) Friday\n" +
-                    "6) Saturday\n" +
-                    "7) Sunday\n") - 1;
-            dateSlot[1] = Input.ScanInt("Choose the timing:\n" +
+            System.out.println("Which timing do you want to choose?");
+            Date date = Input.ScanFutureDate("Choose the date");
+            int timeSlot = Input.ScanInt("Choose the timing:\n" +
                     "1) 10AM-11AM\n" +
                     "2) 11AM-12PM\n" +
                     "3) 1PM-2PM\n" +
@@ -172,7 +165,8 @@ public class PatientUI implements BaseUI {
                     "5) 3PM-4PM\n") - 1;
             ArrayList<Doctors> doctorsArrayList = database.getDoctors();
             for (Doctors doctor : doctorsArrayList) {
-                if (doctor.getAvailability()[dateSlot[0]][dateSlot[1]]) {
+                Boolean[] availability = doctor.getTimeSlot(date);
+                if (availability == null || !availability[timeSlot]) {
                     System.out.println(doctor.getName() + " is available during this timeslot\n");
                     check = true;
                 }
@@ -191,35 +185,28 @@ public class PatientUI implements BaseUI {
      * available, allows the patient to select a doctor and book the appointment.
      */
     public void scheduleAppointment(){
-        int []dateSlot = new int[2];
         boolean check;
         Input.ClearConsole();
         check = false;
-        System.out.println("Which timing do you want to choose?\n");
-        dateSlot[0] = Input.ScanInt("Choose the day: \n" +
-                "1) Monday\n" +
-                "2) Tuesday\n" +
-                "3) Wednesday\n" +
-                "4) Thursday\n" +
-                "5) Friday\n" +
-                "6) Saturday\n" +
-                "7) Sunday\n") - 1;
-        dateSlot[1] = Input.ScanInt("Choose the timing:\n" +
-                "1) 10AM-11AM\n" +
-                "2) 11AM-12PM\n" +
-                "3) 1PM-2PM\n" +
-                "4) 2PM-3PM\n" +
-                "5) 3PM-4PM\n") - 1;
+        System.out.println("Which timing do you want to choose?");
+        Date date = Input.ScanFutureDate("Choose the date");
+        int timeSlot = Input.ScanInt("Choose the timing:\n" +
+            "1) 10AM-11AM\n" +
+            "2) 11AM-12PM\n" +
+            "3) 1PM-2PM\n" +
+            "4) 2PM-3PM\n" +
+            "5) 3PM-4PM\n") - 1;
 
+        Date requestDate = Appointment.createDate(date, timeSlot);
         for (Appointment apt : patient.getPending()) {
-            if (apt.getAppointmentTime().equals(Appointment.createDate(dateSlot[0], dateSlot[1]))){
+            if (apt.getAppointmentTime().equals(requestDate)){
                 System.out.println("A pending appointment already exist at that slot.");
                 Input.ScanString("Press enter to continue\n");
                 return;
             }
         }
         for (Appointment apt : patient.getOngoing()) {
-            if (apt.getAppointmentTime().equals(Appointment.createDate(dateSlot[0], dateSlot[1]))){
+            if (apt.getAppointmentTime().equals(requestDate)){
                 System.out.println("An ongoing appointment already exist at that slot.");
                 Input.ScanString("Press enter to continue\n");
                 return;
@@ -228,7 +215,8 @@ public class PatientUI implements BaseUI {
 
         ArrayList<Doctors> doctorsArrayList = database.getDoctors();
         for (Doctors doctor : doctorsArrayList) {
-            if (doctor.getAvailability()[dateSlot[0]][dateSlot[1]]) {
+            Boolean[] availability = doctor.getTimeSlot(date);
+            if (availability == null || !availability[timeSlot]) {
                 System.out.println(doctor.getID() + ": " + doctor.getName() + " is available during this timeslot\n");
                 check = true;
             }
@@ -242,8 +230,8 @@ public class PatientUI implements BaseUI {
         String service = Input.ScanString("What service are you booking for?\n");
         int doctorID = Input.ScanInt("Enter the doctor ID: \n");
         Doctors doctor = (Doctors) database.getPerson(doctorID, ROLE.DOCTOR);
-        doctor.toggleAvailability(dateSlot,false);
-        apt = new Appointment(service, patient.getID(),patient.getName(), doctor.getID(), doctor.getName() ,dateSlot);
+        doctor.addTimeSlot(date,timeSlot);
+        apt = new Appointment(service, patient.getID(),patient.getName(), doctor.getID(), doctor.getName() ,requestDate);
         database.scheduleApt(apt);
         apt.print();
     }
