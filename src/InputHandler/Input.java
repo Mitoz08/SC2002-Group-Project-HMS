@@ -133,11 +133,12 @@ public class Input {
         while (true) {
             inputMonth = ScanInt("Month:");
             month = inputMonth == curMonth;
-            if (inputMonth < curMonth && year ) {
-                System.out.println("Invalid month input. Has to be at least " + curMonth);
+            if (inputMonth < 1 || inputMonth > 12) {
+                System.out.println("Enter a number from 1 - 12");
                 continue;
-            } else if (inputMonth > 12) {
-                System.out.println("Month has to be smaller than 12");
+            }
+            if (year && inputMonth < curMonth) {
+                System.out.println("Invalid month input. Has to be at least " + curMonth);
                 continue;
             }
             break;
@@ -148,11 +149,12 @@ public class Input {
         int maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
         while (true) {
             inputDay = ScanInt("Day:");
-            if (inputDay < curDay && month && year){
-                System.out.println("Invalid day input. Has to be at least " + curDay);
+            if (inputDay < 1 || inputDay > maxDay) {
+                System.out.println("Enter a number from 1 - " + maxDay);
                 continue;
-            } else if (maxDay < inputDay) {
-                System.out.println("Day has to be smaller than " + maxDay);
+            }
+            if (year && month && inputDay < curDay){
+                System.out.println("Invalid day input. Has to be at least " + curDay);
                 continue;
             }
             break;
@@ -166,9 +168,34 @@ public class Input {
         int inputDay;
 
         System.out.println(prompt);
-        inputYear = ScanInt("Year:");
-        inputMonth = ScanInt("Month:");
-        inputDay = ScanInt("Day:");
+        while (true) {
+            inputYear = ScanInt("Year:");
+            if (inputYear < 0) {
+                System.out.println("Year cannot be negative!");
+                continue;
+            }
+            break;
+        }
+        while (true) {
+            inputMonth = ScanInt("Month:");
+            if (inputMonth < 1 || inputMonth > 12) {
+                System.out.println("Enter a number from 1 - 12");
+                continue;
+            }
+            break;
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, inputYear);
+        cal.set(Calendar.MONTH,inputMonth-1);
+        int maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        while (true) {
+            inputDay = ScanInt("Day:");
+            if (inputDay < 1 || inputDay > maxDay) {
+                System.out.println("Enter a number from 1 - " + maxDay);
+                continue;
+            }
+            break;
+        }
         return new Date(inputYear-1900,inputMonth-1,inputDay);
     }
 

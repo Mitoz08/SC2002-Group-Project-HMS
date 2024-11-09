@@ -11,6 +11,7 @@ import InputHandler.Input;
 import HumanObject.Patient.ContactChecker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -191,13 +192,47 @@ public class PatientUI implements BaseUI {
         Input.ClearConsole();
         check = false;
         System.out.println("Which timing do you want to choose?");
-        Date date = Input.ScanFutureDate("Choose the date");
-        int timeSlot = Input.ScanInt("Choose the timing:\n" +
-            "1) 10AM-11AM\n" +
-            "2) 11AM-12PM\n" +
-            "3) 1PM-2PM\n" +
-            "4) 2PM-3PM\n" +
-            "5) 3PM-4PM\n") - 1;
+        Date date;
+        int timeSlot;
+        while (true) {
+            date = Input.ScanFutureDate("Choose the date");
+
+            Calendar c = Calendar.getInstance();
+            Date today = c.getTime();
+            if (date.equals(new Date(today.getYear(), today.getMonth(), today.getDate()))) { //Checking if input date is today
+                System.out.println("test");
+                System.out.println("Choose the timing:");
+                int minChoice = 1;
+                int hour = today.getHours() < 10? 1 : today.getHours();
+                switch (hour) {
+                    case 1:
+                        System.out.println(minChoice++ + ") 10AM-11AM");
+                    case 10:
+                        System.out.println(minChoice++ + ") 11AM-12PM");
+                    case 11:
+                        System.out.println(minChoice++ + ") 1PM-2PM");
+                    case 13:
+                        System.out.println(minChoice++ + ") 2PM-3PM");
+                    case 14:
+                        timeSlot = Input.ScanInt(minChoice + ") 3PM-4PM\n")-1;
+                        break;
+                    default:
+                        System.out.println("No more appointment slot for today.\nPlease choose another day");
+                        continue;
+                }
+                timeSlot += (5 - minChoice); // Offset + Choice
+            } else {
+                timeSlot = Input.ScanInt("Choose the timing:\n" +
+                        "1) 10AM-11AM\n" +
+                        "2) 11AM-12PM\n" +
+                        "3) 1PM-2PM\n" +
+                        "4) 2PM-3PM\n" +
+                        "5) 3PM-4PM\n") - 1;
+
+            }
+            break;
+        }
+
 
         Date requestDate = Appointment.createDate(date, timeSlot);
         for (Appointment apt : patient.getPending()) {

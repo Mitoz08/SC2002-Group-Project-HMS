@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 public class AccountInfoDatabase {
 
     private String fileName;
-    private static String passwordRegex =   "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()]).{8,20}$";
+    private static String passwordRegex =   "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()]).{8,20}$";
 
     public AccountInfoDatabase() {
         this.fileName = "Login.txt";
@@ -279,7 +279,7 @@ public class AccountInfoDatabase {
                 "8 - 14 characters long\n" +
                 "Contains a digits\n" +
                 "Contains upper and lower case\n" +
-                "Contains special character like !@#$%^&*()");
+                "Contains special character like {e.g. ! @ # $ % ^ & * ( ) }");
         while (true) {
             String pass = Input.ScanString("Enter password:").replaceAll("\\s+", "");
             Matcher m = p.matcher(pass);
