@@ -90,31 +90,30 @@ public class Doctors extends BasePerson {
             Date date = entry.getKey();
             if (date.compareTo(today) >= 0 && date.compareTo(endOfWeek) <= 0) {
                 System.out.println("Date: " + dateFormatter.format(date));
-                if(availability != null) {
-                    for (int i = 0; i < 5; i++) {
-                        if (availability.get(date)[i]){
-                            switch (i){
-                                case 0:
-                                    System.out.println("10AM-11AM");
-                                    break;
-                                case 1:
-                                    System.out.println("11AM-12PM");
-                                    break;
-                                case 2:
-                                    System.out.println("1PM-2PM");
-                                    break;
-                                case 3:
-                                    System.out.println("2PM-3PM");
-                                    break;
-                                case 4:
-                                    System.out.println("3PM-4PM");
-                                    break;
-                                default:
-                                    break;
-                            }
+                for (int i = 0; i < 5; i++) {
+                    if (availability.get(date)[i]){
+                        switch (i){
+                            case 0:
+                                System.out.println("10AM-11AM");
+                                break;
+                            case 1:
+                                System.out.println("11AM-12PM");
+                                break;
+                            case 2:
+                                System.out.println("1PM-2PM");
+                                break;
+                            case 3:
+                                System.out.println("2PM-3PM");
+                                break;
+                            case 4:
+                                System.out.println("3PM-4PM");
+                                break;
+                            default:
+                                break;
                         }
                     }
                 }
+
             }
         }
     }

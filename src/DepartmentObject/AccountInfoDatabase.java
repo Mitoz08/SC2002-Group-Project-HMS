@@ -55,11 +55,11 @@ public class AccountInfoDatabase {
                 continue;
             }
             System.out.println("Login successful.");
-            if (password.equals("Password")) {
-                System.out.println("Please change you default password");
-                String newPass = checkPassword();
-                addNewPassword(username,password,newPass);
-            }
+//            if (password.equals("Password")) {
+//                System.out.println("Please change you default password");
+//                String newPass = checkPassword();
+//                addNewPassword(username,password,newPass);
+//            }
             return UserID;
         }
     }
@@ -76,7 +76,8 @@ public class AccountInfoDatabase {
                 System.out.println("Wrong Username/Password... \nTry again");
                 continue;
             }
-            String newPass = checkPassword();
+//            String newPass = checkPassword();
+            String newPass = Input.ScanString("new password:");
             return addNewPassword(username,oldPass,newPass);
         }
     }
@@ -144,10 +145,14 @@ public class AccountInfoDatabase {
         return true;
     }
 
-    public boolean removeAccount (String username, String userID) {
-        String[] Encrypted = new String[] {DataEncryption.SHA3(username), ""};
+    public boolean removeAccount (BasePerson person) {
+        String[] Encrypted = new String[] {DataEncryption.decipher(person.getStrID(),0), DataEncryption.decipher(person.getStrID(),1),
+        DataEncryption.decipher(person.getStrID(),2), DataEncryption.decipher(person.getStrID(),3)};
+        for (String s : Encrypted){
+            String prefix = s.substring(0,2);
+        }
         int slot = hashValue(Encrypted[0]);
-        Encrypted[1] = DataEncryption.cipher(userID,slot);
+        Encrypted[1] = DataEncryption.cipher("erer",slot);
         updateFile(Encrypted,slot,2);
         return true;
     }

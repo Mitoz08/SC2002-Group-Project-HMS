@@ -69,12 +69,11 @@ public class AdminUI implements BaseUI{
                                     System.out.println("There is an error while adding the new staff");
                                     break;
                             }
-                            this.database.addToUserInfoDatabaseFile(toAdd);
                             System.out.println("The Staff has been added to the Database\n");
                             break;
                         case 2:
                             BasePerson toRemove = removeStaff();
-                            this.database.toRemoveFromUserDatabaseFile(toRemove);
+                            login.removeAccount(toRemove);
                             System.out.println("The Staff has been removed from the Database\n");
                             break;
                     }
@@ -205,7 +204,7 @@ public class AdminUI implements BaseUI{
     private BasePerson removeStaff(){
         int choice1,choice2, i=1;
         int index=1;
-        choice1 = Input.ScanInt("Do you want to fire a\n " +
+        choice1 = Input.ScanInt("Do you want to fire a\n" +
                                     "1. Doctor\n" +
                                     "2. Pharmacist\n" +
                                     "3. Administrator");
