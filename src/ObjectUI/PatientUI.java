@@ -321,7 +321,7 @@ public class PatientUI implements BaseUI {
             if (apt == null) {
                 System.out.println("No appointment found. Please enter the correct index");
                 continue;
-            };
+            }
             int yn;
             do {
                 yn = Input.ScanInt("Please confirm that this is the appointment you want?\n" + "1. Yes\n" + "2. No\n");
