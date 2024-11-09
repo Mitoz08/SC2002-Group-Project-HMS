@@ -210,17 +210,15 @@ public class DoctorUI implements BaseUI {
             else if (choice == 2) {
                 if (doctor.getTimeSlot(date)[time]) {// if not available = true
                     for (Appointment apt : doctor.getOngoingApt()) {
-                        if (apt.getAppointmentTime() == date) {// means doctor is trying to set availability to true when there is an ongoing appointment
-                            //if(timing match) to be added
+                        if (apt.getDate() == date && apt.getTimeSlot() == time) {// means doctor is trying to set availability to true when there is an ongoing appointment
                             System.out.println("There is an Ongoing appointment, you are unavailable at that timing ");
-                        }
-                        else{
-                            doctor.getTimeSlot(date)[time] = false;//set to aailable
+                            return;
                         }
                     }
+                    doctor.getTimeSlot(date)[time] = false;
                 }
                 else{
-                    doctor.getTimeSlot(date)[time] = false;//set to aailable
+                    doctor.getTimeSlot(date)[time] = false;//set to available
 
                 }
             }

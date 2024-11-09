@@ -62,17 +62,7 @@ public class Main {
                     login.changePassword();
                     break;
                 case 3: // Register Patient
-                    System.out.println("Registering as Patient.");
-                    String Name = Input.ScanString("Full name:");
-                    Date DOB = Input.ScanDate("Date of birth");
-                    boolean Gender = Input.ScanBoolean("Are you a male?");
-                    String BloodType = Input.ScanString("What is your blood type:");
-                    Contact contact = new Contact();
-                    Patient patient = new Patient(Name, DOB, Gender, BloodType, contact);
-                    database.getPatients().add(patient);
-                    login.addNewAccount(patient);
-                    System.out.println("Account successfully created.");
-                    Input.ScanString("Enter to continue...");
+                    login.addNewAccount(database.registerPatient());
                     break;
                 default:
                     break;

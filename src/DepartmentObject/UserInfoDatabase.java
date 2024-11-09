@@ -13,6 +13,7 @@ import HumanObject.Patient.Contact;
 import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
 import HumanObject.ROLE;
+import InputHandler.Input;
 import Serialisation.DataEncryption;
 import Serialisation.DataSerialisation;
 
@@ -553,6 +554,17 @@ public class UserInfoDatabase {
         return;
     }
 
+    public Patient registerPatient() {
+        System.out.println("Registering as Patient.");
+        String Name = Input.ScanString("Full name:");
+        Date DOB = Input.ScanDate("Date of birth");
+        boolean Gender = Input.ScanBoolean("Are you a male?");
+        String BloodType = Input.ScanString("What is your blood type:");
+        Contact contact = new Contact();
+        Patient patient = new Patient(Name, DOB, Gender, BloodType, contact);
+        this.patients.add(patient);
+        return patient;
+    }
 
 
     private static String serialiseDataPatient(int id, String name, Date DOB, Boolean Gender, String BloodType, Contact contact, ArrayList<String> DoctorAssigned, AppointmentList onGoingAptList, AppointmentList completeAptList, AppointmentList pendingAptList, PrescriptionList prescripList){

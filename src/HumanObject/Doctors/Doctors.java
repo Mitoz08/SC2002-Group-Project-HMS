@@ -85,7 +85,7 @@ public class Doctors extends BasePerson {
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
-        System.out.println("Availability for the first week:");
+        System.out.println("Unavailability for the first week:");
         for (Map.Entry<Date, Boolean[]> entry : availability.entrySet()) {
             Date date = entry.getKey();
             if (date.compareTo(today) >= 0 && date.compareTo(endOfWeek) <= 0) {
