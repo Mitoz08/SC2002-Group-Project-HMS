@@ -87,7 +87,7 @@ public class Doctors extends BasePerson {
      */
     public Boolean[] getTimeSlot(Date date) {
         int key = Integer.parseInt("" + date.getYear() + date.getMonth() + date.getDate());
-        if (availability.containsKey(key)) return availability.get(date);
+        if (availability.containsKey(key)) return availability.get(key);
         return null;
     }
 

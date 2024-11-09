@@ -182,14 +182,23 @@ public class DoctorUI implements BaseUI {
 
         // Prompt the doctor to select a future date to modify
         Date date = Input.ScanFutureDate("Choose the date");
-
+        int time;
         // Prompt the doctor to select a time slot
-        int time = Input.ScanInt("Choose the timing:\n" +
-                "1) 10AM-11AM\n" +
-                "2) 11AM-12PM\n" +
-                "3) 1PM-2PM\n" +
-                "4) 2PM-3PM\n" +
-                "5) 3PM-4PM\n") - 1;
+        boolean dayCheck = false;
+        do {
+            time = Input.ScanInt("Choose the timing:\n" +
+                    "1) 10AM-11AM\n" +
+                    "2) 11AM-12PM\n" +
+                    "3) 1PM-2PM\n" +
+                    "4) 2PM-3PM\n" +
+                    "5) 3PM-4PM\n") - 1;
+            if (time <= 4 && time >= 0) {
+                dayCheck = true;
+                break;
+            }
+            System.out.println("THat is not the right option!\n");
+        }
+        while(!dayCheck);
 
         // Prompt the doctor to set the availability to either "Not Available" or "Available"
         int choice = Input.ScanInt("What do you want to change your availability to?\n" +
@@ -204,7 +213,8 @@ public class DoctorUI implements BaseUI {
             } else {
                 System.out.println("Timing is already available");
             }
-        } else {
+        }
+        else {
             // If an entry exists, check and update based on the chosen availability
             if (choice == 1) { // Setting to "Not Available"
                 if (doctor.getTimeSlot(date)[time]) {
@@ -212,7 +222,8 @@ public class DoctorUI implements BaseUI {
                 } else {
                     doctor.addTimeSlot(date, time);
                 }
-            } else if (choice == 2) { // Setting to "Available"
+            }
+            else if (choice == 2) { // Setting to "Available"
                 if (doctor.getTimeSlot(date)[time]) {
                     // Check for ongoing appointments to prevent conflicts
                     for (Appointment apt : doctor.getOngoingApt()) {
@@ -247,14 +258,31 @@ public class DoctorUI implements BaseUI {
 
         // If there are pending appointments, prompt the doctor to accept or decline a specific appointment
         if (flag == 1) {
-            String choice = Input.ScanString("Enter appointment ID to accept/decline");
-            int index = 0;
+            flag = 0;
+            String choice;
+            do {
+                choice = Input.ScanString("Enter appointment ID to accept/decline");
+                for (Appointment apt : this.doctor.getPendingApt()){
+                    if(choice.equals(apt.getAppointmentID())){
+                        flag = 1;
+                        break;
+                    }
+                }
+                if(flag != 1) {
+                    System.out.println("Invalid Appointment ID. Please enter a valid ID");
+                }
+            }while(flag != 1);
 
             for (Appointment apt : doctor.getPendingApt()) {
                 if (apt.getAppointmentID().equals(choice)) {
-                    int option = Input.ScanInt("0) Decline\n1) Accept");
+                    int option;
+                    do {
+                        option = Input.ScanInt("Please confirm that this is the appointment you want?\n" + "1. Yes\n" + "2. No\n");
+                        if (option  != 1 && option != 2)
+                            System.out.println("Invalid input. Please enter 1 or 2.");
+                    } while (option != 1 && option != 2);
 
-                    if (option == 0) {
+                    if (option == 2) {
                         // Decline the appointment
                         database.docAcceptApt(apt, false);
                         Date date = apt.getDate();
@@ -265,7 +293,6 @@ public class DoctorUI implements BaseUI {
                         database.docAcceptApt(apt, true);
                     }
                 }
-                index++;
             }
         } else {
             System.out.println("There are currently no pending appointments");
