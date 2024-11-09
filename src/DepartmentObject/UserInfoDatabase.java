@@ -275,6 +275,7 @@ public class UserInfoDatabase {
             System.out.println("Doctor is not found in the database");
             return;
         }
+        foundDoc.addTimeSlot(apt.getDate(),apt.getTimeSlot());
         foundDoc.getPendingApt().addAppointment(apt);// saves it to foundDoc
 
 
@@ -338,7 +339,7 @@ public class UserInfoDatabase {
             System.out.println("The doctor was not found in the database, possibly not in the list of Ongoing Appointments ");
             return;
         };
-
+        foundDoc.removeTimeSlot(toCancelApt.getDate(),toCancelApt.getTimeSlot());
         for (Appointment apt : foundDoc.getPendingApt()){
             if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID())){
                 foundDoc.getPendingApt().removeAppointment(i);

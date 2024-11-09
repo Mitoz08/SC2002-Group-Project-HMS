@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 public class AccountInfoDatabase {
 
     private String fileName;
-    private static String passwordRegex =   "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\\\\S+$).{8,20}$";
+    private static String passwordRegex =   "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()]).{8,20}$";
 
     public AccountInfoDatabase() {
         this.fileName = "Login.txt";
@@ -55,11 +55,12 @@ public class AccountInfoDatabase {
                 continue;
             }
             System.out.println("Login successful.");
-//            if (password.equals("Password")) {
-//                System.out.println("Please change you default password");
-//                String newPass = checkPassword();
-//                addNewPassword(username,password,newPass);
-//            }
+            if (password.equals("Password")) {
+                System.out.println("Please change you default password");
+                Input.ScanString("Enter to continue...");
+                String newPass = checkPassword();
+                addNewPassword(username,password,newPass);
+            }
             return UserID;
         }
     }
@@ -76,8 +77,8 @@ public class AccountInfoDatabase {
                 System.out.println("Wrong Username/Password... \nTry again");
                 continue;
             }
-//            String newPass = checkPassword();
-            String newPass = Input.ScanString("new password:");
+            String newPass = checkPassword();
+//            String newPass = Input.ScanString("new password:");
             return addNewPassword(username,oldPass,newPass);
         }
     }
@@ -146,14 +147,8 @@ public class AccountInfoDatabase {
     }
 
     public boolean removeAccount (BasePerson person) {
-        String[] Encrypted = new String[] {DataEncryption.decipher(person.getStrID(),0), DataEncryption.decipher(person.getStrID(),1),
-        DataEncryption.decipher(person.getStrID(),2), DataEncryption.decipher(person.getStrID(),3)};
-        for (String s : Encrypted){
-            String prefix = s.substring(0,2);
-        }
-        int slot = hashValue(Encrypted[0]);
-        Encrypted[1] = DataEncryption.cipher("erer",slot);
-        updateFile(Encrypted,slot,2);
+        String[] Encrypted = new String[] {person.getStrID()};
+        updateFile(Encrypted,-1,2);
         return true;
     }
 
@@ -198,20 +193,26 @@ public class AccountInfoDatabase {
             textLine.remove(slot-1);
             textLine.add(slot-1, DataSerialisation.convertStringArraytoString(prevTextArray, "/"));
         } else if (mode == 2) { // Removing account
-            String prevText = textLine.get(slot-1);
-            String[] prevTextArray = prevText.split("/");
-            List<String> temp = Arrays.asList(prevTextArray);
-            for (int i = 0; i < temp.size(); i += 3) {
-                if (temp.get(i).equals(Encrypted[0]) && temp.get(i+2).equals(Encrypted[1])) {
-                    temp.remove(i);
-                    temp.remove(i);
-                    temp.remove(i);
+            for (int index = 0; index < textLine.size(); index++) {
+                String s = textLine.get(index);
+                if (s.isEmpty()) continue;
+                String[] prevTextArray = s.split("/");
+                ArrayList<String> temp = new ArrayList<>(Arrays.asList(prevTextArray));
+                for (int i = 0; i < temp.size(); i += 3) {
+                    int hashValue = hashValue(temp.get(i));
+                    String ID = DataEncryption.decipher(temp.get(i+2),hashValue);
+                    if (ID.equals(Encrypted[0])) {
+                        temp.remove(i);
+                        temp.remove(i);
+                        temp.remove(i);
+                        prevTextArray = new String[temp.size()];
+                        for (int j = 0; j < prevTextArray.length; j++) prevTextArray[j] = temp.removeFirst();
+                        textLine.remove(index);
+                        textLine.add(index, DataSerialisation.convertStringArraytoString(prevTextArray, "/"));
+                    }
                 }
+
             }
-            prevTextArray = new String[temp.size()];
-            for (int i = 0; i < prevTextArray.length; i++) prevTextArray[i] = temp.removeFirst();
-            textLine.remove(slot-1);
-            textLine.add(slot-1, DataSerialisation.convertStringArraytoString(prevTextArray, "/"));
         }
         fileReader.close();
         try {
@@ -271,22 +272,22 @@ public class AccountInfoDatabase {
         return username;
     }
 
-    private String checkPassword() {
+    public static String checkPassword() {
         Pattern p = Pattern.compile(passwordRegex);
         Input.ClearConsole();
         System.out.println("Password requirements:\n" +
                 "8 - 14 characters long\n" +
                 "Contains a digits\n" +
                 "Contains upper and lower case\n" +
-                "Contains special character like !@#$%^&*()\n");
+                "Contains special character like !@#$%^&*()");
         while (true) {
-            String pass = Input.ScanString("Enter password:");
+            String pass = Input.ScanString("Enter password:").replaceAll("\\s+", "");
             Matcher m = p.matcher(pass);
             if (!m.matches()) {
                 System.out.println("Requirements not met.");
                 continue;
             }
-            String confirmPass = Input.ScanString("Confirm password:");
+            String confirmPass = Input.ScanString("Confirm password:").replaceAll("\\s+", "");
             if (!pass.equals(confirmPass)) {
                 System.out.println("Password does not match try again.");
                 continue;

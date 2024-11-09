@@ -116,11 +116,11 @@ public class DataSerialisation {
         return "DR&" + Serialised;
     }
 
-    public static String SerialiseDrAvailability (Map<Date, Boolean[]> map){
+    public static String SerialiseDrAvailability (Map<Integer, Boolean[]> map){
         if (map.isEmpty()) return "Empty";
         StringBuilder Serialised = new StringBuilder();
-        for (Map.Entry<Date,Boolean[]> o : map.entrySet()){
-            Serialised.append(SerialiseDate(o.getKey()));
+        for (Map.Entry<Integer,Boolean[]> o : map.entrySet()){
+            Serialised.append(o.getKey());
             for (Boolean b : o.getValue()) {
                 Serialised.append("-" + String.valueOf(b));
             }
@@ -277,18 +277,18 @@ public class DataSerialisation {
          String name = StringArray[index++];
          Date DOB = DeserialiseDate(StringArray[index++]);
          boolean Gender = Boolean.parseBoolean(StringArray[index++]);
-         HashMap<Date, Boolean[]> map = DeserialiseDrAvailability(StringArray[index++]);
+         HashMap<Integer, Boolean[]> map = DeserialiseDrAvailability(StringArray[index++]);
          return new Doctors(ID, name, DOB, Gender, map);
     }
 
-    public static HashMap<Date, Boolean[]> DeserialiseDrAvailability(String Serialised){
+    public static HashMap<Integer, Boolean[]> DeserialiseDrAvailability(String Serialised){
         if (Serialised.equals("Empty")) return new HashMap<>();
         String[] StringArray = Serialised.split("\\|");
-        HashMap<Date, Boolean[]> map = new HashMap<>();
+        HashMap<Integer, Boolean[]> map = new HashMap<>();
         for (String s : StringArray) {
             int index = 0;
             String[] DataArray = s.split("-");
-            Date date = DeserialiseDate(DataArray[index++]);
+            int key = Integer.parseInt(DataArray[index++]);
             Boolean[] slot = new Boolean[] {
                     Boolean.parseBoolean(DataArray[index++]),
                     Boolean.parseBoolean(DataArray[index++]),
@@ -296,7 +296,7 @@ public class DataSerialisation {
                     Boolean.parseBoolean(DataArray[index++]),
                     Boolean.parseBoolean(DataArray[index++]),
             };
-            map.put(date,slot);
+            map.put(key,slot);
         }
         return map;
     }
@@ -329,6 +329,7 @@ public class DataSerialisation {
      * @return
      */
     public static String convertStringArraytoString (String[] StringArray, String delimiter) {
+        if (StringArray.length == 0) return "";
         StringBuilder sb = new StringBuilder();
         for (String str : StringArray)
             sb.append(str).append(delimiter);

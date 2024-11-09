@@ -16,11 +16,11 @@ public class Doctors extends BasePerson {
     private AppointmentList Ongoing;
     private AppointmentList Completed;
     private AppointmentList Pending;
-    private HashMap<Date, Boolean[]>availability;
+    private HashMap<Integer, Boolean[]>availability;
 
 
     //This constructor is used for Initialising from TXT File
-    public Doctors(int ID, String Name, Date DOB, Boolean Gender, HashMap<Date, Boolean[]> dateHashMap) {
+    public Doctors(int ID, String Name, Date DOB, Boolean Gender, HashMap<Integer, Boolean[]> dateHashMap) {
         super(ID, Name, DOB, Gender);
         this.role = ROLE.DOCTOR;
         this.availability = dateHashMap;
@@ -42,25 +42,29 @@ public class Doctors extends BasePerson {
 
     public void createTimeSlot(Date date) {
         Boolean[] timeSlot = new Boolean[] {false,false,false,false,false};
-        availability.put(date, timeSlot);
+        int key = Integer.parseInt("" + date.getYear() + date.getMonth() + date.getDate());
+        availability.put(key, timeSlot);
     }
     public  void addTimeSlot(Date date, int time){
-        Boolean[] timeSlot = availability.get(date);
+        int key = Integer.parseInt("" + date.getYear() + date.getMonth() + date.getDate());
+        Boolean[] timeSlot = availability.get(key);
         if (timeSlot == null) createTimeSlot(date);
-        availability.get(date)[time] = true;
+        availability.get(key)[time] = true;
     }
 
 
     // Check available times for a specific date
     public Boolean[] getTimeSlot(Date date) {
-        if (availability.containsKey(date)) return availability.get(date);
+        int key = Integer.parseInt("" + date.getYear() + date.getMonth() + date.getDate());
+        if (availability.containsKey(key)) return availability.get(date);
         return null;
         //return availability.getOrDefault(date, new Boolean[5]); this will never return null and thus will not work with your code in DoctorUI
     }
 
     // Book an appointment and remove the booked time
     public boolean removeTimeSlot(Date date, int time) {
-        Boolean[] availableTimes = availability.get(date);
+        int key = Integer.parseInt("" + date.getYear() + date.getMonth() + date.getDate());
+        Boolean[] availableTimes = availability.get(key);
         if(availableTimes != null) {
             for (int i = 0; i < 5; i++) {
                 if (availableTimes[i]){
@@ -71,9 +75,6 @@ public class Doctors extends BasePerson {
         }
          return false;// Time not available
         }
-
-
-
 
     public void printFirstWeekTimeSlot() {
         Calendar calendar = Calendar.getInstance();
@@ -86,12 +87,18 @@ public class Doctors extends BasePerson {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
         System.out.println("Unavailability for the first week:");
-        for (Map.Entry<Date, Boolean[]> entry : availability.entrySet()) {
-            Date date = entry.getKey();
+        for (Map.Entry<Integer, Boolean[]> entry : availability.entrySet()) {
+            int key = entry.getKey();
+            int Date = key%100;
+            key /= 100;
+            int Month = key%100;
+            key /= 100;
+            int Year = key;
+            Date date = new Date(Year,Month,Date);
             if (date.compareTo(today) >= 0 && date.compareTo(endOfWeek) <= 0) {
                 System.out.println("Date: " + dateFormatter.format(date));
                 for (int i = 0; i < 5; i++) {
-                    if (availability.get(date)[i]){
+                    if (availability.get(entry.getKey())[i]){
                         switch (i){
                             case 0:
                                 System.out.println("10AM-11AM");
@@ -140,7 +147,7 @@ public class Doctors extends BasePerson {
         return Pending;
     }
 
-    public HashMap<Date, Boolean[]> getAvailability() {
+    public HashMap<Integer, Boolean[]> getAvailability() {
         return availability;
     }
 }
