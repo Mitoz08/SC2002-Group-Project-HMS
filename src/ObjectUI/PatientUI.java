@@ -155,23 +155,60 @@ public class PatientUI implements BaseUI {
             Input.ClearConsole();
             check = false;
             System.out.println("Which timing do you want to choose?");
-            Date date = Input.ScanFutureDate("Choose the date");
-            boolean dayCheck = false;
+
+            Date date;
             int timeSlot;
-            do {
-                 timeSlot = Input.ScanInt("Choose the timing:\n" +
-                        "1) 10AM-11AM\n" +
-                        "2) 11AM-12PM\n" +
-                        "3) 1PM-2PM\n" +
-                        "4) 2PM-3PM\n" +
-                        "5) 3PM-4PM\n") - 1;
-                if (timeSlot <= 4 && timeSlot >= 0) {
-                    dayCheck = true;
-                    break;
+            while (true) {
+                date = Input.ScanFutureDate("Choose the date");
+
+                Calendar c = Calendar.getInstance();
+                Date today = c.getTime();
+                if (date.equals(new Date(today.getYear(), today.getMonth(), today.getDate()))) { //Checking if input date is today
+                    int maxChoice = 1;
+                    while (true) {
+                        System.out.println("Choose the timing:");
+                        int hour = today.getHours() < 10? 1 : today.getHours();
+                        switch (hour) {
+                            case 1:
+                                System.out.println(maxChoice++ + ") 10AM-11AM");
+                            case 10:
+                                System.out.println(maxChoice++ + ") 11AM-12PM");
+                            case 11:
+                                System.out.println(maxChoice++ + ") 1PM-2PM");
+                            case 13:
+                                System.out.println(maxChoice++ + ") 2PM-3PM");
+                            case 14:
+                                timeSlot = Input.ScanInt(maxChoice + ") 3PM-4PM\n")-1;
+                                break;
+                            default:
+                                System.out.println("No more appointment slot for today.\nPlease choose another day");
+                                continue;
+                        }
+                        if (timeSlot < 0 || timeSlot > maxChoice - 1) {
+                            System.out.println("Incorrect input.");
+                            continue;
+                        }
+                        break;
+                    }
+                    timeSlot += (5 - maxChoice); // Offset + Choice
+                } else {
+                    while (true) {
+                        timeSlot = Input.ScanInt("Choose the timing:\n" +
+                                "1) 10AM-11AM\n" +
+                                "2) 11AM-12PM\n" +
+                                "3) 1PM-2PM\n" +
+                                "4) 2PM-3PM\n" +
+                                "5) 3PM-4PM\n") - 1;
+                        if (timeSlot < 0 || timeSlot > 4) {
+                            System.out.println("Incorrect input.");
+                            continue;
+                        }
+                        break;
+                    }
+
                 }
-                System.out.println("THat is not the right option!\n");
+                break;
             }
-            while(!dayCheck);
             ArrayList<Doctors> doctorsArrayList = database.getDoctors();
             for (Doctors doctor : doctorsArrayList) {
                 Boolean[] availability = doctor.getTimeSlot(date);
