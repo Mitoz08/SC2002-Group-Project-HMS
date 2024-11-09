@@ -119,22 +119,20 @@ public class Doctors extends BasePerson {
     public void printFirstWeekTimeSlot() {
         Calendar calendar = Calendar.getInstance();
         Date today = calendar.getTime();
+        today = new Date(today.getYear(), today.getMonth(), today.getDate());
 
         // Set end of the week (6 days after today)
         calendar.add(Calendar.DAY_OF_YEAR, 6);
         Date endOfWeek = calendar.getTime();
+        endOfWeek = new Date(endOfWeek.getYear(), endOfWeek.getMonth(), endOfWeek.getDate(), 23, 59,59);
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
         System.out.println("Unavailability for the first week:");
         for (Map.Entry<Integer, Boolean[]> entry : availability.entrySet()) {
             int key = entry.getKey();
-            int Date = key%100;
-            key /= 100;
-            int Month = key%100;
-            key /= 100;
-            int Year = key;
-            Date date = new Date(Year,Month,Date);
+            int[] KeyToDate = new int[] {key%100, (key/100)%100, (key/10000)};
+            Date date = new Date(KeyToDate[2], KeyToDate[1], KeyToDate[0]);
             if (date.compareTo(today) >= 0 && date.compareTo(endOfWeek) <= 0) {
                 System.out.println("Date: " + dateFormatter.format(date));
                 for (int i = 0; i < 5; i++) {
