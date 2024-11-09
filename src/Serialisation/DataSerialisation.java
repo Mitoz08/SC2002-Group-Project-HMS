@@ -9,7 +9,6 @@ import HumanObject.Patient.Contact;
 import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
 
-import java.time.chrono.MinguoDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +50,7 @@ public class DataSerialisation {
         String[] StringArray = new String[] {
                 apt.getAppointmentID(),
                 String.valueOf(apt.getStatus().ordinal()), apt.getNameOfApt(), String.valueOf(apt.getPatientID()), apt.getPatientName(),
-                String.valueOf(apt.getDoctorID()), apt.getDoctorname(), SerialiseDate(apt.getAppointmentTime()), apt.getNotes(),
+                String.valueOf(apt.getDoctorID()), apt.getDoctorName(), SerialiseDate(apt.getAppointmentTime()), apt.getNotes(),
                 SerialisePrescriptionList(apt.getPrescriptionList()),
         };
         return convertStringArraytoString(StringArray, "/");

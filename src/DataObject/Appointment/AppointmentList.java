@@ -20,7 +20,6 @@ public class AppointmentList implements Iterable<Appointment> {
     private boolean ascending;
 
     // Constructor
-
     /**
      * Creates AppointmentList object sorted in ascending if argument is true
      * @param ascending
@@ -30,6 +29,7 @@ public class AppointmentList implements Iterable<Appointment> {
     }
 
     // Public methods
+
     public int getCount() {return count;}
     public AppointmentNode getHeadRef() {return headRef;}
 

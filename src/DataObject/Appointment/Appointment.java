@@ -4,7 +4,6 @@ import DataObject.Prescription.*;
 import Serialisation.DataSerialisation;
 
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -28,8 +27,8 @@ public class Appointment implements Comparable<Appointment> {
     private static int lastID = 0;
     public static final int IDLength = 10;
     public static final String IDPrefix = "APT";
-    // Constructor
 
+    // Constructor
     /**
      * Creates appointment object and prompts input
      */
@@ -108,11 +107,14 @@ public class Appointment implements Comparable<Appointment> {
     public int getPatientID() {return this.patientID;}
     public String getPatientName() {return this.patientName;}
     public int getDoctorID() {return this.doctorID;}
-    public String getDoctorname() {return this.doctorname;}
+    public String getDoctorName() {return this.doctorname;}
     public Date getAppointmentTime() {return this.appointmentTime;}
     public String getNotes() {return this.notes; }
     public PrescriptionList getPrescriptionList() {return this.prescriptionList; }
     public String getAppointmentID() {return this.appointmentID;}
+
+    public void setStatus(int value) { this.status = APT_STATUS.values()[value];}
+    public void setNotes(java.lang.String notes) { this.notes = notes; }
 
 
     /**
@@ -128,10 +130,9 @@ public class Appointment implements Comparable<Appointment> {
     public static int getLastID() {return lastID;}
 
     /**
-     * Prints out a formatted appointment block
-     * With either PatientID/DoctorID base on the boolean input
+     * Prints out a formatted appointment block with either {@code patientName}/{@code doctorName} base on the boolean input
      *
-     * @param Patient
+     * @param Patient {@code true} - prints out doctor's name, {@code false} - prints out patient's name
      */
     public void print(boolean Patient) {
         System.out.println("______________________________");
@@ -148,6 +149,13 @@ public class Appointment implements Comparable<Appointment> {
         System.out.println("______________________________");
     }
 
+    /**
+     * Prints out a formatted appointment block with either {@code patientName}/{@code doctorName} base on the boolean input
+     * Indented to add the index
+     *
+     * @param Patient {@code true} - prints out doctor's name, {@code false} - prints out patient's name
+     * @param index prints {@code index} beside the appointment block
+     */
     public void print(boolean Patient, int index) {
         System.out.printf("%3d)______________________________\n", index);
         System.out.printf("    |%-8s:%-20s|\n", "APT ID", this.appointmentID);
@@ -179,6 +187,11 @@ public class Appointment implements Comparable<Appointment> {
         System.out.println("______________________________");
     }
 
+    /**
+     * Prints out a formatted appointment block of all the data
+     *
+     * @param index prints {@code index} beside the appointment block
+     */
     public void print(int index) {
         System.out.printf("%3d)______________________________\n",index);
         System.out.printf("    |%-8s:%-20s|\n", "APT ID", this.appointmentID);
@@ -213,6 +226,11 @@ public class Appointment implements Comparable<Appointment> {
         return -1;
     }
 
+    /**
+     * Returns the date of the appointment
+     *
+     * @return
+     */
     public Date getDate() {
         Date date = new Date(appointmentTime.getYear(), appointmentTime.getMonth(), appointmentTime.getDate());
         return  date;
@@ -239,6 +257,13 @@ public class Appointment implements Comparable<Appointment> {
         return true;
     }
 
+    /**
+     * Creates a new {@code Date} object with the given {@code date} and time with reference to the {@code TimeSlot}
+     *
+     * @param date date of the appointment
+     * @param TimeSlot 0 - 10-11AM, 1 - 11-12AM, 2 - 13-14AM, 3 - 14-15AM, 4 - 15-16AM
+     * @return
+     */
     public static Date createDate(Date date, int TimeSlot) {
         int[] slot = new int[] {10,11,13,14,15};
         date.setHours(slot[TimeSlot]);
@@ -259,12 +284,4 @@ public class Appointment implements Comparable<Appointment> {
         lastID++;
         return str.toString();
     }
-
-    public void setNotes(java.lang.String notes) {
-        this.notes = notes;
-    }
-    public void setNameOfApt(String name){
-        this.nameOfApt = name;
-    }
-    public void setStatus(int value) { this.status = APT_STATUS.values()[value];}
 }
