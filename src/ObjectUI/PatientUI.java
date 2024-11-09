@@ -1,14 +1,12 @@
 package ObjectUI;
 
 import DataObject.Appointment.Appointment;
-import DataObject.Appointment.AppointmentList;
 import DataObject.PharmacyObjects.MedicineRequest;
 import DataObject.Prescription.PrescriptionList;
 import HumanObject.Doctors.Doctors;
 import HumanObject.Patient.Patient;
 import HumanObject.ROLE;
 import InputHandler.Input;
-import HumanObject.Patient.ContactChecker;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,8 +31,7 @@ public class PatientUI implements BaseUI {
     /**
      * Constructs a {@code PatientUI} instance for the specified {@code Patient}.
      * It presents a menu that allows the patient to perform various operations
-     * such as viewing and updating information, scheduling appointments, and
-     * viewing medical records.
+     * relating to their medical records and appointments.
      *
      * @param patient the {@code Patient} for whom the UI is created
      */
@@ -73,7 +70,7 @@ public class PatientUI implements BaseUI {
                     viewAvailableAppointments();
                     break;
                 case 4:
-                    database.scheduleApt(scheduleAppointment());
+                    database.scheduleApt(scheduleApt());
                     break;
                 case 5:
                     rescheduleApt();
@@ -191,11 +188,16 @@ public class PatientUI implements BaseUI {
     }
 
     /**
-     * Schedules a new appointment for the patient by allowing them to choose an available time slot.
-     * Checks for any existing pending or ongoing appointments at the chosen slot, and if the slot is
-     * available, allows the patient to select a doctor and book the appointment.
+     * Schedules a new appointment for the patient.
+     * <p>
+     * First asks patient to choose an available time slot. Then checks
+     * for any existing pending or ongoing appointments at the chosen slot, and if the slot is
+     * available, allows the patient to select a doctor and book the appointment. If this process succeeds,
+     * appointment is added into the database.
+     * </p>
+     *
      */
-    public Appointment scheduleAppointment(){
+    public Appointment scheduleApt(){
         Input.ClearConsole();
         boolean check;
         Input.ClearConsole();
@@ -259,9 +261,15 @@ public class PatientUI implements BaseUI {
     }
 
     /**
-     * Reschedules an existing appointment by first scheduling a new appointment and then canceling
-     * the previous one. This operation ensures the patient does not have conflicting appointments.
-     * If there are no existing appointments, the method informs the patient accordingly.
+     * Reschedules an existing appointment for a patient.
+     * <p>
+     * First checks if the patient has any ongoing or pending appointments.
+     * If no appointments are available, the method terminates.
+     * If appointments are available, it prompts the user to select an appointment to cancel via {@link #cancelApt()}.
+     * After successfully canceling the existing appointment, it prompts the user to schedule a new appointment via {@link #scheduleApt()}.
+     * If either the cancellation or new scheduling process is canceled or fails, the method terminates.
+     * If both processes succeed, the appointment is rescheduled in the database.
+     * </p>
      */
     public void rescheduleApt(){
         Input.ClearConsole();
@@ -278,7 +286,7 @@ public class PatientUI implements BaseUI {
             return;
         }
 
-        Appointment add = scheduleAppointment();
+        Appointment add = scheduleApt();
         if (add == null) {
             System.out.println("Reschedule cancelled as new appointment was not created");
             Input.ScanString("Press enter to continue\n");
@@ -288,9 +296,14 @@ public class PatientUI implements BaseUI {
     }
 
     /**
+     * Reschedules an existing appointment for a patient.
+     * <p>
+     * First checks if the patient has any ongoing or pending appointments. If no appointment is available,
+     * the method terminates.
      * Cancels an existing appointment by displaying the patient's ongoing and pending appointments,
      * allowing them to choose which to cancel. The patient is prompted to confirm the cancellation
-     * before proceeding. If there are no existing appointments, the method informs the patient.
+     * before proceeding. If there are no existing appointments, the method terminates.
+     * </p>
      */
 
     public Appointment cancelApt(){
