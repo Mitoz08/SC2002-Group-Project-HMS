@@ -8,10 +8,13 @@ import Serialisation.DataSerialisation;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AccountInfoDatabase {
 
     private String fileName;
+    private static String passwordRegex =   "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\\\\S+$).{8,20}$";
 
     public AccountInfoDatabase() {
         this.fileName = "Login.txt";
@@ -40,11 +43,11 @@ public class AccountInfoDatabase {
         String password;
         String UserID;
         while (true) {
-            username = Input.ScanString("Username:").trim();
+            username = Input.ScanString("Username:").replaceAll("\\s+", "");
             if (username.equals("-1")) return null;
 //            char[] pass = System.console().readPassword("Password: ");
 //            password = String.copyValueOf(pass);
-            password = Input.ScanString("Password:").trim();
+            password = Input.ScanString("Password:").replaceAll("\\s+", "");
             if (password.equals("-1")) return null;
             UserID = verify(username, password);
             if (UserID == null){
@@ -52,6 +55,11 @@ public class AccountInfoDatabase {
                 continue;
             }
             System.out.println("Login successful.");
+            if (password.equals("Password")) {
+                System.out.println("Please change you default password");
+                String newPass = checkPassword();
+                addNewPassword(username,password,newPass);
+            }
             return UserID;
         }
     }
@@ -61,14 +69,14 @@ public class AccountInfoDatabase {
         String oldPass;
         String UserID;
         while (true) {
-            username = Input.ScanString("Username:").trim();
-            oldPass = Input.ScanString("Password:").trim();
+            username = Input.ScanString("Username:").replaceAll("\\s+", "");
+            oldPass = Input.ScanString("Password:").replaceAll("\\s+", "");
             UserID = verify(username, oldPass);
             if (UserID == null){
                 System.out.println("Wrong Username/Password... \nTry again");
                 continue;
             }
-            String newPass = Input.ScanString("Enter your new password:");
+            String newPass = checkPassword();
             return addNewPassword(username,oldPass,newPass);
         }
     }
@@ -123,6 +131,8 @@ public class AccountInfoDatabase {
         Encrypted[2] = DataEncryption.cipher(person.getStrID(), slot);
         updateFile(Encrypted,slot,0);
         System.out.println("This is your username: " + username + ". With the default password as \"Password\"");
+        System.out.println("Account successfully created.");
+        Input.ScanString("Enter to continue...");
         return true;
     }
 
@@ -254,6 +264,30 @@ public class AccountInfoDatabase {
         username = username + newName + String.valueOf(ID);
 
         return username;
+    }
+
+    private String checkPassword() {
+        Pattern p = Pattern.compile(passwordRegex);
+        Input.ClearConsole();
+        System.out.println("Password requirements:\n" +
+                "8 - 14 characters long\n" +
+                "Contains a digits\n" +
+                "Contains upper and lower case\n" +
+                "Contains special character like !@#$%^&*()\n");
+        while (true) {
+            String pass = Input.ScanString("Enter password:");
+            Matcher m = p.matcher(pass);
+            if (!m.matches()) {
+                System.out.println("Requirements not met.");
+                continue;
+            }
+            String confirmPass = Input.ScanString("Confirm password:");
+            if (!pass.equals(confirmPass)) {
+                System.out.println("Password does not match try again.");
+                continue;
+            }
+            return pass;
+        }
     }
 
 }

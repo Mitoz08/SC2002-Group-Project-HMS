@@ -1,12 +1,8 @@
 package HumanObject.Pharmacist;
 
-import DataObject.Appointment.APT_STATUS;
-import DataObject.Prescription.PrescriptionList;
 import HumanObject.*;
-import Serialisation.DataSerialisation;
 
 import java.util.Date;
-import java.util.Scanner;
 
 public class Pharmacist extends BasePerson {
 
