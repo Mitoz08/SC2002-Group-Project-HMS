@@ -257,7 +257,9 @@ public class DoctorUI implements BaseUI {
                     if (option == 0) {
                         // Decline the appointment
                         database.docAcceptApt(apt, false);
-                        doctor.getAvailability().get(apt.getDate())[apt.getTimeSlot()] = false;
+                        Date date = apt.getDate();
+                        int key = Integer.parseInt("" + date.getYear() + date.getMonth() + date.getDate());
+                        doctor.getAvailability().get(key)[apt.getTimeSlot()] = false;
                     } else if (option == 1) {
                         // Accept the appointment
                         database.docAcceptApt(apt, true);
