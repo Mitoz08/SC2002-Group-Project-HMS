@@ -11,6 +11,7 @@ import InputHandler.Input;
 import Serialisation.DataSerialisation;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,15 +68,25 @@ public class DoctorUI implements BaseUI {
     public void viewPatient(){
         Input.ClearConsole();
         int flag = 0;
+        ArrayList<Integer> list = new ArrayList<Integer>();
         for(Appointment apt: doctor.getOngoingApt()){
             System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName());
+            list.add(apt.getPatientID());
             flag=1;
         }
         if(flag == 0){
             System.out.println("There are no patients under you now. ");
         }
         else {
-            int choice = Input.ScanInt("Enter the ID of the patient you want to view");
+            int choice;
+            while (true) {
+                choice = Input.ScanInt("Enter the ID of the patient you want to view");
+                if (!list.contains(choice)) {
+                    System.out.println("Invalid ID");
+                    continue;
+                }
+                break;
+            }
             Patient patient = (Patient) database.getPerson(choice, ROLE.PATIENT);
             patient.printMedicalRecord();
 
@@ -84,10 +95,11 @@ public class DoctorUI implements BaseUI {
                     apt.print(false);
                 }
             }
+            Input.ScanString("Enter to continue...");
         }
     }
 
-    public void updatePatientMR(){
+    public void updatePatientMR(){ // Change check test case 10
         Input.ClearConsole();
         int flag =0;
         for(Appointment apt: doctor.getOngoingApt()){
@@ -241,9 +253,9 @@ public class DoctorUI implements BaseUI {
                                                        "1) Accept");
                     if (option == 0) {
                         database.docAcceptApt(apt, false);
+                        doctor.getAvailability().get(apt.getDate())[apt.getTimeSlot()] = false;
                     } else if (option == 1) {
                         database.docAcceptApt(apt, true);
-                        doctor.addTimeSlot(apt.getDate(), apt.getTimeSlot());
                     }
                 }
                 index++;

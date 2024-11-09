@@ -146,6 +146,7 @@ public class Patient extends BasePerson {
         }
         else {
             this.Completed.print(true);
+            // APT_ID and Notes
         }
     }
 

@@ -258,9 +258,8 @@ public class UserInfoDatabase {
 
 
     public void scheduleApt(Appointment apt){
-
         //0-Pending , 1- Ongoing, 2-Completed
-
+        if (apt == null) return;
         //Add the Appointment apt to pending
         this.allAppointments[0].addAppointment(apt);
 
@@ -300,7 +299,7 @@ public class UserInfoDatabase {
 
     public void cancelApt(Appointment toCancelApt){
         //0-Pending , 1- Ongoing, 2-Completed
-
+        if (toCancelApt == null) return;
         //Cancel appointments that are only found in Ongoing
         int i=0;
         AppointmentList temp = null;

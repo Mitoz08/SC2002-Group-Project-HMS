@@ -1,6 +1,7 @@
 package ObjectUI;
 
 import DataObject.Appointment.Appointment;
+import DataObject.Appointment.AppointmentList;
 import DataObject.PharmacyObjects.MedicineRequest;
 import DataObject.Prescription.PrescriptionList;
 import HumanObject.Doctors.Doctors;
@@ -72,13 +73,13 @@ public class PatientUI implements BaseUI {
                     viewAvailableAppointments();
                     break;
                 case 4:
-                    scheduleAppointment();
+                    database.scheduleApt(scheduleAppointment());
                     break;
                 case 5:
                     rescheduleApt();
                     break;
                 case 6:
-                    cancelApt();
+                    database.cancelApt(cancelApt());
                     break;
                 case 7:
                     if (patient.getOngoing().getCount() == 0) {
@@ -184,7 +185,8 @@ public class PatientUI implements BaseUI {
      * Checks for any existing pending or ongoing appointments at the chosen slot, and if the slot is
      * available, allows the patient to select a doctor and book the appointment.
      */
-    public void scheduleAppointment(){
+    public Appointment scheduleAppointment(){
+        Input.ClearConsole();
         boolean check;
         Input.ClearConsole();
         check = false;
@@ -202,14 +204,14 @@ public class PatientUI implements BaseUI {
             if (apt.getAppointmentTime().equals(requestDate)){
                 System.out.println("A pending appointment already exist at that slot.");
                 Input.ScanString("Press enter to continue\n");
-                return;
+                return null;
             }
         }
         for (Appointment apt : patient.getOngoing()) {
             if (apt.getAppointmentTime().equals(requestDate)){
                 System.out.println("An ongoing appointment already exist at that slot.");
                 Input.ScanString("Press enter to continue\n");
-                return;
+                return null;
             }
         }
 
@@ -232,8 +234,9 @@ public class PatientUI implements BaseUI {
         Doctors doctor = (Doctors) database.getPerson(doctorID, ROLE.DOCTOR);
         doctor.addTimeSlot(date,timeSlot);
         apt = new Appointment(service, patient.getID(),patient.getName(), doctor.getID(), doctor.getName() ,requestDate);
-        database.scheduleApt(apt);
         apt.print();
+        Input.ScanString("Appointment created\nEnter to continue...");
+        return apt;
     }
 
     /**
@@ -242,13 +245,15 @@ public class PatientUI implements BaseUI {
      * If there are no existing appointments, the method informs the patient accordingly.
      */
     public void rescheduleApt(){
+        Input.ClearConsole();
         if (patient.getOngoing().getCount()==0 && patient.getPending().getCount() == 0) {
             System.out.println("No existing appointments to reschedule.");
             Input.ScanString("Press enter to continue\n");
             return;
         }
-        scheduleAppointment();
-        cancelApt();
+        Appointment add = scheduleAppointment();
+        Appointment cancel = cancelApt();
+        database.rescheduleApt(add,cancel);
     }
 
     /**
@@ -257,11 +262,12 @@ public class PatientUI implements BaseUI {
      * before proceeding. If there are no existing appointments, the method informs the patient.
      */
 
-    public void cancelApt(){
+    public Appointment cancelApt(){
+        Input.ClearConsole();
         if (patient.getOngoing().getCount()==0 && patient.getPending().getCount() == 0) {
             System.out.println("No existing appointments to cancel.");
             Input.ScanString("Press enter to continue\n");
-            return;
+            return null;
         }
         boolean check;
         Appointment apt;
@@ -271,7 +277,7 @@ public class PatientUI implements BaseUI {
             patient.getOngoing().print(true,last);
             int index = Input.ScanInt("Enter the index of the appointment you wish to delete or -1 to exit\n");
             if(index == -1){
-                return;
+                return null;
             }
             if (index <= patient.getPending().getCount() ) apt = patient.getPending().getAppointment(index-1);
             else apt = patient.getOngoing().getAppointment(index - 1);
@@ -285,6 +291,6 @@ public class PatientUI implements BaseUI {
                 check = true;
             }
         } while(!check);
-        database.cancelApt(apt);
+        return apt;
     }
 }
