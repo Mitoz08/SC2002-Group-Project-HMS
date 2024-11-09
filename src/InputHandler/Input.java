@@ -133,8 +133,11 @@ public class Input {
         while (true) {
             inputMonth = ScanInt("Month:");
             month = inputMonth == curMonth;
-            if (inputMonth < curMonth && year) {
+            if (inputMonth < curMonth && year ) {
                 System.out.println("Invalid month input. Has to be at least " + curMonth);
+                continue;
+            } else if (inputMonth > 12) {
+                System.out.println("Month has to be smaller than 12");
                 continue;
             }
             break;

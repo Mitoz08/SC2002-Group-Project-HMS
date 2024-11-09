@@ -232,7 +232,6 @@ public class PatientUI implements BaseUI {
         String service = Input.ScanString("What service are you booking for?\n");
         int doctorID = Input.ScanInt("Enter the doctor ID: \n");
         Doctors doctor = (Doctors) database.getPerson(doctorID, ROLE.DOCTOR);
-        doctor.addTimeSlot(date,timeSlot);
         apt = new Appointment(service, patient.getID(),patient.getName(), doctor.getID(), doctor.getName() ,requestDate);
         apt.print();
         Input.ScanString("Appointment created\nEnter to continue...");
@@ -252,7 +251,17 @@ public class PatientUI implements BaseUI {
             return;
         }
         Appointment add = scheduleAppointment();
+        if (add == null) {
+            System.out.println("Reschedule cancelled as new appointment was not created");
+            Input.ScanString("Press enter to continue\n");
+            return;
+        }
         Appointment cancel = cancelApt();
+        if (cancel == null) {
+            System.out.println("Reschedule cancelled as existing appointment was not cancelled");
+            Input.ScanString("Press enter to continue\n");
+            return;
+        }
         database.rescheduleApt(add,cancel);
     }
 

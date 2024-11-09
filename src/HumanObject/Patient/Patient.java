@@ -1,5 +1,6 @@
 package HumanObject.Patient;
 
+import DataObject.Appointment.Appointment;
 import DataObject.Appointment.AppointmentList;
 import DataObject.Prescription.PrescriptionList;
 import HumanObject.BasePerson;
@@ -146,7 +147,9 @@ public class Patient extends BasePerson {
         }
         else {
             this.Completed.print(true);
-            // APT_ID and Notes
+            for (Appointment apt : this.getCompleted()) {
+                System.out.println(apt.getAppointmentID() + ": " + apt.getNotes());
+            }
         }
     }
 

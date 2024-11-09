@@ -133,75 +133,29 @@ public class DoctorUI implements BaseUI {
             System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName());
             flag = 1;
         }
-        if (flag == 1) {
-            int choice = Input.ScanInt("Enter the Patient ID");
-            Patient patient = (Patient) database.getPerson(choice, ROLE.PATIENT);
-            do {
-                System.out.println("1) Patient ID");
-                System.out.println("2) Patient name");
-                System.out.println("3) Date of birth");
-                System.out.println("4) Gender");
-                System.out.println("5) Contact information");
-                System.out.println("6) Blood type");
-                System.out.println("7) Exit");
-                choice = Input.ScanInt("Which part of the medical record do you want to update?");
-                switch (choice) {
-                    case 1:
-                        Input.ClearConsole();
-                        patient.setID(Input.ScanInt("Enter Patient new ID"));
-                        break;
-                    case 2:
-                        Input.ClearConsole();
-                        patient.setName(Input.ScanString("Enter Patient new name"));
-                        break;
-                    case 3:
-                        Input.ClearConsole();
-                        patient.setDOB(Input.ScanDate("Enter date of birth"));
-                        break;
-                    case 4:
-                        Input.ClearConsole();
-                        patient.setGender(Input.ScanBoolean("Is it male(1) or female(0):"));
-                    case 5:
-                        int C2Choice;
-                        do {
-                            Input.ClearConsole();
-                            C2Choice = Input.ScanInt("What do you want to update?\n" +
-                                    "1. Email Address\n" +
-                                    "2. Contact Number\n" +
-                                    "3. Go back\n");
-                            switch (C2Choice) {
-                                case 1:
-                                    Input.ClearConsole();
-                                    patient.getContact().setEmail();
-                                    break;
-
-                                case 2:
-                                    Input.ClearConsole();
-                                    patient.getContact().setContactNumber();
-                                    break;
-
-                                case 3:
-                                    break;
-                                default:
-                                    System.out.println("That is the wrong input, try again\n");
-                                    break;
-                            }
-                        }
-                        while (C2Choice != 3);
-                        break;
-                    case 6:
-                        patient.setBloodType(Input.ScanString("Enter Patient new blood type"));
-                        break;
-                    case 7:
-                        break;
-                    default:
-                        System.out.println("Wrong input please enter again");
+        if(flag==1) {
+            Patient patient;
+            while (true) {
+                int choice = Input.ScanInt("Enter the Patient ID");
+                patient = (Patient) database.getPerson(choice, ROLE.PATIENT);
+                if (patient == null) {
+                    System.out.println("Invalid input.");
+                    continue;
                 }
-            } while (choice != 7);
-        } else {
-            System.out.println("There are no patients under you to update");
+                break;
+            }
+            patient.printMedicalRecord();
+            if (patient.getCompleted().getCount() == 0) {
+                Input.ScanString("No past appointments notes to edit.\nEnter to continue...");
+                return;
+            }
+            boolean b = Input.ScanBoolean("Do you want to edit the latest notes?");
+            if (b) {
+                String notes = Input.ScanString("Enter Consultation notes:");
+                patient.getCompleted().getAppointment(0).setNotes(notes);
+                Input.ScanString("Notes edited\nEnter to continue...");
+            }
         }
-
     }
 
     /**

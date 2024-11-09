@@ -18,9 +18,7 @@ public class Doctors extends BasePerson {
     private AppointmentList Ongoing;
     private AppointmentList Completed;
     private AppointmentList Pending;
-
-    // Availability map for each day, where each Boolean array represents availability for specific time slots
-    private HashMap<Date, Boolean[]> availability;
+    private HashMap<Integer, Boolean[]>availability;
 
     /**
      * Constructor for initializing a Doctor object from a data file.
@@ -31,7 +29,7 @@ public class Doctors extends BasePerson {
      * @param Gender      The doctor's gender.
      * @param dateHashMap Availability schedule for specific dates.
      */
-    public Doctors(int ID, String Name, Date DOB, Boolean Gender, HashMap<Date, Boolean[]> dateHashMap) {
+    public Doctors(int ID, String Name, Date DOB, Boolean Gender, HashMap<Integer, Boolean[]> dateHashMap) {
         super(ID, Name, DOB, Gender);
         this.role = ROLE.DOCTOR;
         this.availability = dateHashMap;
@@ -62,20 +60,23 @@ public class Doctors extends BasePerson {
      * @param date The date to add to the availability map with initial unavailability.
      */
     public void createTimeSlot(Date date) {
-        Boolean[] timeSlot = new Boolean[] {false, false, false, false, false};
-        availability.put(date, timeSlot);
-    }
 
+        Boolean[] timeSlot = new Boolean[] {false,false,false,false,false};
+        int key = Integer.parseInt("" + date.getYear() + date.getMonth() + date.getDate());
+        availability.put(key, timeSlot);
+    }
+  
     /**
      * Marks a specific time slot on a given date as available.
      *
      * @param date The date to set the availability.
      * @param time The index of the time slot to mark as available.
      */
-    public void addTimeSlot(Date date, int time) {
-        Boolean[] timeSlot = availability.get(date);
+    public  void addTimeSlot(Date date, int time){
+        int key = Integer.parseInt("" + date.getYear() + date.getMonth() + date.getDate());
+        Boolean[] timeSlot = availability.get(key);
         if (timeSlot == null) createTimeSlot(date);
-        availability.get(date)[time] = true;
+        availability.get(key)[time] = true;
     }
 
     /**
@@ -85,7 +86,8 @@ public class Doctors extends BasePerson {
      * @return A Boolean array representing time slots for the date, or null if no availability is set.
      */
     public Boolean[] getTimeSlot(Date date) {
-        if (availability.containsKey(date)) return availability.get(date);
+        int key = Integer.parseInt("" + date.getYear() + date.getMonth() + date.getDate());
+        if (availability.containsKey(key)) return availability.get(date);
         return null;
     }
 
@@ -97,15 +99,18 @@ public class Doctors extends BasePerson {
      * @return True if the time slot was successfully removed, otherwise false.
      */
     public boolean removeTimeSlot(Date date, int time) {
-        Boolean[] availableTimes = availability.get(date);
-        if (availableTimes != null) {
-            if (availableTimes[time]) {
-                availableTimes[time] = false;
-                return true; // Successfully booked
+        int key = Integer.parseInt("" + date.getYear() + date.getMonth() + date.getDate());
+        Boolean[] availableTimes = availability.get(key);
+        if(availableTimes != null) {
+            for (int i = 0; i < 5; i++) {
+                if (availableTimes[i]){
+                    availableTimes[i] = false;
+                    return true;//successfully booked
+                }
             }
         }
-        return false; // Time not available
-    }
+         return false;// Time not available
+        }
 
     /**
      * Prints the unavailability schedule for the doctor for the first week from the current date.
@@ -122,12 +127,18 @@ public class Doctors extends BasePerson {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
         System.out.println("Unavailability for the first week:");
-        for (Map.Entry<Date, Boolean[]> entry : availability.entrySet()) {
-            Date date = entry.getKey();
+        for (Map.Entry<Integer, Boolean[]> entry : availability.entrySet()) {
+            int key = entry.getKey();
+            int Date = key%100;
+            key /= 100;
+            int Month = key%100;
+            key /= 100;
+            int Year = key;
+            Date date = new Date(Year,Month,Date);
             if (date.compareTo(today) >= 0 && date.compareTo(endOfWeek) <= 0) {
                 System.out.println("Date: " + dateFormatter.format(date));
                 for (int i = 0; i < 5; i++) {
-                    if (availability.get(date)[i]) {
+                    if (availability.get(entry.getKey())[i]) {
                         switch (i) {
                             case 0 -> System.out.println("10AM-11AM");
                             case 1 -> System.out.println("11AM-12PM");
@@ -165,7 +176,7 @@ public class Doctors extends BasePerson {
     }
 
     // Getter for the availability map
-    public HashMap<Date, Boolean[]> getAvailability() {
+    public HashMap<Integer, Boolean[]> getAvailability() {
         return availability;
     }
 }
