@@ -125,10 +125,21 @@ public class DoctorUI implements BaseUI {
         }
     }
 
-
+    /**
+     * Updates the medical record of a patient by allowing the doctor to edit the latest consultation notes.
+     * This method displays ongoing appointments and prompts the doctor to select a patient to update their record.
+     * If the selected patient has previous completed appointments, the doctor is prompted to edit the latest notes.
+     *
+     * Function Flow:
+     * 1. Displays ongoing appointments for the doctor.
+     * 2. Prompts the doctor to enter a patient ID.
+     * 3. If the patient has past appointments, asks if the doctor wants to edit the latest notes.
+     * 4. Updates the notes if confirmed by the doctor.
+     */
     public void updatePatientMR() { // Change check test case 10
         Input.ClearConsole();
         int flag = 0;
+        // Display ongoing appointments
         for (Appointment apt : doctor.getOngoingApt()) {
             System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName());
             flag = 1;
