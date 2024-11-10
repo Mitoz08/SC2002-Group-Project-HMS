@@ -21,10 +21,18 @@ public class ServerHMS {
         this.pharmacy = new Pharmacy();
 
         if (mode) {
+            database.setHMSFileName("Debug_HMS.txt");
+            database.setAPTFileName("Debug_APT.txt");
+            pharmacy.setPharmacyFileName("Debug_Pharmacy.txt");
+            login.setFileName("Debug_Login.txt");
             database.testRun();
             pharmacy.testRun();
             login.testRun();
         } else {
+            database.setHMSFileName("HMS.txt");
+            database.setAPTFileName("APT.txt");
+            pharmacy.setPharmacyFileName("Pharmacy.txt");
+            login.setFileName("Login.txt");
             database.loadFile(); // Change back to private before submitting code
             pharmacy.loadFile();
         }
