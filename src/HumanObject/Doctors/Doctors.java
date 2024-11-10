@@ -67,7 +67,7 @@ public class Doctors extends BasePerson {
     }
   
     /**
-     * Marks a specific time slot on a given date as available.
+     * Marks a specific time slot on a given date as unavailable.
      *
      * @param date The date to set the availability.
      * @param time The index of the time slot to mark as available.
@@ -92,7 +92,7 @@ public class Doctors extends BasePerson {
     }
 
     /**
-     * Marks a specific time slot as unavailable if it is currently available.
+     * Marks a specific time slot as available if it is currently unavailable.
      *
      * @param date The date of the appointment.
      * @param time The index of the time slot to be removed.
@@ -102,15 +102,15 @@ public class Doctors extends BasePerson {
         int key = Integer.parseInt("" + date.getYear() + date.getMonth() + date.getDate());
         Boolean[] availableTimes = availability.get(key);
         if(availableTimes != null) {
-            for (int i = 0; i < 5; i++) {
-                if (availableTimes[i]){
-                    availableTimes[i] = false;
-                    return true;//successfully booked
-                }
-            }
+            availableTimes[time] = false;
+            for (int i = 0; i < 5; i++) if (availableTimes[i]) return true; // Successfully removed
+
+            // If no more unavailability on that day
+            availability.remove(key);
+            return true;
         }
-         return false;// Time not available
-        }
+         return false; // Time not available
+    }
 
     /**
      * Prints the unavailability schedule for the doctor for the first week from the current date.

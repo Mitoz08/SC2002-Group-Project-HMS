@@ -17,8 +17,11 @@ public class AccountInfoDatabase {
     private static String passwordRegex =   "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()]).{8,20}$";
 
     public AccountInfoDatabase() {
-        this.fileName = "Login.txt";
 //        addNewAccount("Admin", "AD1005");
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public void testRun()
