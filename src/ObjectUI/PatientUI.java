@@ -157,7 +157,7 @@ public class PatientUI implements BaseUI {
             System.out.println("Which timing do you want to choose?");
 
             Date date;
-            int timeSlot;
+            int timeSlot = 0;
             while (true) {
                 date = Input.ScanFutureDate("Choose the date");
 
@@ -165,7 +165,13 @@ public class PatientUI implements BaseUI {
                 Date today = c.getTime();
                 if (date.equals(new Date(today.getYear(), today.getMonth(), today.getDate()))) { //Checking if input date is today
                     int maxChoice = 1;
+                    boolean noApt = false;
                     while (true) {
+                        if (today.getHours() >= 15) { // If already after 3PM
+                            System.out.println("No more appointment slot for today.\nPlease choose another day");
+                            noApt = true;
+                            break;
+                        };
                         System.out.println("Choose the timing:");
                         int hour = today.getHours() < 10? 1 : today.getHours();
                         switch (hour) {
@@ -178,18 +184,19 @@ public class PatientUI implements BaseUI {
                             case 13:
                                 System.out.println(maxChoice++ + ") 2PM-3PM");
                             case 14:
-                                timeSlot = Input.ScanInt(maxChoice + ") 3PM-4PM\n")-1;
+                                System.out.println(maxChoice + ") 3PM-4PM\n");
                                 break;
                             default:
-                                System.out.println("No more appointment slot for today.\nPlease choose another day");
-                                continue;
+                                break;
                         }
+                        timeSlot = Input.ScanInt("")-1;
                         if (timeSlot < 0 || timeSlot > maxChoice - 1) {
                             System.out.println("Incorrect input.");
                             continue;
                         }
                         break;
                     }
+                    if (noApt) continue;
                     timeSlot += (5 - maxChoice); // Offset + Choice
                 } else {
                     while (true) {
@@ -242,39 +249,46 @@ public class PatientUI implements BaseUI {
         check = false;
         System.out.println("Which timing do you want to choose?");
         Date date;
-        int timeSlot;
+        int timeSlot = 0;
         while (true) {
             date = Input.ScanFutureDate("Choose the date");
 
             Calendar c = Calendar.getInstance();
             Date today = c.getTime();
             if (date.equals(new Date(today.getYear(), today.getMonth(), today.getDate()))) { //Checking if input date is today
-                int maxChoice = 1;
-                while (true) {
-                    System.out.println("Choose the timing:");
-                    int hour = today.getHours() < 10? 1 : today.getHours();
-                    switch (hour) {
-                        case 1:
-                            System.out.println(maxChoice++ + ") 10AM-11AM");
-                        case 10:
-                            System.out.println(maxChoice++ + ") 11AM-12PM");
-                        case 11:
-                            System.out.println(maxChoice++ + ") 1PM-2PM");
-                        case 13:
-                            System.out.println(maxChoice++ + ") 2PM-3PM");
-                        case 14:
-                            timeSlot = Input.ScanInt(maxChoice + ") 3PM-4PM\n")-1;
-                            break;
-                        default:
+                    int maxChoice = 1;
+                    boolean noApt = false;
+                    while (true) {
+                        if (today.getHours() >= 15) { // If already after 3PM
                             System.out.println("No more appointment slot for today.\nPlease choose another day");
+                            noApt = true;
+                            break;
+                        };
+                        System.out.println("Choose the timing:");
+                        int hour = today.getHours() < 10? 1 : today.getHours();
+                        switch (hour) {
+                            case 1:
+                                System.out.println(maxChoice++ + ") 10AM-11AM");
+                            case 10:
+                                System.out.println(maxChoice++ + ") 11AM-12PM");
+                            case 11:
+                                System.out.println(maxChoice++ + ") 1PM-2PM");
+                            case 13:
+                                System.out.println(maxChoice++ + ") 2PM-3PM");
+                            case 14:
+                                System.out.println(maxChoice + ") 3PM-4PM\n");
+                                break;
+                            default:
+                                break;
+                        }
+                        timeSlot = Input.ScanInt("")-1;
+                        if (timeSlot < 0 || timeSlot > maxChoice - 1) {
+                            System.out.println("Incorrect input.");
                             continue;
+                        }
+                        break;
                     }
-                    if (timeSlot < 0 || timeSlot > maxChoice - 1) {
-                        System.out.println("Incorrect input.");
-                        continue;
-                    }
-                    break;
-                }
+                    if (noApt) continue;
                 timeSlot += (5 - maxChoice); // Offset + Choice
             } else {
                 while (true) {
