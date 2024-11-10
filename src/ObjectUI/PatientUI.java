@@ -147,7 +147,7 @@ public class PatientUI implements BaseUI {
     /**
      * Displays available appointment slots for the patient based on the availability of doctors.
      * Allows the patient to select a day and time slot, checking which doctors are available.
-     * If no doctors are available, prompts the user to select another slot.
+     * If no doctors are available, the method terminates.
      */
     public void viewAvailableAppointments(){
         boolean check;
