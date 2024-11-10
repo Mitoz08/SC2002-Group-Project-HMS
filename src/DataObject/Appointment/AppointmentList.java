@@ -3,13 +3,19 @@ package DataObject.Appointment;
 
 import java.util.Iterator;
 
+/**
+ * A node object storing an {@code Appointment} and reference to the next {@code AppointmentNode}
+ * <P> Used for implementing a LinkedList</P>
+ */
 class AppointmentNode {
     Appointment appointment;
     AppointmentNode nextNode;
 }
 
 /**
- * A linked list of appointments
+ * A class that stores the {@code Appointment} in a LinkedList structure
+ *
+ * @see Appointment
  */
 public class AppointmentList implements Iterable<Appointment> {
 
@@ -21,22 +27,33 @@ public class AppointmentList implements Iterable<Appointment> {
 
     // Constructor
     /**
-     * Creates AppointmentList object sorted in ascending if argument is true
-     * @param ascending
+     * Constructs a LinkedList of sorted {@code Appointment} objects
+     * @param ascending if {@code true} - sorts in ascending, otherwise descending
      */
     public AppointmentList(boolean ascending) {
         this.ascending = ascending;
     }
 
     // Public methods
+    // Getters
 
+    /**
+     * Gets the number of {@code Appointment} in the list
+     * @return the number of {@code Appointment} in the list
+     */
     public int getCount() {return count;}
+    /**
+     * Gets the reference to the first {@code AppointmentNode} in the list
+     * @return the reference to the first {@code AppointmentNode} in the list
+     */
     public AppointmentNode getHeadRef() {return headRef;}
 
     /**
-     * Prints out every appointment in the list
-     * With either PatientID/DoctorID base on the boolean input
-     * @param Patient
+     * Prints out every {@code Appointment} object in the list using print function from {@code Appointment}
+     *
+     * @param Patient {@code true} - prints out doctor's name, {@code false} - prints out patient's name
+     *
+     * @see Appointment#print(boolean, int)  Appointment print function
      */
     public int print(boolean Patient) {
         AppointmentNode curRef = this.headRef;
@@ -49,11 +66,18 @@ public class AppointmentList implements Iterable<Appointment> {
         return index;
     }
 
-
-    public int print(boolean Patient, int lastIndex) {
+    /**
+     * Prints out every {@code Appointment} object in the list using print function from {@code Appointment}
+     * <p> Starting from {@code startIndex} </p>
+     *
+     * @param Patient {@code true} - prints out doctor's name, {@code false} - prints out patient's name
+     * @param startIndex the index of the first {@code Appointment} in the List
+     * @see Appointment#print(boolean, int)  Appointment print function
+     */
+    public int print(boolean Patient, int startIndex) {
         AppointmentNode curRef = this.headRef;
         if (curRef == null) return 1;
-        int index = lastIndex;
+        int index = startIndex;
         while (curRef != null) {
             curRef.appointment.print(Patient,index++);
             curRef = curRef.nextNode;
@@ -63,7 +87,7 @@ public class AppointmentList implements Iterable<Appointment> {
 
     /**
      * Adds appointment into the list in ascending/descending order
-     * @param appointment
+     * @param appointment {@code Appointment} to be added
      */
     public void addAppointment(Appointment appointment) {
         this.count++;
@@ -100,8 +124,8 @@ public class AppointmentList implements Iterable<Appointment> {
 
     /**
      * Removes the prescription by index starting from 0
-     * @param index
-     * @return
+     * @param index the index of the {@code Appointment} to remove
+     * @return {@code 0} if successful, {@code -1} if unsuccessful
      */
     public int removeAppointment(int index){ // Remove by index return 0 if successful -1 if unsuccessful
         if (count == 0 || index < 0 || index >= count) return -1;
@@ -120,9 +144,9 @@ public class AppointmentList implements Iterable<Appointment> {
     }
 
     /**
-     * Find and returns prescription based on the medicine name
-     * @param index
-     * @return
+     * Find and returns {@code Appointment} based on the {@code index} given
+     * @param index {@code index} of the {@code Appointment}
+     * @return {@code Appointment} at {@code index}
      */
     public Appointment getAppointment(int index) { // Takes index and returns the appointment object (Assuming no duplicate)
         if (index >= this.count) return null;
@@ -134,24 +158,46 @@ public class AppointmentList implements Iterable<Appointment> {
         return curRef.appointment;
     }
 
+    /**
+     * Used for iterating through the LinkedList
+     * @return
+     */
     @Override
     public Iterator<Appointment> iterator() {
         return new AppointmentIterator(this);
     }
 }
 
+/**
+ * Implements the {@code Iterator} interface for easy iteration using for-loop
+ * <p>
+ *     Example - {@code for(Appointment apt : list)}
+ * </p>
+ */
 class AppointmentIterator implements Iterator<Appointment> {
     AppointmentNode current;
 
+    /**
+     * Constructs the Iterator
+     * @param list
+     */
     public AppointmentIterator(AppointmentList list) {
         current = list.getHeadRef();
     }
 
+    /**
+     * Checks if there is a next {@code AppointmentNode}
+     * @return
+     */
     @Override
     public boolean hasNext() {
         return current != null;
     }
 
+    /**
+     * To iterate through the list
+     * @return
+     */
     @Override
     public Appointment next() {
         Appointment output = current.appointment;

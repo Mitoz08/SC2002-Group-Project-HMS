@@ -1,7 +1,14 @@
 package DataObject.Prescription;
 
+import DataObject.Appointment.Appointment;
+
 import java.util.Iterator;
 
+/**
+ * A class that stores the {@code Prescription} in a LinkedList structure
+ *
+ * @see Prescription
+ */
 class PrescriptionNode {
     Prescription prescription;
     PrescriptionNode nextNode;
@@ -21,7 +28,16 @@ public class PrescriptionList implements Iterable<Prescription> {
     // Default constructor is fine
 
     // Public methods
+    /**
+     * Gets the number of {@code Prescription} in the list
+     * @return the number of {@code Prescription} in the list
+     */
     public int getCount() {return count;}
+
+    /**
+     * Gets the reference to the first {@code PrescriptionNode} in the list
+     * @return the reference to the first {@code PrescriptionNode} in the list
+     */
     public PrescriptionNode getHeadRef(){ return headRef;}
 
     /**
@@ -110,25 +126,46 @@ public class PrescriptionList implements Iterable<Prescription> {
         }
         return curRef.prescription;
     }
-
+    /**
+     * Used for iterating through the LinkedList
+     * @return
+     */
     @Override
     public Iterator iterator() {
         return new PrescriptionIterator(this);
     }
 }
 
+/**
+ * Implements the {@code Iterator} interface for easy iteration using for-loop
+ * <p>
+ *     Example - {@code for(Prescription prescription : list)}
+ * </p>
+ */
 class PrescriptionIterator implements Iterator<Prescription> {
     PrescriptionNode current;
 
+    /**
+     * Constructs the Iterator
+     * @param list
+     */
     PrescriptionIterator (PrescriptionList list) {
         current = list.getHeadRef();
     }
 
+    /**
+     * Checks if there is a next {@code PrescriptionNode}
+     * @return
+     */
     @Override
     public boolean hasNext() {
         return current != null;
     }
 
+    /**
+     * To iterate through the list
+     * @return
+     */
     @Override
     public Prescription next() {
         Prescription output = current.prescription;

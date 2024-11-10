@@ -17,9 +17,8 @@ public class Prescription implements Comparable<Prescription> {
     private int amount;
 
     // Constructor
-
     /**
-     * Creates prescription object and prompts input
+     * Constructs a {@code prescription} object and prompts input (Used for creating a new prescription)
      */
     public Prescription () {
         Scanner sc = new Scanner(System.in);
@@ -33,7 +32,7 @@ public class Prescription implements Comparable<Prescription> {
     }
 
     /**
-     * Creates prescription object with given input
+     * Constructs a {@code prescription} with given input (Used for loading in from file)
      * @param status Prescribed or not
      * @param medicineName Name of medicine
      * @param amount Amount of medicine
@@ -44,39 +43,34 @@ public class Prescription implements Comparable<Prescription> {
         this.amount = amount;
     }
 
+    // Getters
+
     /**
-     *  Creates prescription object from serialised data
-     * @param DataInput serialised data string (e.g. 0-MedicineName-10)
+     * Gets the medicine name of the prescription
+     * @return the medicine name of the prescription
      */
-    public Prescription (String DataInput) {
-        String[] inputs = DataInput.split("[-/,]"); // Converting data into array
-        try {
-            int index = 0;
-            this.status = MED_STATUS.values()[Integer.parseInt(inputs[index++])];
-            this.medicineName = inputs[index++];
-            this.amount = Integer.parseInt(inputs[index++]);
-        } catch (IndexOutOfBoundsException e) {
-            Scanner sc = new Scanner(System.in);
-
-            System.out.println("Incorrect data input - manual input");
-            System.out.print("Enter name of medicine: ");
-            this.medicineName = sc.nextLine();
-            System.out.print("Enter the amount: ");
-            this.amount = sc.nextInt();
-        }
-    }
-
-    // Public methods
     public String getMedicineName() {return this.medicineName;}
-    public int getAmount() {return this.amount;}
-    public MED_STATUS getStatus() {return this.status;}
 
-    public void setMedicineName(String medicineName) {this.medicineName = medicineName;} // Don't think setters will be used
-    public void setAmount(int amount) {this.amount = amount;}
-    public void setStatus(MED_STATUS status) {this.status = status;}
+    /**
+     * Gets the amount of medicine being prescribed
+     * @return the amount of medicine being prescribed
+     */
+    public int getAmount() {return this.amount;}
+
+    /**
+     * Gets the Status of the prescription Pending or Prescribed
+     * @return the Status of the prescription
+     */
+    public MED_STATUS getStatus() {return this.status;}
 
     /**
      * Prints out a formatted prescription block
+     * <p>Prints:</p>
+     * <l>
+     *     <li> Medicine name</li>
+     *     <li> Medicine amount</li>
+     *     <li> Prescribe status</li>
+     * </l>
      */
     public void print() {
         System.out.println("_______________________________");
@@ -101,9 +95,11 @@ public class Prescription implements Comparable<Prescription> {
 
     /**
      * Compares the current prescription with the argument prescription
-     * when current medicine is smaller than the argument medicine (alphabetically) returns less than 0
-     * when current medicine is larger than the argument medicine (alphabetically) returns more than 0
-     * when current medicine is equal to the argument medicine, returns the difference in the amount
+     * <l>
+     *     <li>when current medicine is smaller than the argument medicine (alphabetically) returns less than 0</li>
+     *     <li>when current medicine is larger than the argument medicine (alphabetically) returns more than 0</li>
+     *     <li>when current medicine is equal to the argument medicine, returns the difference in the amount</li>
+     * </l>
      * @param o the object to be compared.
      * @return
      */

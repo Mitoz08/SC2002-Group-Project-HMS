@@ -30,10 +30,30 @@ public class MedicineData {
         this.minStock = minStock;
     }
 
+    // Getters
 
+    /**
+     * Gets the ID of the medicine
+     * @return the ID of the medicine
+     */
     public int getID() {return this.ID;}
+
+    /**
+     * Gets the medicine name
+     * @return the medicine name
+     */
     public String getName() {return this.name;}
+
+    /**
+     * Gets the amount of that medicine
+     * @return the amount of that medicine
+     */
     public int getAmount() {return this.amount;}
+
+    /**
+     * Gets the minimum stock requirement of that medicine
+     * @return the minimum stock requirement of that medicine
+     */
     public int getMinStock() {return this.minStock;}
 
     /**
