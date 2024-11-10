@@ -13,8 +13,8 @@ public class MedicineRequest {
     private boolean approved;
     private int pharmacistID;
 
-    // Public
 
+    // Constructors
      /**
      * Constructs a new MedicineRequest with the specified patient, doctor, and appointment details.
      * The request is initialized as not approved, and no pharmacist is assigned.
@@ -49,6 +49,38 @@ public class MedicineRequest {
         this.pharmacistID = pharmacistID;
     }
 
+    // Getters
+
+    /**
+     * Gets the patient's ID of the request
+     * @return the patient's ID of the request
+     */
+    public int getPatientID() {return this.patientID;}
+
+    /**
+     * Gets the doctor's ID of the request
+     * @return the doctor's ID of the request
+     */
+    public int getDoctorID() {return this.doctorID;}
+
+    /**
+     * Gets the {@code Appointment} ID of the request
+     * @return the {@code Appointment} ID of the request
+     */
+    public String getAppointmentID() {return this.appointmentID;}
+
+    /**
+     * Gets the {@code boolean} variable {@code approved} of the request
+     * @return the {@code boolean} variable {@code approved} of the request
+     */
+    public boolean isApproved() {return this.approved;}
+
+    /**
+     * Gets the pharmacist's ID of the request (Pharmacist who approved the request)
+     * @return the pharmacist's ID of the request (Pharmacist who approved the request)
+     */
+    public int getPharmacistID() {return this.pharmacistID;}
+
     /**
      * Approves the request and assigns a pharmacist ID.
      *
@@ -59,14 +91,14 @@ public class MedicineRequest {
         this.pharmacistID = pharmacistID;
     }
 
-    public int getPatientID() {return this.patientID;}
-    public int getDoctorID() {return this.doctorID;}
-    public String getAppointmentID() {return this.appointmentID;}
-    public boolean isApproved() {return this.approved;}
-    public int getPharmacistID() {return this.pharmacistID;}
-
     /**
      * Prints a formatted block of the medicine request.
+     * <p>Prints:</p>
+     * <l>
+     *     <li> Appointment ID</li>
+     *     <li> Patient ID</li>
+     *     <li> Doctor ID</li>
+     * </l>
      */
     public void print() {
         System.out.printf("______________________________\n");
@@ -77,9 +109,15 @@ public class MedicineRequest {
     }
 
     /**
-     * Prints a formatted summary of the medicine request with an index.
+     * Prints a formatted block of the medicine request with an index.
+     * <p>Prints:</p>
+     * <l>
+     *     <li> Appointment ID</li>
+     *     <li> Patient ID</li>
+     *     <li> Doctor ID</li>
+     * </l>
      *
-     * @param index the index to display before the summary
+     * @param index the index to display before the block
      */
     public void print(int index) {
         System.out.printf("%2d)______________________________\n", index);

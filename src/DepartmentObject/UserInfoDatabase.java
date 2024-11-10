@@ -27,6 +27,8 @@ public class UserInfoDatabase {
     private ArrayList<Administrator> administrators;
     private ArrayList<Pharmacist> pharmacists;
     private AppointmentList[] allAppointments; //0-Pending , 1- Ongoing, 2- Completed
+    private String HMSFileName;
+    private String APTFileName;
 
 
     /**
@@ -46,11 +48,21 @@ public class UserInfoDatabase {
 
     }
 
+
+    public void setHMSFileName(String fileName) {
+        this.HMSFileName = fileName;
+    }
+
+    public void setAPTFileName(String fileName) {
+        this.APTFileName = fileName;
+    }
     /**
      * Method use at the end of the main function call to save information on appointments and Staff/ Patient.
      *  Saves the information into respective files APT.TXT and HMS.txt
      */
-    public void endUserInfoDatabase() {saveFile();}
+    public void endUserInfoDatabase() {
+        saveFile();
+    }
 
     public void testRun() {
         Patient P = new Patient(1001,"John", new Date(99,1,21), true, "O+", new Contact("John@gmail.com", "91234590"));
@@ -531,6 +543,7 @@ public class UserInfoDatabase {
             i++;
         }
         if (!accept){
+            foundDoc.removeTimeSlot(acceptApt.getDate(),acceptApt.getTimeSlot());
             acceptApt = null; //PUTS IN GARBAGE DISPOSAL IF REJECTED
         }
         return;
@@ -575,27 +588,26 @@ public class UserInfoDatabase {
      * <p>Both file reading operations close the {@code Scanner} after reading.</p>
      */
     public void loadFile() {
-        File savefile = new File("HMS.txt");
+        File savefile = new File(HMSFileName);
         Scanner file;
         try {
             file = new Scanner(savefile);
             loadAccount(file);
             file.close();
         } catch (Exception e) {
-            System.out.println("Error reading HMS.txt");
+            System.out.println("Error reading HMS file");
             return;
         } finally {
 //            System.out.println("Finish load function");
         }
 
-        savefile = new File("APT.txt");
+        savefile = new File(APTFileName);
         try {
             file = new Scanner(savefile);
             loadAppointment(file);
             file.close();
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error reading APT.txt");
+            System.out.println("Error reading APT file");
             return;
         } finally {
 //            System.out.println("Finish load function");
@@ -619,6 +631,7 @@ public class UserInfoDatabase {
     private void loadAccount(Scanner fileReader) {
         while (fileReader.hasNextLine()){
             String text = fileReader.nextLine();
+            text = DataEncryption.decipher(text);
             String[] temp = text.split("&");
             switch (temp[0]) {
                 case "PA":
@@ -664,7 +677,13 @@ public class UserInfoDatabase {
      */
     private void loadAppointment(Scanner fileWriter) {
         while (fileWriter.hasNextLine()) {
-            Appointment apt = DataSerialisation.DeserialiseAppointment(DataEncryption.decipher(fileWriter.nextLine()));
+            String decrypted = DataEncryption.decipher(fileWriter.nextLine());
+            if (decrypted.substring(0,7).equals("Static&")) {
+                int lastID = Integer.valueOf(decrypted.substring(7));
+                Appointment.setLastID(lastID);
+                return;
+            }
+            Appointment apt = DataSerialisation.DeserialiseAppointment(decrypted);
             Patient patient = (Patient) getPerson(apt.getPatientID(),ROLE.PATIENT);
             Doctors doctor = (Doctors) getPerson(apt.getDoctorID(),ROLE.DOCTOR);
             switch (apt.getStatus()) {
@@ -702,17 +721,17 @@ public class UserInfoDatabase {
      * <p>Each file operation is closed after writing to ensure data integrity and avoid resource leaks.</p>
      */
     private void saveFile() {
-        File savefile = new File("HMS.txt");
+        File savefile = new File(HMSFileName);
         FileWriter file;
         try {
             file = new FileWriter(savefile);
             saveAccount(file);
             file.close();
         } catch (Exception e) {
-            System.out.println("Error writing into HMS.txt");
+            System.out.println("Error writing into HMS file");
         }
 
-        savefile = new File("APT.txt");
+        savefile = new File(APTFileName);
 
         try {
             file = new FileWriter(savefile);
@@ -720,7 +739,7 @@ public class UserInfoDatabase {
             file.close();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Error writing into APT.txt");
+            System.out.println("Error writing into APT file");
         }
 
     }
@@ -759,6 +778,6 @@ public class UserInfoDatabase {
     private void saveAppointment(FileWriter fileWriter) throws  IOException {
 
         for (AppointmentList list: allAppointments) for (Appointment apt: list) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialiseAppointment(apt)) + "\n");
-
+        fileWriter.write(DataEncryption.cipher("Static&" + String.valueOf(Appointment.getLastID())));
     }
 }

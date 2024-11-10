@@ -61,7 +61,7 @@ public class PatientUI implements BaseUI {
             switch (choice) {
                 case 1: // View patient's own medical record
                     patient.printMedicalRecord();
-                    Input.ScanString("Press enter to continue\n");
+                    Input.ScanString("Press enter to continue...\n");
 //                    patient = (Patient) database.getPerson(patient.getID(), ROLE.PATIENT);
                     break;
                 case 2: // Update Patient's personal information
@@ -82,22 +82,22 @@ public class PatientUI implements BaseUI {
                 case 7:
                     if (patient.getOngoing().getCount() == 0) {
                         System.out.println("No ongoing appointment");
-                        Input.ScanString("Press enter to continue\n");
+                        Input.ScanString("Press enter to continue...\n");
                         break;
                     }
                     System.out.println("Here are your scheduled appointments");
                     patient.getOngoing().print(true);
-                    Input.ScanString("Press enter to continue\n");
+                    Input.ScanString("Press enter to continue...\n");
                     break;
                 case 8:
                     if (patient.getCompleted().getCount() == 0) {
                         System.out.println("No completed appointment");
-                        Input.ScanString("Press enter to continue\n");
+                        Input.ScanString("Press enter to continue...\n");
                         break;
                     }
                     System.out.println("Here are your completed appointments");
                     patient.getCompleted().print(true);
-                    Input.ScanString("Press enter to continue\n");
+                    Input.ScanString("Press enter to continue...\n");
                     break;
                 case 9:
                     break;
@@ -147,118 +147,36 @@ public class PatientUI implements BaseUI {
     /**
      * Displays available appointment slots for the patient based on the availability of doctors.
      * Allows the patient to select a day and time slot, checking which doctors are available.
-     * If no doctors are available, prompts the user to select another slot.
+     * If no doctors are available, the method terminates.
      */
     public void viewAvailableAppointments(){
-        boolean check;
-        do {
-            Input.ClearConsole();
-            check = false;
-            System.out.println("Which timing do you want to choose?");
-
-            Date date;
-            int timeSlot;
-            while (true) {
-                date = Input.ScanFutureDate("Choose the date");
-
-                Calendar c = Calendar.getInstance();
-                Date today = c.getTime();
-                if (date.equals(new Date(today.getYear(), today.getMonth(), today.getDate()))) { //Checking if input date is today
-                    int maxChoice = 1;
-                    while (true) {
-                        System.out.println("Choose the timing:");
-                        int hour = today.getHours() < 10? 1 : today.getHours();
-                        switch (hour) {
-                            case 1:
-                                System.out.println(maxChoice++ + ") 10AM-11AM");
-                            case 10:
-                                System.out.println(maxChoice++ + ") 11AM-12PM");
-                            case 11:
-                                System.out.println(maxChoice++ + ") 1PM-2PM");
-                            case 13:
-                                System.out.println(maxChoice++ + ") 2PM-3PM");
-                            case 14:
-                                timeSlot = Input.ScanInt(maxChoice + ") 3PM-4PM\n")-1;
-                                break;
-                            default:
-                                System.out.println("No more appointment slot for today.\nPlease choose another day");
-                                continue;
-                        }
-                        if (timeSlot < 0 || timeSlot > maxChoice - 1) {
-                            System.out.println("Incorrect input.");
-                            continue;
-                        }
-                        break;
-                    }
-                    timeSlot += (5 - maxChoice); // Offset + Choice
-                } else {
-                    while (true) {
-                        timeSlot = Input.ScanInt("Choose the timing:\n" +
-                                "1) 10AM-11AM\n" +
-                                "2) 11AM-12PM\n" +
-                                "3) 1PM-2PM\n" +
-                                "4) 2PM-3PM\n" +
-                                "5) 3PM-4PM\n") - 1;
-                        if (timeSlot < 0 || timeSlot > 4) {
-                            System.out.println("Incorrect input.");
-                            continue;
-                        }
-                        break;
-                    }
-
-                }
-                break;
-            }
-            ArrayList<Doctors> doctorsArrayList = database.getDoctors();
-            for (Doctors doctor : doctorsArrayList) {
-                Boolean[] availability = doctor.getTimeSlot(date);
-                if (availability == null || !availability[timeSlot]) {
-                    System.out.println(doctor.getName() + " is available during this timeslot\n");
-                    check = true;
-                }
-            }
-            if (!check) {
-                System.out.println("No doctors available at this timeslot, please pick another!\n");
-                Input.ScanString("Press enter to continue\n");
-            }
-        } while(!check);
-        Input.ScanString("Press enter to continue\n");
-    }
-
-    /**
-     * Schedules a new appointment for the patient.
-     * <p>
-     * First asks patient to choose an available time slot. Then checks
-     * for any existing pending or ongoing appointments at the chosen slot, and if the slot is
-     * available, allows the patient to select a doctor and book the appointment. If this process succeeds,
-     * appointment is added into the database.
-     * </p>
-     *
-     */
-    public Appointment scheduleApt(){
-        Input.ClearConsole();
         boolean check;
         Input.ClearConsole();
         check = false;
         System.out.println("Which timing do you want to choose?");
+
         Date date;
-        int timeSlot;
+        int timeSlot = 0;
         while (true) {
             date = Input.ScanFutureDate("Choose the date");
 
             Calendar c = Calendar.getInstance();
             Date today = c.getTime();
             if (date.equals(new Date(today.getYear(), today.getMonth(), today.getDate()))) { //Checking if input date is today
+                if (today.getTime() >= 15) {
+                    System.out.println("No more appointment slot for today.\nPlease choose another day");
+                    continue;
+                }
                 int maxChoice = 1;
                 while (true) {
                     System.out.println("Choose the timing:");
-                    int hour = today.getHours() < 10? 1 : today.getHours();
+                    int hour = today.getHours() < 10 ? 1 : today.getHours();
                     switch (hour) {
                         case 1:
                             System.out.println(maxChoice++ + ") 10AM-11AM");
                         case 10:
                             System.out.println(maxChoice++ + ") 11AM-12PM");
-                        case 11:
+                        case 11,12:
                             System.out.println(maxChoice++ + ") 1PM-2PM");
                         case 13:
                             System.out.println(maxChoice++ + ") 2PM-3PM");
@@ -266,8 +184,7 @@ public class PatientUI implements BaseUI {
                             timeSlot = Input.ScanInt(maxChoice + ") 3PM-4PM\n")-1;
                             break;
                         default:
-                            System.out.println("No more appointment slot for today.\nPlease choose another day");
-                            continue;
+                            break;
                     }
                     if (timeSlot < 0 || timeSlot > maxChoice - 1) {
                         System.out.println("Incorrect input.");
@@ -294,44 +211,140 @@ public class PatientUI implements BaseUI {
             }
             break;
         }
-
-        Date requestDate = Appointment.createDate(date, timeSlot);
-        for (Appointment apt : patient.getPending()) {
-            if (apt.getAppointmentTime().equals(requestDate)){
-                System.out.println("A pending appointment already exist at that slot.");
-                Input.ScanString("Press enter to continue\n");
-                return null;
-            }
-        }
-        for (Appointment apt : patient.getOngoing()) {
-            if (apt.getAppointmentTime().equals(requestDate)){
-                System.out.println("An ongoing appointment already exist at that slot.");
-                Input.ScanString("Press enter to continue\n");
-                return null;
-            }
-        }
-
         ArrayList<Doctors> doctorsArrayList = database.getDoctors();
         for (Doctors doctor : doctorsArrayList) {
             Boolean[] availability = doctor.getTimeSlot(date);
             if (availability == null || !availability[timeSlot]) {
-                System.out.println(doctor.getID() + ": " + doctor.getName() + " is available during this timeslot\n");
+                System.out.println(doctor.getName() + " is available during this timeslot.\n");
                 check = true;
             }
         }
         if (!check) {
             System.out.println("No doctors available at this timeslot, please pick another!\n");
-            Input.ScanString("Press enter to continue\n");
+            Input.ScanString("Press enter to continue...\n");
+            return;
+        }
+        Input.ScanString("Press enter to continue...\n");
+    }
+
+    /**
+     * Schedules a new appointment for the patient.
+     * <p>
+     * First asks patient to choose an available time slot. Then checks
+     * for any existing pending or ongoing appointments at the chosen slot, and if the slot is
+     * available, allows the patient to select a doctor and book the appointment. If this process succeeds,
+     * appointment is added into the database.
+     * </p>
+     *
+     */
+    public Appointment scheduleApt() {
+        Input.ClearConsole();
+        boolean check;
+        Input.ClearConsole();
+        check = false;
+        System.out.println("Which timing do you want to choose?");
+        Date date;
+        Date requestDate;
+        int timeSlot = 0;
+        do {
+            while (true) {
+                date = Input.ScanFutureDate("Choose the date");
+
+                Calendar c = Calendar.getInstance();
+                Date today = c.getTime();
+                if (date.equals(new Date(today.getYear(), today.getMonth(), today.getDate()))) { //Checking if input date is today
+                    if (today.getTime() >= 15) {
+                    System.out.println("No more appointment slot for today.\nPlease choose another day");
+                    continue;
+                    }
+                    int maxChoice = 1;
+                    while (true) {
+                        System.out.println("Choose the timing:");
+                        int hour = today.getHours() < 10 ? 1 : today.getHours();
+                        switch (hour) {
+                            case 1:
+                                System.out.println(maxChoice++ + ") 10AM-11AM");
+                            case 10:
+                                System.out.println(maxChoice++ + ") 11AM-12PM");
+                            case 11,12:
+                                System.out.println(maxChoice++ + ") 1PM-2PM");
+                            case 13:
+                                System.out.println(maxChoice++ + ") 2PM-3PM");
+                            case 14:
+                                timeSlot = Input.ScanInt(maxChoice + ") 3PM-4PM\n") - 1;
+                                break;
+                            default:
+                                break;
+                        }
+                        if (timeSlot < 0 || timeSlot > maxChoice - 1) {
+                            System.out.println("Incorrect input.");
+                            continue;
+                        }
+                        break;
+                    }
+                    timeSlot += (5 - maxChoice); // Offset + Choice
+                } else {
+                    while (true) {
+                        timeSlot = Input.ScanInt("Choose the timing:\n" +
+                                "1) 10AM-11AM\n" +
+                                "2) 11AM-12PM\n" +
+                                "3) 1PM-2PM\n" +
+                                "4) 2PM-3PM\n" +
+                                "5) 3PM-4PM\n") - 1;
+                        if (timeSlot < 0 || timeSlot > 4) {
+                            System.out.println("Incorrect input.");
+                            continue;
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
+
+            requestDate = Appointment.createDate(date, timeSlot);
+            for (Appointment apt : patient.getPending()) {
+                if (apt.getAppointmentTime().equals(requestDate)) {
+                    System.out.println("A pending appointment already exist at that slot. Please book again.");
+                    Input.ScanString("Press enter to continue...\n");
+                    return null;
+                }
+            }
+            for (Appointment apt : patient.getOngoing()) {
+                if (apt.getAppointmentTime().equals(requestDate)) {
+                    System.out.println("An ongoing appointment already exist at that slot. Please book again.");
+                    Input.ScanString("Press enter to continue...\n");
+                    return null;
+                }
+            }
+
+            ArrayList<Doctors> doctorsArrayList = database.getDoctors();
+            for (Doctors doctor : doctorsArrayList) {
+                Boolean[] availability = doctor.getTimeSlot(date);
+                if (availability == null || !availability[timeSlot]) {
+                    System.out.println(doctor.getID() + ": " + doctor.getName() + " is available during this timeslot\n");
+                    check = true;
+                }
+            }
+            if (!check) {
+                System.out.println("No doctors available at this timeslot, please book again.\n");
+                Input.ScanString("Press enter to continue...\n");
+                return null;
+            }
         }
         while(!check);
-
         String service = Input.ScanString("What service are you booking for?\n");
-        int doctorID = Input.ScanInt("Enter the doctor ID: \n");
-        Doctors doctor = (Doctors) database.getPerson(doctorID, ROLE.DOCTOR);
-        apt = new Appointment(service, patient.getID(),patient.getName(), doctor.getID(), doctor.getName() ,requestDate);
-        apt.print();
-        Input.ScanString("Appointment created\nEnter to continue...");
-        return apt;
+        do {
+            int doctorID = Input.ScanInt("Enter the doctor ID: \n");
+            Doctors doctor = (Doctors) database.getPerson(doctorID, ROLE.DOCTOR);
+            if (doctor == null) {
+                System.out.println("Invalid Doctor ID. Please try again\n");
+                continue;
+            }
+            apt = new Appointment(service, patient.getID(),patient.getName(), doctor.getID(), doctor.getName() ,requestDate);
+            apt.print();
+            Input.ScanString("Appointment created\nPress enter to continue...");
+            return apt;
+        } while(true);
     }
 
     /**
@@ -349,21 +362,21 @@ public class PatientUI implements BaseUI {
         Input.ClearConsole();
         if (patient.getOngoing().getCount()==0 && patient.getPending().getCount() == 0) {
             System.out.println("No existing appointments to reschedule.");
-            Input.ScanString("Press enter to continue\n");
+            Input.ScanString("Press enter to continue...\n");
             return;
         }
 
         Appointment cancel = cancelApt();
         if (cancel == null) {
             System.out.println("Reschedule cancelled as existing appointment was not cancelled");
-            Input.ScanString("Press enter to continue\n");
+            Input.ScanString("Press enter to continue...\n");
             return;
         }
 
         Appointment add = scheduleApt();
         if (add == null) {
             System.out.println("Reschedule cancelled as new appointment was not created");
-            Input.ScanString("Press enter to continue\n");
+            Input.ScanString("Press enter to continue...\n");
             return;
         }
         database.rescheduleApt(add,cancel);
@@ -384,7 +397,7 @@ public class PatientUI implements BaseUI {
         Input.ClearConsole();
         if (patient.getOngoing().getCount()==0 && patient.getPending().getCount() == 0) {
             System.out.println("No existing appointments to cancel.");
-            Input.ScanString("Press enter to continue\n");
+            Input.ScanString("Press enter to continue...\n");
             return null;
         }
         boolean check;
@@ -411,7 +424,7 @@ public class PatientUI implements BaseUI {
             }
             int yn;
             do {
-                yn = Input.ScanInt("Please confirm that this is the appointment you want?\n" + "1. Yes\n" + "2. No\n");
+                yn = Input.ScanInt("Please confirm that this is the appointment you want to cancel?\n" + "1. Yes\n" + "2. No\n");
                 if (yn != 1 && yn != 2)
                     System.out.println("Invalid input. Please enter 1 or 2.");
             }

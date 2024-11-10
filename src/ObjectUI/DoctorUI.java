@@ -237,15 +237,22 @@ public class DoctorUI implements BaseUI {
             else if (choice == 2) { // Setting to "Available"
                 if (doctor.getTimeSlot(date)[time]) {
                     // Check for ongoing appointments to prevent conflicts
+                    for (Appointment apt : doctor.getPendingApt()) {
+                        if (apt.getDate().equals(date) && apt.getTimeSlot() == time) {
+                            System.out.println("Cancelling pending appointment: " + apt.getAppointmentID());
+                            database.docAcceptApt(apt,false);
+                            return;
+                        }
+                    }
                     for (Appointment apt : doctor.getOngoingApt()) {
                         if (apt.getDate().equals(date) && apt.getTimeSlot() == time) {
                             System.out.println("There is an ongoing appointment; you are unavailable at that timing.");
                             return;
                         }
                     }
-                    doctor.getTimeSlot(date)[time] = false;
+                    doctor.removeTimeSlot(date, time);
                 } else {
-                    doctor.getTimeSlot(date)[time] = false; // Set the slot to available
+                    doctor.removeTimeSlot(date, time); // Set the slot to available
                 }
             }
         }
@@ -296,9 +303,6 @@ public class DoctorUI implements BaseUI {
                     if (option == 2) {
                         // Decline the appointment
                         database.docAcceptApt(apt, false);
-                        Date date = apt.getDate();
-                        int key = Integer.parseInt("" + date.getYear() + date.getMonth() + date.getDate());
-                        doctor.getAvailability().get(key)[apt.getTimeSlot()] = false;
                     } else if (option == 1) {
                         // Accept the appointment
                         database.docAcceptApt(apt, true);

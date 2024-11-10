@@ -39,22 +39,34 @@ public class Main {
                     switch (role) {
                         case "PA":
                             for (Patient p : database.getPatients()) {
-                                if (p.getID() == ID) new PatientUI(p);
+                                if (p.getID() == ID) {
+                                    new PatientUI(p);
+                                    break;
+                                }
                             }
                             break;
                         case "DR":
                             for (Doctors d : database.getDoctors()) {
-                                if (d.getID() == ID) new DoctorUI(d);
+                                if (d.getID() == ID) {
+                                    new DoctorUI(d);
+                                    break;
+                                }
                             }
                             break;
                         case "PH":
                             for (Pharmacist p : database.getPharmacists()) {
-                                if (p.getID() == ID) new PharmacistUI(p);
+                                if (p.getID() == ID) {
+                                    new PharmacistUI(p);
+                                    break;
+                                }
                             }
                             break;
                         case "AD":
                             for (Administrator a : database.getAdministrators()) {
-                                if (a.getID() == ID) new AdminUI(a);
+                                if (a.getID() == ID) {
+                                    new AdminUI(a);
+                                    break;
+                                }
                             }
                             break;
                     }

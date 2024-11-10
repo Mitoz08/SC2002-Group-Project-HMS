@@ -21,6 +21,7 @@ public class Pharmacy {
     private ArrayList<RestockRequest> restockRequests;
     private ArrayList<MedicineRequest> pastMedReq;
     private ArrayList<RestockRequest> pastRestockReq;
+    private String pharmacyFileName;
 
     // Methods
 
@@ -37,9 +38,13 @@ public class Pharmacy {
 //        testRun();
     }
 
+    // Getter/Setter
     public HashMap<Integer,MedicineData> getMedicine() {
         HashMap<Integer,MedicineData> temp = (HashMap<Integer,MedicineData>) this.medicineStorage.clone();
         return temp;
+    }
+    public void setPharmacyFileName(String fileName) {
+        this.pharmacyFileName = fileName;
     }
 
     public void endPharmacy() {
@@ -55,6 +60,15 @@ public class Pharmacy {
 //        MedicineRequest request = new MedicineRequest(1001,001,"APT0000001");
 //        requestMedicine(request);
 
+    }
+
+    public void presetData() {
+        MedicineData m1 = new MedicineData(1,"Paracetamol", 100,20);
+        MedicineData m2 = new MedicineData(2,"Ibuprofen", 50,10);
+        MedicineData m3 = new MedicineData(3,"Amoxicillin", 75,15);
+        addMedicine(m1);
+        addMedicine(m2);
+        addMedicine(m3);
     }
 
     public void requestMedicine(MedicineRequest request) {
@@ -187,14 +201,14 @@ public class Pharmacy {
     }
 
     public void loadFile() {
-        File savefile = new File("Pharmacy.txt");
+        File savefile = new File(pharmacyFileName);
         Scanner file;
         try {
             file = new Scanner(savefile);
             loadData(file);
             file.close();
         } catch (Exception e) {
-            System.out.println("Error reading Pharmacy.txt");
+            System.out.println("Error reading Pharmacy file");
             return;
         } finally {
 //            System.out.println("Finish load function");
@@ -241,14 +255,14 @@ public class Pharmacy {
     }
 
     private void saveFile() {
-        File savefile = new File("Pharmacy.txt");
+        File savefile = new File(pharmacyFileName);
         FileWriter file;
         try {
             file = new FileWriter(savefile);
             saveData(file);
             file.close();
         } catch (Exception e) {
-            System.out.println("Error writing into Pharmacy.txt");
+            System.out.println("Error writing into Pharmacy file");
             return;
         } finally {
 //            System.out.println("Finish save function");
