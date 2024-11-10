@@ -194,7 +194,7 @@ public class DataSerialisation {
         while (index < Data.length && !Data[index].equals("Empty")) {
             System.out.println("test");
             try {
-                Prescription prescription = new Prescription(Data[index++]);
+                Prescription prescription = DeserialisePrescription(Data[index++]);
                 list.addPrescription(prescription);
             } catch (IndexOutOfBoundsException e) {
                 break;

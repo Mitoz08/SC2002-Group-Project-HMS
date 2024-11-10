@@ -739,7 +739,13 @@ public class UserInfoDatabase {
 
     private void loadAppointment(Scanner fileWriter) {
         while (fileWriter.hasNextLine()) {
-            Appointment apt = DataSerialisation.DeserialiseAppointment(DataEncryption.decipher(fileWriter.nextLine()));
+            String decrypted = DataEncryption.decipher(fileWriter.nextLine());
+            if (decrypted.substring(0,7).equals("Static&")) {
+                int lastID = Integer.valueOf(decrypted.substring(7));
+                Appointment.setLastID(lastID);
+                return;
+            }
+            Appointment apt = DataSerialisation.DeserialiseAppointment(decrypted);
             Patient patient = (Patient) getPerson(apt.getPatientID(),ROLE.PATIENT);
             Doctors doctor = (Doctors) getPerson(apt.getDoctorID(),ROLE.DOCTOR);
             switch (apt.getStatus()) {
@@ -803,6 +809,6 @@ public class UserInfoDatabase {
     private void saveAppointment(FileWriter fileWriter) throws  IOException {
 
         for (AppointmentList list: allAppointments) for (Appointment apt: list) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialiseAppointment(apt)) + "\n");
-
+        fileWriter.write(DataEncryption.cipher("Static&" + String.valueOf(Appointment.getLastID())));
     }
 }

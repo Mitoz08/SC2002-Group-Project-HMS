@@ -47,9 +47,24 @@ public class RestockRequest {
         this.administratorID = administratorID;
     }
 
+    // Getters
 
+    /**
+     * Gets the pharmacist's ID of the request (Pharmacist who created the request)
+     * @return the pharmacist's ID of the request (Pharmacist who created the request)
+     */
     public int getPharmacistID() {return this.pharmacistID;}
+
+    /**
+     * Gets the {@code boolean} variable {@code approved} of the request
+     * @return the {@code boolean} variable {@code approved} of the request
+     */
     public boolean isApproved() {return this.approved;}
+
+    /**
+     * Gets the administrator's ID of the request (Administrator who approved the request)
+     * @return the administrator's ID of the request (Administrator who approved the request)
+     */
     public int getAdministratorID() { return this.administratorID;}
 
     /**
@@ -86,7 +101,7 @@ public class RestockRequest {
     /**
      * Prints a formatted block of the restock request with an index.
      *
-     * @param index the index to display before the summary
+     * @param index the index to display before the block
      */
     public void print(int index) {
         System.out.printf("%2d)_______________________________\n",index);
