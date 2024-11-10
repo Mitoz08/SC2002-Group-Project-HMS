@@ -171,11 +171,17 @@ public class PharmacistUI implements BaseUI {
 
     private boolean printFulfillable(PrescriptionList list) {
         Input.ClearConsole();
+        boolean canPrescribe = false;
         for (Prescription o: list) {
-                o.print();
-                System.out.printf("|%-14s:%-14s|\n", "Fulfillable", pharmacy.checkFulfillable(o.getMedicineName(),o.getAmount()));
-                System.out.println("_______________________________");
-            }
+            o.print();
+            System.out.printf("|%-14s:%-14s|\n", "Fulfillable", pharmacy.checkFulfillable(o.getMedicineName(),o.getAmount()));
+            System.out.println("_______________________________");
+            if (!canPrescribe && pharmacy.checkFulfillable(o.getMedicineName(),o.getAmount())) canPrescribe = true;
+        }
+        if (!canPrescribe) {
+            Input.ScanString("Press enter to exit...");
+            return true;
+        }
         if (!Input.ScanBoolean("Do you want to prescribe the medicine?")) {
             Input.ScanString("Press enter to exit...");
             return true;

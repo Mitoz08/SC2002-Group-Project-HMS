@@ -146,7 +146,6 @@ public class Patient extends BasePerson {
             System.out.println("No past diagnosis!");
         }
         else {
-            this.Completed.print(true);
             for (Appointment apt : this.getCompleted()) {
                 System.out.println(apt.getAppointmentID() + ": " + apt.getNotes());
             }

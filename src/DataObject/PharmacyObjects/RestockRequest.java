@@ -94,7 +94,7 @@ public class RestockRequest {
         for (Map.Entry<Integer,Integer> e : requestAmmount.entrySet()){
             System.out.printf("|%-6s:%-8s %-6s:%-8s|\n", "MED ID", MedicineData.getStrID(e.getKey()), "Amount", e.getValue());
         }
-        System.out.printf("|%-12s:%-18d|\n", "PharmacistID", this.pharmacistID);
+        System.out.printf("|%-12s:%-18s|\n", "PharmacistID","PH"+ this.pharmacistID);
         System.out.println("_______________________________");
     }
 
@@ -108,7 +108,7 @@ public class RestockRequest {
         for (Map.Entry<Integer,Integer> e : requestAmmount.entrySet()){
             System.out.printf("   |%-6s:%-8s %-6s:%-8s|\n", "MED ID", MedicineData.getStrID(e.getKey()), "Amount", e.getValue());
         }
-        System.out.printf("   |%-12s:%-18d|\n", "PharmacistID", this.pharmacistID);
+        System.out.printf("   |%-12s:%-18s|\n", "PharmacistID","PH"+ this.pharmacistID);
         System.out.println("   _______________________________");
     }
 
