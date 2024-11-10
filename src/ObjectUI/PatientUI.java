@@ -156,23 +156,27 @@ public class PatientUI implements BaseUI {
         System.out.println("Which timing do you want to choose?");
 
         Date date;
-        int timeSlot;
+        int timeSlot = 0;
         while (true) {
             date = Input.ScanFutureDate("Choose the date");
 
             Calendar c = Calendar.getInstance();
             Date today = c.getTime();
             if (date.equals(new Date(today.getYear(), today.getMonth(), today.getDate()))) { //Checking if input date is today
+                if (today.getTime() >= 15) {
+                    System.out.println("No more appointment slot for today.\nPlease choose another day");
+                    continue;
+                }
                 int maxChoice = 1;
                 while (true) {
                     System.out.println("Choose the timing:");
-                    int hour = today.getHours() < 10? 1 : today.getHours();
+                    int hour = today.getHours() < 10 ? 1 : today.getHours();
                     switch (hour) {
                         case 1:
                             System.out.println(maxChoice++ + ") 10AM-11AM");
                         case 10:
                             System.out.println(maxChoice++ + ") 11AM-12PM");
-                        case 11:
+                        case 11,12:
                             System.out.println(maxChoice++ + ") 1PM-2PM");
                         case 13:
                             System.out.println(maxChoice++ + ") 2PM-3PM");
@@ -180,8 +184,7 @@ public class PatientUI implements BaseUI {
                             timeSlot = Input.ScanInt(maxChoice + ") 3PM-4PM\n")-1;
                             break;
                         default:
-                            System.out.println("No more appointment slot for today.\nPlease choose another day");
-                            continue;
+                            break;
                     }
                     if (timeSlot < 0 || timeSlot > maxChoice - 1) {
                         System.out.println("Incorrect input.");
@@ -242,7 +245,7 @@ public class PatientUI implements BaseUI {
         System.out.println("Which timing do you want to choose?");
         Date date;
         Date requestDate;
-        int timeSlot;
+        int timeSlot = 0;
         do {
             while (true) {
                 date = Input.ScanFutureDate("Choose the date");
@@ -250,6 +253,10 @@ public class PatientUI implements BaseUI {
                 Calendar c = Calendar.getInstance();
                 Date today = c.getTime();
                 if (date.equals(new Date(today.getYear(), today.getMonth(), today.getDate()))) { //Checking if input date is today
+                    if (today.getTime() >= 15) {
+                    System.out.println("No more appointment slot for today.\nPlease choose another day");
+                    continue;
+                    }
                     int maxChoice = 1;
                     while (true) {
                         System.out.println("Choose the timing:");
@@ -259,7 +266,7 @@ public class PatientUI implements BaseUI {
                                 System.out.println(maxChoice++ + ") 10AM-11AM");
                             case 10:
                                 System.out.println(maxChoice++ + ") 11AM-12PM");
-                            case 11:
+                            case 11,12:
                                 System.out.println(maxChoice++ + ") 1PM-2PM");
                             case 13:
                                 System.out.println(maxChoice++ + ") 2PM-3PM");
@@ -267,8 +274,7 @@ public class PatientUI implements BaseUI {
                                 timeSlot = Input.ScanInt(maxChoice + ") 3PM-4PM\n") - 1;
                                 break;
                             default:
-                                System.out.println("No more appointment slot for today.\nPlease choose another day");
-                                continue;
+                                break;
                         }
                         if (timeSlot < 0 || timeSlot > maxChoice - 1) {
                             System.out.println("Incorrect input.");
