@@ -17,6 +17,7 @@ import InputHandler.Input;
 import Serialisation.DataEncryption;
 import Serialisation.DataSerialisation;
 
+import javax.print.Doc;
 
 
 public class UserInfoDatabase {
@@ -28,14 +29,11 @@ public class UserInfoDatabase {
     private AppointmentList[] allAppointments; //0-Pending , 1- Ongoing, 2- Completed
 
 
-    public UserInfoDatabase(ArrayList<Patient> patients, ArrayList<Doctors> doctors, ArrayList<Administrator> administrators, ArrayList<Pharmacist> pharmacists, AppointmentList[] allAppointments){
-
-        this.patients = patients;
-        this.doctors = doctors;
-        this.administrators = administrators;
-        this.allAppointments = allAppointments;
-
-    }
+    /**
+     * Constructs a UserInfoDatabase that initialises an empty ArrayList of Patients, Doctors, Administrators and Pharmacists
+     * Also initialises a List of AppointmentList (Index = 0 refer to Pending, Index = 1 refer to Ongoing and Index = 2 refer to Completed)
+     * The AppointmentList for each is then initialised to be true (Dates are arranged in chronological order)
+     */
     public UserInfoDatabase(){
         this.patients = new ArrayList<Patient>();
         this.doctors = new ArrayList<Doctors>();
@@ -46,78 +44,13 @@ public class UserInfoDatabase {
         for (int i = 0; i < 3; i++) allAppointments[i] = new AppointmentList(true);
         ArrayList<String> temp = new ArrayList<>();
 
-        int ID;
-        String Name;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date DOB;
-        Boolean Gender;
-        String bloodType;
-        Contact contact;
-
-
-
-//        try{
-//            BufferedReader reader = new BufferedReader(new FileReader("HMS.txt"));
-//            String line;
-//            while ((line = reader.readLine()) != null){
-//                temp = UserInfoDatabase.parseData(line); //Gets an ArrayList<String> of userInfo which has been already decrypted
-//                System.out.println(temp);
-//                String role = temp.get(0); //Check the role and create BasePerson Accordingly
-//
-//                switch(role){
-//                    case "PA":
-//                        ID = Integer.parseInt(temp.get(1));
-//                        Name = temp.get(2);
-//                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
-//                        Gender = Boolean.valueOf(temp.get(4));
-//                        bloodType = temp.get(5);
-//                        String[] split = temp.get(6).split("|");
-//                        String email = split[0];
-//                        String contactNo = split[1];
-//                        Contact contactPat = new Contact(email, contactNo);
-//                        Patient tempPat = DataSerialisation.createPatient(ID,Name,DOB,Gender,bloodType,contactPat);
-//                        this.patients.add(tempPat);
-//                        System.out.println("Added patient");
-//                        break;
-//                    case "DR":
-//
-//                        ID = Integer.parseInt(temp.get(1));
-//                        Name = temp.get(2);
-//                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
-//                        Gender = Boolean.valueOf(temp.get(4));
-//                        Doctors tempDoc = DataSerialisation.createDoctor(ID,Name,DOB,Gender);
-//                        this.doctors.add(tempDoc);
-//                        break;
-//                    case "PH":
-//                        ID = Integer.parseInt(temp.get(1));
-//                        Name = temp.get(2);
-//                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
-//                        Gender = Boolean.valueOf(temp.get(4));
-//                        Pharmacist tempPharm = DataSerialisation.createPharmacist(ID, Name, DOB, Gender); // creates a new Pharmacist
-//                        this.pharmacists.add(tempPharm); //adds it into the ArrayList<Pharmacists>
-//                        break;
-//
-//                    case "AD":
-//                        ID = Integer.parseInt(temp.get(1));
-//                        Name = temp.get(2);
-//                        DOB = DataSerialisation.DeserialiseDate(temp.get(3));
-//                        Gender = Boolean.valueOf(temp.get(4));
-//                        Administrator tempAdmin = DataSerialisation.createAdministrator(ID, Name, DOB, Gender);
-//                        this.administrators.add(tempAdmin);
-//                        break;
-//                }
-//            }
-//
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        }
-//        testRun();
-//        loadFile();
     }
 
-    public void endUserInfoDatabase() {
-        saveFile();
-    }
+    /**
+     * Method use at the end of the main function call to save information on appointments and Staff/ Patient.
+     *  Saves the information into respective files APT.TXT and HMS.txt
+     */
+    public void endUserInfoDatabase() {saveFile();}
 
     public void testRun() {
         Patient P = new Patient(1001,"John", new Date(99,1,21), true, "O+", new Contact("John@gmail.com", "91234590"));
@@ -145,108 +78,107 @@ public class UserInfoDatabase {
         Pharmacist.setLastID(1003);
     }
 
-    //This class method is to decrypt the string and return an ArrayList<String> which are the user info
-    private static ArrayList<String> parseData(String string){
-        String decrypt = DataEncryption.decipher(string);
-        ArrayList<String> userInfo = new ArrayList<String>(Arrays.asList(decrypt.split("\\*")));
-        return userInfo;
-    }
 
-    //The following are the getter functions
-    public ArrayList<Doctors> getDoctors(){
-        return this.doctors;
-    }
-    public ArrayList<Pharmacist> getPharmacists(){
-        return this.pharmacists;
-    }
-    public ArrayList<Administrator> getAdministrators(){
-        return this.administrators;
-    }
+    /**
+     * Getter functions that return an ArrayList for each ROLE in database
+     */
+    public ArrayList<Doctors> getDoctors(){return this.doctors;}
+    public ArrayList<Pharmacist> getPharmacists(){return this.pharmacists;}
+    public ArrayList<Administrator> getAdministrators(){return this.administrators;}
     public ArrayList<Patient> getPatients(){return this.patients;}
     public AppointmentList[] getAllAppointments(){return this.allAppointments;}
 
+    /**
+     * Getter to get a BasePerson based given the BasePerson ID and ROLE
+     * Gets the ROLE and uses the switch case to loop through the correct ArrayList of Staff or Patient
+     * Prints a statement when the Person is not found and returns null
+     */
     public BasePerson getPerson(int id, ROLE role){
 
         BasePerson notReal = null;
-        switch (role){
+        switch (role) {
             case PATIENT:
-                for (Patient pat: this.patients){
-                    if (pat.getID() == id){
+                for (Patient pat : this.patients) {
+                    if (pat.getID() == id) {
                         return pat;
                     }
                 }
                 System.out.println("Patient not found in dataBase");
                 break;
             case DOCTOR:
-                for (Doctors doc: this.doctors){
-                    if (doc.getID() == id){
+                for (Doctors doc : this.doctors) {
+                    if (doc.getID() == id) {
                         return doc;
                     }
                 }
                 System.out.println("Doctor not found in database");
                 break;
             case ADMINISTRATOR:
-                for (Administrator ad: this.administrators){
-                    if (ad.getID() == id){
+                for (Administrator ad : this.administrators) {
+                    if (ad.getID() == id) {
                         return ad;
                     }
                 }
                 System.out.println("Administrator not found in database");
                 break;
             case PHARMACIST:
-                for (Pharmacist ph: this.pharmacists){
-                    if (ph.getID() == id){
+                for (Pharmacist ph : this.pharmacists) {
+                    if (ph.getID() == id) {
                         return ph;
                     }
                 }
                 break;
             default:
-                System.out.println("Unexpected input try again");
+                System.out.println("No such role exists in the System");
                 break;
 
         }
         return notReal;
-
     }
+
+
+    /**
+     * Getter to get a BasePerson based given the BasePerson Name and ROLE
+     * Gets the ROLE and uses the switch case to loop through the correct ArrayList of Staff or Patient
+     * Prints a statement when the Person is not found and returns null
+     */
     public BasePerson getPerson(String name, ROLE role){
 
         BasePerson notReal = null;
-        String roleS;
-        roleS = role.toString();
-        switch (roleS){
-            case "PA":
-                for (Patient pat: this.patients){
-                    if (pat.getName().equals(name)){
+        switch (role) {
+            case PATIENT:
+                for (Patient pat : this.patients) {
+                    if (pat.getName().equals(name)) {
                         return pat;
                     }
                 }
                 System.out.println("Patient not found in dataBase");
                 break;
-            case "DR":
-                for (Doctors doc: this.doctors){
-                    if (doc.getName().equals(name)){
+            case DOCTOR:
+                for (Doctors doc : this.doctors) {
+                    if (doc.getName().equals(name)) {
                         return doc;
                     }
                 }
                 System.out.println("Doctor not found in database");
                 break;
-            case "AD":
-                for (Administrator ad: this.administrators){
-                    if (ad.getName().equals(name)){
+            case ADMINISTRATOR:
+                for (Administrator ad : this.administrators) {
+                    if (ad.getName().equals(name)) {
                         return ad;
                     }
                 }
                 System.out.println("Administrator not found in database");
                 break;
-            case "PH":
-                for (Pharmacist ph: this.pharmacists){
-                    if (ph.getName().equals(name)){
+            case PHARMACIST:
+                for (Pharmacist ph : this.pharmacists) {
+                    if (ph.getName().equals(name)) {
                         return ph;
                     }
                 }
                 break;
             default:
-                System.out.println("Unexpected input try again");
+                System.out.println("No such role exists in the system");
                 break;
 
         }
@@ -256,7 +188,22 @@ public class UserInfoDatabase {
 
 
 
-
+    /**
+     * Schedules an appointment for a patient and assigns it to the appropriate doctor and patient appointment lists.
+     * This method handles appointments in three states: Pending (0), Ongoing (1), and Completed (2).
+     * The appointment is added to the pending list for both the doctor and patient involved in the appointment.
+     *
+     * @param apt The {@code Appointment} object to be scheduled. If {@code apt} is null, the method returns without action.
+     *
+     * If the doctor or patient specified in the appointment is not found in the database, a message is printed and the method exits.
+     * Otherwise, the following steps are taken:
+     *
+     * <ul>
+     *   <li>The appointment is added to the global pending appointments list (index 0 in {@code allAppointments}).</li>
+     *   <li>The doctor's schedule is updated to include the specified date and timeslot for this appointment.</li>
+     *   <li>The appointment is added to both the doctor and patient’s pending appointment lists.</li>
+     * </ul>
+     */
     public void scheduleApt(Appointment apt){
         //0-Pending , 1- Ongoing, 2-Completed
         if (apt == null) return;
@@ -265,12 +212,7 @@ public class UserInfoDatabase {
 
         //To add the appointment inside Ongoing for Doctors
         int docID = apt.getDoctorID();
-        Doctors foundDoc = null;
-        for (Doctors doc: this.doctors){
-            if (doc.getID() == (docID)){
-                foundDoc = doc;
-            }
-        }
+        Doctors foundDoc =  (Doctors) getPerson(docID, ROLE.DOCTOR);
         if (foundDoc == null){
             System.out.println("Doctor is not found in the database");
             return;
@@ -282,26 +224,38 @@ public class UserInfoDatabase {
 
         //To add the appointment inside the Ongoing for Patients
         int patID= apt.getPatientID();
-        Patient foundPat = null;
-        for (Patient pat: this.patients){
-            if (pat.getID() == patID){
-                foundPat = pat;
-            }
-        }
+        Patient foundPat = (Patient) getPerson(patID, ROLE.PATIENT);
         if (foundPat == null){
             System.out.println("Patient is not found in the database");
             return;
         }
-        foundPat.getPending().addAppointment(apt);//saves it to foundPat
+        foundPat.getPending().addAppointment(apt);//saves it to PendingList for foundPat
         return;
 
     }
 
-
+    /**
+     * Cancels an appointment for both the patient and doctor associated with the appointment.
+     * The method searches for the appointment in the Pending and Ongoing lists, removing it from all necessary locations.
+     *
+     * <p>The method performs the following operations:</p>
+     * <ul>
+     *   <li>Searches for the appointment in the global Pending (index 0) and Ongoing (index 1) appointment lists.
+     *       If found, it is removed from the list.</li>
+     *   <li>If the appointment is not found in either Pending or Ongoing lists, a message is printed to indicate this.</li>
+     *   <li>Removes the appointment from the doctor's Pending and Ongoing lists, and updates the doctor's timeslot availability.</li>
+     *   <li>Removes the appointment from the patient's Pending and Ongoing lists.</li>
+     * </ul>
+     *
+     * <p>If either the doctor or patient associated with the appointment is not found,
+     * a message is printed indicating that the cancellation could not be completed.</p>
+     *
+     * @param toCancelApt The {@code Appointment} object to be canceled. If {@code toCancelApt} is null, the method returns without action.
+     */
     public void cancelApt(Appointment toCancelApt){
         //0-Pending , 1- Ongoing, 2-Completed
         if (toCancelApt == null) return;
-        //Cancel appointments that are only found in Ongoing
+        //Cancel appointments that are only found in Pending
         int i=0;
         AppointmentList temp = null;
         int flagFound = 0;
@@ -312,6 +266,7 @@ public class UserInfoDatabase {
             }
             i++;
         }
+        //Cancel appointments that are only found in Ongoing
         i = 0;
         for (Appointment apt: this.allAppointments[1]){
             if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID())){
@@ -326,17 +281,12 @@ public class UserInfoDatabase {
         }
 
 
-        //To remove the appointment inside Ongoing for Doctors
+        //To remove the appointment inside Ongoing/ Pending for Doctors and patients
         i=0;
         int docID = toCancelApt.getDoctorID();
-        Doctors foundDoc = null;
-        for (Doctors doc: this.doctors){
-            if (doc.getID() == docID){
-                foundDoc = doc;
-            }
-        }
+        Doctors foundDoc = (Doctors) getPerson(docID, ROLE.DOCTOR);
         if (foundDoc == null){
-            System.out.println("The doctor was not found in the database, possibly not in the list of Ongoing Appointments ");
+            System.out.println("The doctor was not found in the database, not in the list of Pending/Ongoing Appointments ");
             return;
         };
         foundDoc.removeTimeSlot(toCancelApt.getDate(),toCancelApt.getTimeSlot());
@@ -358,21 +308,13 @@ public class UserInfoDatabase {
 
         }
 
-
-        //To remove the appointment inside the Ongoing for Patients
         i=0;
         int patID = toCancelApt.getPatientID();
-        Patient foundPat = null;
-        for (Patient pat: this.patients){
-            if (pat.getID() == patID){
-                foundPat = pat;
-            }
-        }
+        Patient foundPat = (Patient)getPerson(patID, ROLE.PATIENT);
         if (foundPat == null){
             System.out.println("The patient was not found in the database, possibly not in the list of Ongoing Appointments");
             return;
         }
-
         for (Appointment apt: foundPat.getPending()){
             if (apt.getAppointmentID().equals(toCancelApt.getAppointmentID())){
                 foundPat.getPending().removeAppointment(i);
@@ -392,8 +334,24 @@ public class UserInfoDatabase {
         toCancelApt = null; //FOR GARBAGE DISPOSAL
         return;
     }
+
+    /**
+     * Reschedules an appointment by canceling the old appointment and scheduling a new one.
+     * The method first calls {@code cancelApt} to remove the old appointment and then calls {@code scheduleApt}
+     * to add the new appointment to the Pending list.
+     *
+     * <p>If {@code oldApt} is successfully canceled, it is marked for garbage disposal, and {@code newApt}
+     * is scheduled as a pending appointment.</p>
+     *
+     * @param newApt The new {@code Appointment} object to be scheduled in place of the old appointment.
+     * @param oldApt The {@code Appointment} object to be canceled.
+     */
     public void rescheduleApt(Appointment newApt, Appointment oldApt){
 
+        if (oldApt == null){
+            System.out.println("There is no appointment to be cancelled in the first place");
+            return;
+        }
         cancelApt(oldApt); //oldApt goes to Garbage Disposal
         scheduleApt(newApt); // newApt goes in to Pending
 
@@ -401,6 +359,22 @@ public class UserInfoDatabase {
 
     }
 
+    /**
+     * Marks an appointment as completed and updates the relevant lists for both the doctor and patient involved.
+     * The method moves the appointment from the Ongoing list to the Completed list.
+     *
+     * <p>The method performs the following operations:</p>
+     * <ul>
+     *   <li>Sets the status of the appointment to Completed (status code 2).</li>
+     *   <li>Searches for the appointment in the global Ongoing list (index 1) and removes it.</li>
+     *   <li>If the appointment is not found in the Ongoing list, a message is printed indicating this, and the method exits.</li>
+     *   <li>Removes the appointment from the doctor's Ongoing list. If the doctor is not found, a message is printed.</li>
+     *   <li>Removes the appointment from the patient's Ongoing list. If the patient is not found, a message is printed.</li>
+     *   <li>Adds the appointment to the global Completed list (index 2), as well as the doctor’s and patient’s Completed lists.</li>
+     * </ul>
+     *
+     * @param completedApt The {@code Appointment} object to be marked as completed.
+     */
     public void completeApt(Appointment completedApt) {
         completedApt.setStatus(2);
         int i=0;
@@ -414,18 +388,13 @@ public class UserInfoDatabase {
             i++;
         }
         if (flagFound == 0){
-            System.out.println("The Appointment is not found in the List of Ongoing Appointments");
+            System.out.println("The Appointment is not found in the List of Ongoing Appointments"); // Never found completedApt in the list of all Appointments
             return;
         }
 
         //To remove the appointment inside Ongoing for Doctors
         int docID = completedApt.getDoctorID();
-        Doctors foundDoc = null;
-        for (Doctors doc: this.doctors){
-            if (doc.getID() == docID){
-                foundDoc = doc;
-            }
-        }
+        Doctors foundDoc = (Doctors) getPerson(docID, ROLE.DOCTOR);
         if (foundDoc == null){
             System.out.println("The doctor was not found in the database, possibly not in the list of Ongoing Appointments ");
             return;
@@ -443,12 +412,7 @@ public class UserInfoDatabase {
 
         //To remove the appointment inside the Ongoing for Patients
         int patID = completedApt.getPatientID();
-        Patient foundPat = null;
-        for (Patient pat: this.patients){
-            if (pat.getID() == patID){
-                foundPat = pat;
-            }
-        }
+        Patient foundPat = (Patient) getPerson(patID, ROLE.PATIENT);
         if (foundPat == null){
             System.out.println("The patient was not found in the database, possibly not in the list of Ongoing Appointments");
             return;
@@ -467,6 +431,34 @@ public class UserInfoDatabase {
         foundPat.getCompleted().addAppointment(completedApt);
     }
 
+    /**
+     * Allows a doctor to accept or reject an appointment request from the Pending list.
+     * If the appointment is accepted, it is moved from the Pending list to the Ongoing list
+     * for both the doctor and patient. If rejected, the appointment is removed from Pending
+     * and marked for garbage disposal.
+     *
+     * <p>The method performs the following steps:</p>
+     * <ul>
+     *   <li>Checks if the appointment is in the Pending list (index 0) and removes it.</li>
+     *   <li>If the appointment is accepted:
+     *       <ul>
+     *         <li>Sets the appointment status to Ongoing (status code 1).</li>
+     *         <li>Adds the appointment to the global Ongoing list (index 1), as well as the doctor’s and patient’s Ongoing lists.</li>
+     *         <li>Prints confirmation messages upon successful addition to the lists.</li>
+     *       </ul>
+     *   </li>
+     *   <li>If the appointment is rejected:
+     *       <ul>
+     *         <li>The appointment is removed from the Pending lists of the doctor, patient, and global lists.</li>
+     *         <li>The appointment is set to null to mark it for garbage disposal.</li>
+     *       </ul>
+     *   </li>
+     *   <li>If the appointment or doctor/patient is not found, appropriate messages are printed.</li>
+     * </ul>
+     *
+     * @param acceptApt The {@code Appointment} object representing the appointment request.
+     * @param accept A {@code Boolean} indicating whether the appointment is accepted (true) or rejected (false).
+     */
     public void docAcceptApt(Appointment acceptApt, Boolean accept){
         int i=0;
         AppointmentList temp = null;
@@ -496,12 +488,7 @@ public class UserInfoDatabase {
         //To remove the appointment inside Ongoing for Doctors
         i=0;
         int docID = acceptApt.getDoctorID();
-        Doctors foundDoc = null;
-        for (Doctors doc: this.doctors){
-            if (doc.getID() == docID){
-                foundDoc = doc;
-            }
-        }
+        Doctors foundDoc = (Doctors)getPerson(docID,ROLE.DOCTOR);
         if (foundDoc == null){
             System.out.println("Check if this is the correct doctor\n");
             return;
@@ -525,12 +512,7 @@ public class UserInfoDatabase {
         //To remove the appointment inside the Ongoing for Patients
         i=0;
         int patID = acceptApt.getPatientID();
-        Patient foundPat = null;
-        for (Patient pat: this.patients){
-            if (pat.getID() == patID){
-                foundPat = pat;
-            }
-        }
+        Patient foundPat = (Patient) getPerson(patID, ROLE.PATIENT);
         if (foundPat == null){
             System.out.println("Check if this is the correct Patient\n");
             return;
@@ -554,6 +536,20 @@ public class UserInfoDatabase {
         return;
     }
 
+    /**
+     * Registers a new patient by collecting personal and medical information and adding the patient
+     * to the system's patient list.
+     *
+     * <p>This method performs the following steps:</p>
+     * <ul>
+     *   <li>Prompts the user to enter the patient's full name, date of birth, gender, and blood type.</li>
+     *   <li>Initializes a new {@code Contact} object for the patient’s contact details.</li>
+     *   <li>Creates a new {@code Patient} object with the collected information.</li>
+     *   <li>Adds the newly created patient to the list of registered patients.</li>
+     * </ul>
+     *
+     * @return The newly registered {@code Patient} object.
+     */
     public Patient registerPatient() {
         System.out.println("Registering as Patient.");
         String Name = Input.ScanString("Full name:");
@@ -566,109 +562,18 @@ public class UserInfoDatabase {
         return patient;
     }
 
-
-    private static String serialiseDataPatient(int id, String name, Date DOB, Boolean Gender, String BloodType, Contact contact, ArrayList<String> DoctorAssigned, AppointmentList onGoingAptList, AppointmentList completeAptList, AppointmentList pendingAptList, PrescriptionList prescripList){
-        String temp;
-        StringBuilder str = new StringBuilder();
-        str.append("PA").append("*");
-        str.append(id).append("*");
-        str.append(name).append("*");
-        temp = DataSerialisation.SerialiseDate(DOB);
-        str.append(temp).append("*");
-        str.append(Gender).append("*");
-        str.append(BloodType).append("*");
-        str.append(contact.getEmail()).append("*");
-        str.append(contact.getContactNumber()).append("*");
-        return str.toString();
-
-    }
-    private static String serialiseDataStaff(ROLE role, int id, String name, Date DOB, Boolean Gender){
-        String temp;
-        StringBuilder str = new StringBuilder();
-        String roleStr = "";
-        ROLE roleToStr = role;
-        switch(roleToStr){
-            case ADMINISTRATOR:
-                roleStr = "AD";
-                break;
-            case DOCTOR:
-                roleStr = "DR";
-                break;
-            case PHARMACIST:
-                roleStr = "PH";
-                break;
-        }
-        str.append(roleStr).append("*");
-        str.append(id).append("*");
-        str.append(name).append("*");
-        temp = DataSerialisation.SerialiseDate(DOB);
-        str.append(temp).append("*");
-        str.append(Gender).append("*");
-        return str.toString();
-
-    }
-    //is used by administrator to addStaff and fireStaff
-    public void addToUserInfoDatabaseFile(BasePerson basePerson){
-
-        ROLE role = basePerson.getRole();
-        int ID = basePerson.getID();
-        String Name = basePerson.getName();
-        Date DOB = basePerson.getDOB();
-        Boolean Gender = basePerson.getGender();
-
-        String normal = UserInfoDatabase.serialiseDataStaff(role, ID, Name, DOB, Gender);
-        String encrypted = DataEncryption.cipher(normal);
-
-        try{
-            BufferedWriter writer = new BufferedWriter(new FileWriter("HMS.txt",true));
-            writer.write(encrypted + "\n");
-            writer.close();
-        }catch (IOException e){
-            System.out.println("The file was not updated\n");
-        }
-        //MUST HAVE A LOGIC THAT ADDS THE ACCOUNT INTO DATABASE
-
-    }
-
-    public void toRemoveFromUserDatabaseFile(BasePerson basePerson){
-        ArrayList<String> fileToArrayList = new ArrayList<String>();
-        ArrayList<String> temp = new ArrayList<String>();
-        String line;
-
-        int ID= basePerson.getID();
-        String name = basePerson.getName();
-
-
-       try{
-           BufferedReader reader = new BufferedReader(new FileReader("HMS.txt"));
-           while ((line = reader.readLine()) != null){
-               fileToArrayList.add(line);
-           }
-           reader.close();
-       }catch(IOException e){
-           System.out.println("The file was not read\n");
-       }
-       //This for loop finds the String that needs to be removed
-       for (String str: fileToArrayList){
-           temp = UserInfoDatabase.parseData(str);
-           if (Integer.parseInt(temp.get(1)) == ID && temp.get(2).equals(name)){
-               fileToArrayList.remove(temp);
-           }
-       }
-       //This next one creates and overwrites the file HMS.txt
-        try{
-            BufferedWriter writer = new BufferedWriter(new FileWriter("HMS.txt"));
-            for (String str: fileToArrayList){
-                writer.write(str + "\n");
-            }
-            writer.close();
-        }catch(IOException e){
-            System.out.println("The file was not updated");
-        }
-
-        //MUST ALSO HAVE A LOGIC THAT REMOVES THE ACCOUNT FROM ACCOUNTINFODATABASE
-    }
-
+    /**
+     * Loads data from saved files into the system by reading from "HMS.txt" and "APT.txt".
+     *
+     * <p>This method performs the following actions:</p>
+     * <ul>
+     *   <li>Attempts to open "HMS.txt" to load account data by calling {@code loadAccount(Scanner file)}.</li>
+     *   <li>If "HMS.txt" cannot be read, it prints an error message and exits the method.</li>
+     *   <li>Attempts to open "APT.txt" to load appointment data by calling {@code loadAppointment(Scanner file)}.</li>
+     *   <li>If "APT.txt" cannot be read, it prints an error message and exits the method.</li>
+     * </ul>
+     * <p>Both file reading operations close the {@code Scanner} after reading.</p>
+     */
     public void loadFile() {
         File savefile = new File("HMS.txt");
         Scanner file;
@@ -697,6 +602,20 @@ public class UserInfoDatabase {
         }
     }
 
+    /**
+     * Loads account data from a file by reading and deserializing each line.
+     *
+     * <p>This method iterates over each line in the file and processes it based on a specific identifier:</p>
+     * <ul>
+     *   <li><b>"PA":</b> Deserializes and adds a {@code Patient} object to the list of patients.</li>
+     *   <li><b>"DR":</b> Deserializes and adds a {@code Doctor} object to the list of doctors.</li>
+     *   <li><b>"PH":</b> Deserializes and adds a {@code Pharmacist} object to the list of pharmacists.</li>
+     *   <li><b>"AD":</b> Deserializes and adds an {@code Administrator} object to the list of administrators.</li>
+     *   <li><b>"Static":</b> Sets the last ID values for {@code Patient}, {@code Doctor}, {@code Pharmacist}, and {@code Administrator} classes.</li>
+     * </ul>
+     *
+     * @param fileReader The {@code Scanner} object used to read account data from the file.
+     */
     private void loadAccount(Scanner fileReader) {
         while (fileReader.hasNextLine()){
             String text = fileReader.nextLine();
@@ -726,6 +645,23 @@ public class UserInfoDatabase {
         }
     }
 
+    /**
+     * Loads appointment data from a file by reading, decrypting, and deserializing each line.
+     *
+     * <p>This method performs the following actions:</p>
+     * <ul>
+     *   <li>Reads each line from the file, decrypts the data, and deserializes it into an {@code Appointment} object.</li>
+     *   <li>Retrieves the associated {@code Patient} and {@code Doctor} for each appointment using {@code getPerson}.</li>
+     *   <li>Based on the appointment's status, adds the appointment to the appropriate lists:</li>
+     *   <ul>
+     *     <li><b>PENDING:</b> Adds to the pending lists for both the patient and doctor, and to the global pending list {@code allAppointments[0]}.</li>
+     *     <li><b>ONGOING:</b> Adds to the ongoing lists for both the patient and doctor, and to the global ongoing list {@code allAppointments[1]}.</li>
+     *     <li><b>COMPLETED:</b> Adds to the completed lists for both the patient and doctor, and to the global completed list {@code allAppointments[2]}.</li>
+     *   </ul>
+     * </ul>
+     *
+     * @param fileWriter The {@code Scanner} object used to read appointment data from the file.
+     */
     private void loadAppointment(Scanner fileWriter) {
         while (fileWriter.hasNextLine()) {
             Appointment apt = DataSerialisation.DeserialiseAppointment(DataEncryption.decipher(fileWriter.nextLine()));
@@ -753,6 +689,18 @@ public class UserInfoDatabase {
         }
     }
 
+    /**
+     * Saves the current state of the system by writing account and appointment data to files.
+     *
+     * <p>This method performs the following actions:</p>
+     * <ul>
+     *   <li>Creates or overwrites "HMS.txt" to save account information using the {@code saveAccount} method.</li>
+     *   <li>Creates or overwrites "APT.txt" to save appointment information using the {@code saveAppointment} method.</li>
+     *   <li>Catches and handles any exceptions during file operations, printing error messages to notify if a file could not be written.</li>
+     * </ul>
+     *
+     * <p>Each file operation is closed after writing to ensure data integrity and avoid resource leaks.</p>
+     */
     private void saveFile() {
         File savefile = new File("HMS.txt");
         FileWriter file;
@@ -777,6 +725,16 @@ public class UserInfoDatabase {
 
     }
 
+
+    /**
+     * Saves the current state of the system by writing account to files.
+     *
+     * <p>This method performs the following actions:</p>
+     * <ul>
+     *   <li>Loops through each ROLE of Patients, Doctors, Pharmacist and Administrators.</li>
+     *   <li>For each ROLE, convert the user information into an encrypted String and write it to file</li>
+     * </ul>
+     */
     private void saveAccount(FileWriter fileWriter) throws IOException {
 
         for (Patient P: patients) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialisePatient(P)) + "\n");
@@ -789,6 +747,15 @@ public class UserInfoDatabase {
         fileWriter.write(DataEncryption.cipher(text));
     }
 
+    /**
+     * Saves the current state of the system by Appointments to files.
+     *
+     * <p>This method performs the following actions:</p>
+     * <ul>
+     *   <li>Loops through all appointments.</li>
+     *   <li>For each appointment, convert the appointment info into an encrypted String and write it to file</li>
+     * </ul>
+     */
     private void saveAppointment(FileWriter fileWriter) throws  IOException {
 
         for (AppointmentList list: allAppointments) for (Appointment apt: list) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialiseAppointment(apt)) + "\n");

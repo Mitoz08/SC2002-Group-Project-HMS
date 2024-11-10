@@ -13,11 +13,10 @@ import HumanObject.Administrator.Administrator;
 import InputHandler.Input;
 import ObjectUI.*;
 import Serialisation.DataSerialisation;
-import Singleton.ServerHMS;
 
 import java.awt.*;
 import java.util.Date;
-
+/*
 public class Test {
 
     public static void Run1() {
@@ -41,18 +40,19 @@ public class Test {
     }
 
     public static void Run3() {
-//       //UserInfoDatabase database = new UserInfoDatabase();
-//        Pharmacy pharmacy = new Pharmacy();
-//
-//        UserInfoDatabase database = null; // new UserInfoDatabase();
-//        Pharmacist pharmacist = new Pharmacist("Tim", new Date(1000,10,1),true);
-//        PharmacistUI pharmacistUI = new PharmacistUI(database,pharmacy, pharmacist);
-//        pharmacy.endPharmacy();
+//        UserInfoDatabase database = new UserInfoDatabase();
+        Pharmacy pharmacy = new Pharmacy();
+        //UserInfoDatabase database = nullnew UserInfoDatabase();
+        Pharmacist pharmacist = new Pharmacist("Tim", new Date(1000,10,1),true);
+        //PharmacistUI pharmacistUI = new PharmacistUI(database,pharmacy, pharmacist);
+        pharmacy.endPharmacy();
     }
 
     public static void Run4() {
-        AccountInfoDatabase login = ServerHMS.getInstance().getLogin();
-        UserInfoDatabase database = ServerHMS.getInstance().getDatabase();
+        UserInfoDatabase database = new UserInfoDatabase();
+        Pharmacy pharmacy = new Pharmacy();
+        AccountInfoDatabase accountInfoDatabase = new AccountInfoDatabase();
+
         int choice;
 
         do {
@@ -60,40 +60,42 @@ public class Test {
             choice = Input.ScanInt("Choose one option:");
             switch (choice) {
                 case 1:
-                    String UserID = login.login();
+                    String UserID = accountInfoDatabase.login();
                     String role = UserID.substring(0,2);
                     int ID = Integer.parseInt(UserID.substring(2));
                     switch (role) {
                         case "PA":
                             for (Patient p : database.getPatients()) {
-                                if (p.getID() == ID) new PatientUI(p);
+                                if (p.getID() == ID) new PatientUI(database, pharmacy, p);
                             }
                             break;
                         case "DR":
                             for (Doctors d : database.getDoctors()) {
-                                if (d.getID() == ID) new DoctorUI(d);
+                                if (d.getID() == ID) new DoctorUI(database, pharmacy, d);
                             }
                             break;
                         case "PH":
                             for (Pharmacist p : database.getPharmacists()) {
-                                if (p.getID() == ID) new PharmacistUI(p);
+                                if (p.getID() == ID) new PharmacistUI(database, pharmacy, p);
                             }
                             break;
                         case "AD":
                             for (Administrator a : database.getAdministrators()) {
-                                if (a.getID() == ID) new AdminUI(a);
+                                if (a.getID() == ID) new AdminUI(database, pharmacy, a);
                             }
                             break;
                     }
                     break;
                 case 2:
-                    login.changePassword();
+                    accountInfoDatabase.changePassword();
                     break;
                 default:
                     break;
             }
 
         } while (choice < 3);
-        ServerHMS.getInstance().closeServer();
+        pharmacy.endPharmacy();
     }
 }
+
+ */
