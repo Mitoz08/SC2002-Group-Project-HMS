@@ -103,8 +103,8 @@ public class MedicineRequest {
     public void print() {
         System.out.printf("______________________________\n");
         System.out.printf("|%-10s:%-18s|\n", "APT ID", this.appointmentID);
-        System.out.printf("|%-10s:%-18d|\n", "PatientID", this.patientID);
-        System.out.printf("|%-10s:%-18d|\n", "DoctorID", this.doctorID);
+        System.out.printf("|%-10s:%-18s|\n", "PatientID", "PA"+ this.patientID);
+        System.out.printf("|%-10s:%-18s|\n", "DoctorID", "DR" + this.doctorID);
         System.out.println("______________________________");
     }
 
@@ -122,8 +122,8 @@ public class MedicineRequest {
     public void print(int index) {
         System.out.printf("%2d)______________________________\n", index);
         System.out.printf("   |%-10s:%-18s|\n", "APT ID", this.appointmentID);
-        System.out.printf("   |%-10s:%-18d|\n", "PatientID", this.patientID);
-        System.out.printf("   |%-10s:%-18d|\n", "DoctorID", this.doctorID);
+        System.out.printf("   |%-10s:%-18s|\n", "PatientID","PA"+  this.patientID);
+        System.out.printf("   |%-10s:%-18s|\n", "DoctorID","DR"+  this.doctorID);
         System.out.println("   ______________________________");
     }
 }
