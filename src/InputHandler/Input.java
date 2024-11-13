@@ -5,10 +5,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
+/**
+ * The {@code Input} class deals with the clearing and obtaining of inputs from the terminal
+ */
 public class Input {
 
-    private static Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
 
+    /**
+     * Function to clear the terminal
+     */
     public static void ClearConsole() {
         try
         {
@@ -33,24 +39,34 @@ public class Input {
         }
     }
 
+    /**
+     * Function to scan for an {@code integer}
+     * @param prompt String to be printed to prompt the input
+     * @return an {@code integer}
+     */
     public static int ScanInt(String prompt){
         while (true) {
             System.out.print(prompt + " ");
             String output = sc.nextLine().trim();
             try {
-                return Integer.valueOf(output);
+                return Integer.parseInt(output);
             } catch (Exception e) {
                 System.out.println("Incorrect input");
             }
         }
     }
 
+    /**
+     * Function to scan for a {@code long}
+     * @param prompt String to be printed to prompt the input
+     * @return a {@code long}
+     */
     public static long ScanLong(String prompt){
         while (true) {
             System.out.print(prompt + " ");
             String output = sc.nextLine().trim();
             try {
-                return Long.valueOf(output);
+                return Long.parseLong(output);
             } catch (Exception e) {
                 System.out.println("Incorrect input");
             }
@@ -58,12 +74,17 @@ public class Input {
         }
     }
 
+    /**
+     * Function to scan for a {@code float}
+     * @param prompt String to be printed to prompt the input
+     * @return a {@code float}
+     */
     public static float ScanFloat(String prompt){
         while (true) {
             System.out.print(prompt + " ");
             String output = sc.nextLine().trim();
             try {
-                return Float.valueOf(output);
+                return Float.parseFloat(output);
             } catch (Exception e) {
                 System.out.println("Incorrect input");
             }
@@ -71,28 +92,48 @@ public class Input {
         }
     }
 
+    /**
+     * Function to scan for a {@code double}
+     * @param prompt String to be printed to prompt the input
+     * @return a {@code double}
+     */
     public static double ScanDouble(String prompt){
          while (true) {
             System.out.print(prompt + " ");
             String output = sc.nextLine().trim();
             try {
-                return Double.valueOf(output);
+                return Double.parseDouble(output);
             } catch (Exception e) {
                 System.out.println("Incorrect input");
             }
         }
     }
 
+    /**
+     * Function to scan for a {@code String}
+     * @param prompt String to be printed to prompt the input
+     * @return a {@code String}
+     */
     public static String ScanString(String prompt){
         System.out.print(prompt + " ");
         return sc.nextLine();
     }
 
+    /**
+     * Function to scan for the first {@code char}
+     * @param prompt String to be printed to prompt the input
+     * @return a {@code char}
+     */
     public static char ScanChar(String prompt){
         System.out.print(prompt + " ");
         return sc.nextLine().toLowerCase().charAt(0);
     }
 
+    /**
+     * Function to scan for a {@code boolean} yes or no
+     * @param prompt String to be printed to prompt the input
+     * @return a {@code boolean}
+     */
     public static boolean ScanBoolean(String prompt){
         while (true) {
             System.out.print(prompt + " (Y/N) ");
@@ -105,6 +146,11 @@ public class Input {
         }
     }
 
+    /**
+     * Function to scan for a {@code date} and ensures it is a future date
+     * @param prompt String to be printed to prompt the input
+     * @return a {@code date}
+     */
     public static Date ScanFutureDate(String prompt) {
         LocalDateTime current = LocalDateTime.now();
         int curYear = current.getYear();
@@ -162,6 +208,11 @@ public class Input {
         return new Date(inputYear-1900,inputMonth-1,inputDay);
     }
 
+    /**
+     * Function to scan for a {@code date}
+     * @param prompt String to be printed to prompt the input
+     * @return a {@code date}
+     */
     public static Date ScanDate(String prompt) {
         int inputYear;
         int inputMonth;

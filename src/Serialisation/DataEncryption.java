@@ -8,7 +8,11 @@ public class DataEncryption {
     private static String[] key = new String[] {"SMACBEST", "OBJECT", "ORIENTED", "PROGRAMMING"};
     private static int noOfKey = 4;
 
-
+    /**
+     * A vigenere cipher that encrypts the given input {@code text} with a keyword
+     * @param text text to be encrypted
+     * @return an encrypted text
+     */
     public static String cipher(String text) {
         String keyWord = key[text.length()%noOfKey].toUpperCase();
         String cipherText = "";
@@ -21,6 +25,12 @@ public class DataEncryption {
         return cipherText;
     }
 
+    /**
+     * A vigenere cipher that encrypts the given input {@code text} with a keyword
+     * @param text text to be encrypted
+     * @param value unique value to determine the keyword
+     * @return an encrypted text
+     */
     public static String cipher(String text, int value) {
         String keyWord = key[value%noOfKey].toUpperCase();
         String cipherText = "";
@@ -33,6 +43,11 @@ public class DataEncryption {
         return cipherText;
     }
 
+    /**
+     * A vigenere cipher that decrypts the given input {@code text} with a keyword
+     * @param text text to be decrypted
+     * @return a formatted data String
+     */
     public static String decipher(String text) {
         String keyWord = key[text.length()%noOfKey].toUpperCase();
         String decipherText = "";
@@ -45,6 +60,12 @@ public class DataEncryption {
         return decipherText;
     }
 
+    /**
+     * A vigenere cipher that decrypts the given input {@code text} with a keyword
+     * @param text text to be decrypted
+     * @param value unique value to determine the keyword
+     * @return a formatted data String
+     */
     public static String decipher(String text, int value) {
         String keyWord = key[value%noOfKey].toUpperCase();
         String decipherText = "";
@@ -57,6 +78,11 @@ public class DataEncryption {
         return decipherText;
     }
 
+    /**
+     * A SHA256 encryption for one-way encryption
+     * @param text text to be encrypted
+     * @return a encrypted string
+     */
     public static String SHA3(String text) {
         String sha3Hex = null;
         try {
@@ -71,7 +97,11 @@ public class DataEncryption {
         return sha3Hex;
     }
 
-
+    /**
+     * Converts byte String to String
+     * @param hash bytes to be converted
+     * @return a Hexadecimal String
+     */
     private static String bytesToHex(byte[] hash) {
         StringBuilder hexString = new StringBuilder(2 * hash.length);
         for (int i = 0; i < hash.length; i++) {

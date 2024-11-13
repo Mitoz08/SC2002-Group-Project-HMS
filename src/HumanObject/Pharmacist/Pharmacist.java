@@ -4,22 +4,15 @@ import HumanObject.*;
 
 import java.util.Date;
 
+/**
+ * A class that stores the details of a Pharmacist
+ */
 public class Pharmacist extends BasePerson {
 
     // Private
     private static int lastID = 0;
 
     // Public
-
-    /**
-     * To construct a pharmacist object and prompts input
-     */
-    public Pharmacist() {
-        super();
-        this.ID = lastID++;
-        this.role = ROLE.PHARMACIST;
-    }
-
     /**
      * To construct a pharmacist object with given inputs (Used for administrator to create new pharmacist account)
      * @param Name
@@ -48,10 +41,14 @@ public class Pharmacist extends BasePerson {
 
     /**
      * To be used during initialisation to ensure there is unique ID for each pharmacist
-     * @param ID
+     * @param ID lastID from the previous runtime
      */
     public static void setLastID(int ID) {lastID = ID;}
 
+    /**
+     * To be used during termination to ensure that lastID remains the same during the next runtime
+     * @return lastID variable
+     */
     public static int getLastID() {return lastID;}
 
 

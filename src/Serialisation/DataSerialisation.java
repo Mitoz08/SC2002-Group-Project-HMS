@@ -18,9 +18,9 @@ public class DataSerialisation {
     // Object to String
 
     /**
-     * To serialise prescription object to Status-MedicineName-Amount e.g. 0-Paracetamol-10
-     * @param p
-     * @return
+     * To serialise {@code Prescription} object to Status-MedicineName-Amount e.g. 0-Paracetamol-10
+     * @param p {@code Prescription} to be serialised
+     * @return formatted {@code Prescription} String
      */
     public static String SerialisePrescription(Prescription p) {
         String[] StringArray = new String[] {String.valueOf(p.getStatus().ordinal()),
@@ -30,9 +30,9 @@ public class DataSerialisation {
     }
 
     /**
-     * To serialise prescriptionlist object to 0-Paracetamol-10/0-Paracetamol-15/0-Paracetamol-20
-     * @param pList
-     * @return
+     * To serialise {@code PrescriptionList} object to 0-Paracetamol-10/0-Paracetamol-15/0-Paracetamol-20
+     * @param pList {@code PrescriptionList} to be serialised
+     * @return formatted {@code PrescriptionList} String
      */
     public static String SerialisePrescriptionList(PrescriptionList pList) {
         if (pList.getCount() == 0) return "Empty";
@@ -42,9 +42,9 @@ public class DataSerialisation {
     }
 
     /**
-     * To serialise appointment object to e.g. APT000001/0/Chemo/1001/P_Name/001/D_Name/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10
-     * @param apt
-     * @return
+     * To serialise {@code Appointment} object to e.g. APT000001/0/Chemo/1001/P_Name/001/D_Name/2024-08-21-16-00/Empty/0-MedicineName1-10/0-MedicineName2-10
+     * @param apt {@code Appointment} to be serialised
+     * @return formatted {@code Appointment} String
      */
     public static String SerialiseAppointment(Appointment apt) {
         String[] StringArray = new String[] {
@@ -57,9 +57,9 @@ public class DataSerialisation {
     }
 
     /**
-     * To serialise date object to YYYY-MM-DD-HH-MM 2024-08-21-16-00
-     * @param date
-     * @return
+     * To serialise {@code Date} object to YYYY-MM-DD-HH-MM 2024-08-21-16-00
+     * @param date {@code Date} to be serialised
+     * @return formatted {@code Date} String
      */
     public static String SerialiseDate (Date date) {
         String[] StringArray = new String[]
@@ -68,6 +68,11 @@ public class DataSerialisation {
         return convertStringArraytoString(StringArray, "-");
     }
 
+    /**
+     * To serialise {@code MedicineRequest} object to 1001/1001/APT0000000/true/1001
+     * @param request {@code MedicineRequest} to be serialised
+     * @return formatted {@code MedicineRequest} String
+     */
     public static String SerialiseMedicineReq(MedicineRequest request) {
         String[] StringArray = new String[]
                 {String.valueOf(request.getPatientID()), String.valueOf(request.getDoctorID()), request.getAppointmentID(),
@@ -75,6 +80,11 @@ public class DataSerialisation {
         return convertStringArraytoString(StringArray, "/");
     }
 
+    /**
+     * To serialise {@code RestockRequest} object to 1001/true/1001/1-10/2-20
+     * @param request {@code RestockRequest} to be serialised
+     * @return formatted {@code RestockRequest} String
+     */
     public static String SerialiseRestockReq(RestockRequest request) {
         String[] StringArray = new String[]
                 {String.valueOf(request.getPharmacistID()), String.valueOf(request.isApproved()), String.valueOf(request.getAdministratorID()),""};
@@ -87,6 +97,11 @@ public class DataSerialisation {
         return convertStringArraytoString(StringArray, "/");
     }
 
+    /**
+     * To serialise {@code MedicineData} object to 1/Paracetamol/20/20
+     * @param medicineData {@code MedicineData} to be serialised
+     * @return formatted {@code MedicineData} String
+     */
     public static String SerialiseMedicineData(MedicineData medicineData) {
         String[] StringArray = new String[]
                 {String.valueOf(medicineData.getID()), medicineData.getName(), String.valueOf(medicineData.getAmount()),
@@ -94,11 +109,21 @@ public class DataSerialisation {
         return convertStringArraytoString(StringArray, "/");
     }
 
+    /**
+     * To serialise {@code Contact} object to email@gmail.com|88888888
+     * @param contact {@code Contact} to be serialised
+     * @return formatted {@code Contact} String
+     */
     public static String SerialiseContact (Contact contact) {
         String[] StringArray = new String[] { contact.getEmail(),contact.getContactNumber()};
         return convertStringArraytoString(StringArray, "|");
     }
 
+    /**
+     * To serialise {@code Patient} object to PA&1001/Name/2002-08-21-16-00/true/O+/email@gmail.com|88888888
+     * @param patient {@code Patient} to be serialised
+     * @return formatted {@code Patient} String
+     */
     public static String SerialisePatient(Patient patient) {
         String[] StringArray = new String[]
                 { String.valueOf(patient.getID()), patient.getName(), SerialiseDate(patient.getDOB()),
@@ -107,6 +132,11 @@ public class DataSerialisation {
         return "PA&" + Serialised;
     }
 
+    /**
+     * To serialise {@code Doctor} object to DR&1001/Name/2002-08-21-16-00/true/1241111-true-true-true-true-true|1241120-true-true-true-true-true
+     * @param doctor {@code Doctor} to be serialised
+     * @return formatted {@code Doctor} String
+     */
     public static String SerialiseDoctor(Doctors doctor) {
         String[] StringArray = new String[]
                 { String.valueOf(doctor.getID()), doctor.getName(), SerialiseDate(doctor.getDOB()),
@@ -115,6 +145,11 @@ public class DataSerialisation {
         return "DR&" + Serialised;
     }
 
+    /**
+     * To serialise {@code Map} (availability of the doctor) object to 1241111-true-true-true-true-true|1241120-true-true-true-true-true
+     * @param map {@code Map} to be serialised
+     * @return formatted {@code Map} String
+     */
     public static String SerialiseDrAvailability (Map<Integer, Boolean[]> map){
         if (map.isEmpty()) return "Empty";
         StringBuilder Serialised = new StringBuilder();
@@ -129,6 +164,11 @@ public class DataSerialisation {
         return Serialised.toString();
     }
 
+    /**
+     * To serialise {@code Pharmacist} object to PH&1001/Name/2002-08-21-16-00/true
+     * @param pharmacist {@code Pharmacist} to be serialised
+     * @return formatted {@code Pharmacist} String
+     */
     public static String SerialisePharmacist(Pharmacist pharmacist) {
         String[] StringArray = new String[]
                 { String.valueOf(pharmacist.getID()), pharmacist.getName(), SerialiseDate(pharmacist.getDOB()),
@@ -137,6 +177,11 @@ public class DataSerialisation {
         return "PH&" + Serialised;
     }
 
+    /**
+     * To serialise {@code Administrator} object to AD&1001/Name/2002-08-21-16-00/true
+     * @param administrator {@code Administrator} to be serialised
+     * @return formatted {@code Administrator} String
+     */
     public static String SerialiseAdministrator(Administrator administrator) {
         String[] StringArray = new String[]
                 { String.valueOf(administrator.getID()), administrator.getName(), SerialiseDate(administrator.getDOB()),
@@ -148,9 +193,9 @@ public class DataSerialisation {
     // String to Object
 
     /**
-     * To create prescription object from serialised data
-     * @param Serialised
-     * @return
+     * To create {@code Prescription} object from serialised data
+     * @param Serialised serialised String to be created into {@code Prescription}
+     * @return a {@code Prescription}
      */
     public static Prescription DeserialisePrescription(String Serialised) {
         int index = 0;
@@ -159,9 +204,9 @@ public class DataSerialisation {
     }
 
     /**
-     * To create prescription list object from serialised data
-     * @param Serialised
-     * @return
+     * To create {@code PrescriptionList} object from serialised data
+     * @param Serialised serialised String to be created into {@code PrescriptionList}
+     * @return a {@code PrescriptionList}
      */
     public static PrescriptionList DeserialisePrescriptionList(String Serialised) {
         String[] Data = Serialised.split("/");
@@ -173,9 +218,9 @@ public class DataSerialisation {
     }
 
     /**
-     * To create appointment object from serialised data
-     * @param Serialised
-     * @return
+     * To create {@code Appointment} object from serialised data
+     * @param Serialised serialised String to be created into {@code Appointment}
+     * @return a {@code Appointment}
      */
     public static Appointment DeserialiseAppointment(String Serialised) {
         int index = 0;
@@ -204,9 +249,9 @@ public class DataSerialisation {
     }
 
     /**
-     * To create date object from serialised data
-     * @param Serialised
-     * @return
+     * To create {@code Date} object from serialised data
+     * @param Serialised serialised String to be created into {@code Date}
+     * @return a {@code Date}
      */
     public static Date DeserialiseDate(String Serialised) {
         int index = 0;
@@ -219,6 +264,11 @@ public class DataSerialisation {
         return date;
     }
 
+    /**
+     * To create {@code MedicineRequest} object from serialised data
+     * @param Serialised serialised String to be created into {@code MedicineRequest}
+     * @return a {@code MedicineRequest}
+     */
     public static MedicineRequest DeserialiseMedicineReq(String Serialised) {
         int index = 0;
         String[] Data = Serialised.split("/");
@@ -230,6 +280,11 @@ public class DataSerialisation {
         return request;
     }
 
+    /**
+     * To create {@code RestockRequest} object from serialised data
+     * @param Serialised serialised String to be created into {@code RestockRequest}
+     * @return a {@code RestockRequest}
+     */
     public static RestockRequest DeserialiseRestockReq(String Serialised) {
         int index = 0;
         String[] Data = Serialised.split("/");
@@ -244,6 +299,11 @@ public class DataSerialisation {
         return new RestockRequest(pharmacistID, approved, adminstratorID, requestAmmount);
     }
 
+    /**
+     * To create {@code MedicineData} object from serialised data
+     * @param Serialised serialised String to be created into {@code MedicineData}
+     * @return a {@code MedicineData}
+     */
     public static MedicineData DeserialiseMedicineData(String Serialised) {
         int index = 0;
         String[] Data = Serialised.split("/");
@@ -252,11 +312,21 @@ public class DataSerialisation {
         return medicineData;
     }
 
+    /**
+     * To create {@code Contact} object from serialised data
+     * @param Serialised serialised String to be created into {@code Contact}
+     * @return a {@code Contact}
+     */
     public static Contact DeerialiseContact (String Serialised) {
         String[] StringArray = Serialised.split("\\|");
         return new Contact(StringArray[0],StringArray[1]);
     }
 
+    /**
+     * To create {@code Patient} object from serialised data
+     * @param Serialised serialised String to be created into {@code Patient}
+     * @return a {@code Patient}
+     */
     public static Patient DeserialisePatient(String Serialised) {
          String[] StringArray = Serialised.split("/");
          int index = 0;
@@ -269,6 +339,11 @@ public class DataSerialisation {
          return new Patient(ID, name, DOB, Gender, bloodType, contact);
     }
 
+    /**
+     * To create {@code Doctor} object from serialised data
+     * @param Serialised serialised String to be created into {@code Doctor}
+     * @return a {@code Doctor}
+     */
     public static Doctors DeserialiseDoctor(String Serialised) {
          String[] StringArray = Serialised.split("/");
          int index = 0;
@@ -280,6 +355,11 @@ public class DataSerialisation {
          return new Doctors(ID, name, DOB, Gender, map);
     }
 
+    /**
+     * To create {@code Map} object for doctor's availability from serialised data
+     * @param Serialised serialised String to be created into {@code Map}
+     * @return a {@code Map}
+     */
     public static HashMap<Integer, Boolean[]> DeserialiseDrAvailability(String Serialised){
         if (Serialised.equals("Empty")) return new HashMap<>();
         String[] StringArray = Serialised.split("\\|");
@@ -300,6 +380,11 @@ public class DataSerialisation {
         return map;
     }
 
+    /**
+     * To create {@code Pharmacist} object from serialised data
+     * @param Serialised serialised String to be created into {@code Pharmacist}
+     * @return a {@code Pharmacist}
+     */
     public static Pharmacist DeserialisePharmacist(String Serialised) {
          String[] StringArray = Serialised.split("/");
          int index = 0;
@@ -310,6 +395,11 @@ public class DataSerialisation {
          return new Pharmacist(ID, name, DOB, Gender);
     }
 
+    /**
+     * To create {@code Administrator} object from serialised data
+     * @param Serialised serialised String to be created into {@code Administrator}
+     * @return a {@code Administrator}
+     */
     public static Administrator DeserialiseAdministrator(String Serialised) {
         String[] StringArray = Serialised.split("/");
          int index = 0;

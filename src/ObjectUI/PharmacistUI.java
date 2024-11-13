@@ -7,6 +7,7 @@ import DataObject.PharmacyObjects.MedicineRequest;
 import DataObject.PharmacyObjects.RestockRequest;
 import DataObject.Prescription.Prescription;
 import DataObject.Prescription.PrescriptionList;
+import DepartmentObject.Pharmacy;
 import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
 import HumanObject.ROLE;
@@ -16,18 +17,23 @@ import Serialisation.DataSerialisation;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * This {@code PharmacistUI} Class provides a Command-Line Interface for the Pharmacist user. Allowing them to
+ * prescribe and manage the medicine stock in {@code Pharmacy}
+ */
 public class PharmacistUI implements BaseUI {
 
     // Attribute
     private Pharmacist pharmacist;
 
+    /**
+     * Constructs an object that runs the Command-Line Interface
+     * @param pharmacist User's pharmacist object
+     */
     public PharmacistUI(Pharmacist pharmacist) {
         this.pharmacist = pharmacist;
 
         int choice;
-
-
-
         do {
             Input.ClearConsole();
             System.out.println("Pharmacist UI \n" +
@@ -65,6 +71,17 @@ public class PharmacistUI implements BaseUI {
 
     }
 
+    /**
+     * Method to View Appointment Outcome
+     * <p>
+     *     It prints out all the {@code MedicineRequest} in {@code Pharmacy} and lets the {@code Pharmacist} choose which
+     *     request to view and process. After choosing, if medicine can be prescribed, it will ask the {@code Pharmacist} if they want to
+     *     prescribe the medicine to the {@code Patient}
+     * </p>
+     *
+     * @see #printFulfillable(PrescriptionList) Method to check for fulfillable medicine
+     * @see #providePrescription(PrescriptionList) Method for prescribing medicine
+     */
     private void Option1() {
         Input.ClearConsole();
         int index;
@@ -106,6 +123,11 @@ public class PharmacistUI implements BaseUI {
 
         if (printFulfillable(prescriptions)) return;
 
+        if (!Input.ScanBoolean("Do you want to prescribe the medicine?")) {
+            Input.ScanString("Press enter to exit...");
+            return;
+        }
+
         providePrescription(prescriptions);
 
         Input.ClearConsole();
@@ -118,6 +140,17 @@ public class PharmacistUI implements BaseUI {
         }
     }
 
+    /**
+     * Method to Update Prescription Status
+     * <p>
+     *     Gets the first {@code MedicineRequest} from the ArrayList in {@code Pharmacy} to process
+     *     if medicine can be prescribed, it will ask the {@code Pharmacist} if they want to
+     *     prescribe the medicine to the {@code Patient}
+     * </p>
+     *
+     * @see #printFulfillable(PrescriptionList) Method to check for fulfillable medicine
+     * @see #providePrescription(PrescriptionList) Method for prescribing medicine
+     */
     private void Option2() {
         Input.ClearConsole();
         MedicineRequest request;
@@ -146,6 +179,11 @@ public class PharmacistUI implements BaseUI {
 
         if (printFulfillable(prescriptions)) return;
 
+        if (!Input.ScanBoolean("Do you want to prescribe the medicine?")) {
+            Input.ScanString("Press enter to exit...");
+            return;
+        }
+
         providePrescription(prescriptions);
 
         Input.ClearConsole();
@@ -158,17 +196,39 @@ public class PharmacistUI implements BaseUI {
         }
     }
 
+    /**
+     * Method to View Medication Inventory
+     * <p>
+     *     Uses the {@code viewStock()} function in {@code Pharmacy} to view the medicine stock
+     * </p>
+     *
+     * @see Pharmacy#viewStock() The function to view the stock
+     */
     private void Option3() {
         Input.ClearConsole();
         pharmacy.viewStock();
         Input.ScanString("Press enter to continue...");
     }
 
+    /**
+     * Method to Submit Replenishment Request
+     * <p>
+     *     Creates a {@code RestockRequest} and adds it into the {@code Pharmacy}'s restock request list
+     * </p>
+     *
+     * @see #createRestockReq() Function to create a restock request
+     * @see Pharmacy#requestRestock(RestockRequest) Function to add the restock requst to the Pharmacy
+     */
     private void Option4() {
         Input.ClearConsole();
         pharmacy.requestRestock(createRestockReq());
     }
 
+    /**
+     * Loops through the given {@code PrescriptionList} and prints out whether it can be fulfilled or not
+     * @param list the given {@code PrescriptionList}
+     * @return {@code true} when nothing can be prescribed
+     */
     private boolean printFulfillable(PrescriptionList list) {
         Input.ClearConsole();
         boolean canPrescribe = false;
@@ -182,13 +242,14 @@ public class PharmacistUI implements BaseUI {
             Input.ScanString("Press enter to exit...");
             return true;
         }
-        if (!Input.ScanBoolean("Do you want to prescribe the medicine?")) {
-            Input.ScanString("Press enter to exit...");
-            return true;
-        }
         return false;
     }
 
+    /**
+     * Method to prints the prescribe-able medicine and prompts the {@code Pharmacist} whether they want to prescribe it
+     * @param list List of prescription
+     * @return {@code true} if all prescribe-able medicine is prescribed, {@code false} otherwise
+     */
     private boolean providePrescription(PrescriptionList list) {
         Input.ClearConsole();
         ArrayList<Prescription> prescriptions = new ArrayList<>();
@@ -241,6 +302,10 @@ public class PharmacistUI implements BaseUI {
         return false;
     }
 
+    /**
+     * Creates a {@code RestockRequest} and asks the {@code Pharmacist} for the medicine they want to indent
+     * @return {@code null} if no indent is made, else returns {@code RestockRequest} object with the indent details
+     */
     private RestockRequest createRestockReq(){
         Input.ClearConsole();
         HashMap<Integer,Integer> indentStock = new HashMap<>();
