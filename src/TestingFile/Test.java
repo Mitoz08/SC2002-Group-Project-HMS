@@ -16,7 +16,7 @@ import Serialisation.DataSerialisation;
 
 import java.awt.*;
 import java.util.Date;
-/*
+
 public class Test {
 
     public static void Run1() {
@@ -66,22 +66,22 @@ public class Test {
                     switch (role) {
                         case "PA":
                             for (Patient p : database.getPatients()) {
-                                if (p.getID() == ID) new PatientUI(database, pharmacy, p);
+                                if (p.getID() == ID) new PatientUI(p);
                             }
                             break;
                         case "DR":
                             for (Doctors d : database.getDoctors()) {
-                                if (d.getID() == ID) new DoctorUI(database, pharmacy, d);
+                                if (d.getID() == ID) new DoctorUI(d);
                             }
                             break;
                         case "PH":
                             for (Pharmacist p : database.getPharmacists()) {
-                                if (p.getID() == ID) new PharmacistUI(database, pharmacy, p);
+                                if (p.getID() == ID) new PharmacistUI(p);
                             }
                             break;
                         case "AD":
                             for (Administrator a : database.getAdministrators()) {
-                                if (a.getID() == ID) new AdminUI(database, pharmacy, a);
+                                if (a.getID() == ID) new AdminUI(a);
                             }
                             break;
                     }
@@ -98,4 +98,4 @@ public class Test {
     }
 }
 
- */
+
