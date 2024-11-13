@@ -278,6 +278,15 @@ public class Pharmacy {
     }
 
     /**
+     * Checks whether there is a medicine with the existing {@code medicine} name
+     * @param medicine name of Medicine
+     * @return {@code true} if there is a medicine with that name, {@code false} otherwise
+     */
+    public boolean isMedicine(String medicine) {
+        return nameToID.containsKey(medicine.toLowerCase());
+    }
+
+    /**
      * Takes in a medicine name and converts it into its ID by looking at the {@code HashMap<String,Integer> nameToID}
      * @param medicineName the name of the mdicine
      * @return the ID with that medicine name, {@code null} if no medicine with that name in the {@code Pharmacy}
@@ -335,8 +344,12 @@ public class Pharmacy {
     }
 
     /**
-     * Reads from the given {@code Scanner} object and
-     * @param fileReader
+     * Reads from the given {@code Scanner} object and creates {@code MedicineRequest} followed by {@code RestockRequest} then {@code MedicineData}
+     * @param fileReader {@code Scanner} object for reading
+     *
+     * @see MedicineRequest MedicineRequest Class
+     * @see RestockRequest  RestockRequest Class
+     * @see MedicineData    MedicineData class
      */
     private void loadData(Scanner fileReader) {
         while (fileReader.hasNextLine()) {
@@ -377,6 +390,12 @@ public class Pharmacy {
         }
     }
 
+    /**
+     * Used to save and write data into the file.
+     * <p>Creates a new {@code File} and {@code FileWriter} with the file name {@code pharmacyFileName} and passes it into
+     * the function {@code saveData()}</p>
+     * @see #saveData(FileWriter)   saveData() function
+     */
     private void saveFile() {
         File savefile = new File(pharmacyFileName);
         FileWriter file;
@@ -393,6 +412,12 @@ public class Pharmacy {
 
     }
 
+    /**
+     * Saves {@code MedicineRequest} followed by {@code RestockRequest} then {@code MedicineData} from memory into
+     * the file using the FileWriter object
+     * @param fileWriter {@code FileWriter} object for writing
+     * @throws IOException throws an error when it fails to write to file
+     */
     private void saveData(FileWriter fileWriter) throws IOException {
         String text = "MedicineRequest";
         text = DataEncryption.cipher(text);
@@ -444,7 +469,4 @@ public class Pharmacy {
         }
     }
 
-    public boolean isMedicine(String medicine) {
-        return nameToID.containsKey(medicine.toLowerCase());
-    }
 }
