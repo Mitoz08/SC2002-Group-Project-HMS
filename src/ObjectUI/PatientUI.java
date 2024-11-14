@@ -3,7 +3,7 @@ package ObjectUI;
 import DataObject.Appointment.Appointment;
 import DataObject.PharmacyObjects.MedicineRequest;
 import DataObject.Prescription.PrescriptionList;
-import HumanObject.Doctors.Doctors;
+import HumanObject.Doctor.Doctor;
 import HumanObject.Patient.Patient;
 import HumanObject.ROLE;
 import InputHandler.Input;
@@ -107,7 +107,6 @@ public class PatientUI implements BaseUI {
             }
         }
         while (choice != 9);
-
     }
 
     /**
@@ -211,8 +210,8 @@ public class PatientUI implements BaseUI {
             }
             break;
         }
-        ArrayList<Doctors> doctorsArrayList = database.getDoctors();
-        for (Doctors doctor : doctorsArrayList) {
+        ArrayList<Doctor> doctorsArrayList = database.getDoctors();
+        for (Doctor doctor : doctorsArrayList) {
             Boolean[] availability = doctor.getTimeSlot(date);
             if (availability == null || !availability[timeSlot]) {
                 System.out.println(doctor.getName() + " is available during this timeslot.\n");
@@ -317,8 +316,8 @@ public class PatientUI implements BaseUI {
                 }
             }
 
-            ArrayList<Doctors> doctorsArrayList = database.getDoctors();
-            for (Doctors doctor : doctorsArrayList) {
+            ArrayList<Doctor> doctorsArrayList = database.getDoctors();
+            for (Doctor doctor : doctorsArrayList) {
                 Boolean[] availability = doctor.getTimeSlot(date);
                 if (availability == null || !availability[timeSlot]) {
                     System.out.println(doctor.getID() + ": " + doctor.getName() + " is available during this timeslot\n");
@@ -335,7 +334,7 @@ public class PatientUI implements BaseUI {
         String service = Input.ScanString("What service are you booking for?\n");
         do {
             int doctorID = Input.ScanInt("Enter the doctor ID: \n");
-            Doctors doctor = (Doctors) database.getPerson(doctorID, ROLE.DOCTOR);
+            Doctor doctor = (Doctor) database.getPerson(doctorID, ROLE.DOCTOR);
             if (doctor == null) {
                 System.out.println("Invalid Doctor ID. Please try again\n");
                 continue;

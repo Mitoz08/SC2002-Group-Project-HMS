@@ -29,7 +29,6 @@ public class Patient extends BasePerson {
 
     private String bloodType;
     private Contact contact;
-    private String email;
     private ArrayList<String> doctorAssigned;
     private AppointmentList Pending;
     private AppointmentList Ongoing;
@@ -72,6 +71,7 @@ public class Patient extends BasePerson {
         this.Pending = new AppointmentList(true);
         this.Ongoing = new AppointmentList(true);
         this.Completed = new AppointmentList(false);
+        this.Medicine = new PrescriptionList();
     }
 
     //This constructor is used to add to TXT file
@@ -108,6 +108,7 @@ public class Patient extends BasePerson {
         this.Pending = new AppointmentList(true);
         this.Ongoing = new AppointmentList(true);
         this.Completed = new AppointmentList(false);
+        this.Medicine = new PrescriptionList();
     }
 
     /**

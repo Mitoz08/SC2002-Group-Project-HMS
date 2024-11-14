@@ -80,7 +80,7 @@ public class PharmacistUI implements BaseUI {
      * </p>
      *
      * @see #printFulfillable(PrescriptionList) Method to check for fulfillable medicine
-     * @see #providePrescription(PrescriptionList) Method for prescribing medicine
+     * @see #providePrescription(PrescriptionList, Patient)  Method for prescribing medicine
      */
     private void Option1() {
         Input.ClearConsole();
@@ -128,7 +128,7 @@ public class PharmacistUI implements BaseUI {
             return;
         }
 
-        providePrescription(prescriptions);
+        providePrescription(prescriptions,p);
 
         Input.ClearConsole();
         if (appointment.isPrescribed()) {
@@ -149,7 +149,7 @@ public class PharmacistUI implements BaseUI {
      * </p>
      *
      * @see #printFulfillable(PrescriptionList) Method to check for fulfillable medicine
-     * @see #providePrescription(PrescriptionList) Method for prescribing medicine
+     * @see #providePrescription(PrescriptionList, Patient)  Method for prescribing medicine
      */
     private void Option2() {
         Input.ClearConsole();
@@ -184,7 +184,7 @@ public class PharmacistUI implements BaseUI {
             return;
         }
 
-        providePrescription(prescriptions);
+        providePrescription(prescriptions,p);
 
         Input.ClearConsole();
         if (appointment.isPrescribed()) {
@@ -250,7 +250,7 @@ public class PharmacistUI implements BaseUI {
      * @param list List of prescription
      * @return {@code true} if all prescribe-able medicine is prescribed, {@code false} otherwise
      */
-    private boolean providePrescription(PrescriptionList list) {
+    private boolean providePrescription(PrescriptionList list, Patient p) {
         Input.ClearConsole();
         ArrayList<Prescription> prescriptions = new ArrayList<>();
         Prescription temp;
@@ -294,6 +294,7 @@ public class PharmacistUI implements BaseUI {
                 temp = prescriptions.remove(choice-1);
                 if (pharmacy.prescribeMedicine(temp.getMedicineName(),temp.getAmount())) {
                     temp.prescribed();
+                    p.getMedicine().addPrescription(temp,0);
                 }
                 else System.out.println("Error dispensing medicine.");
             }

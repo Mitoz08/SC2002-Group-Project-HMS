@@ -1,4 +1,4 @@
-package HumanObject.Doctors;
+package HumanObject.Doctor;
 
 import DataObject.Appointment.AppointmentList;
 import HumanObject.BasePerson;
@@ -11,7 +11,7 @@ import java.util.*;
  * availability, and schedules. Doctors have ongoing, completed, and pending appointments,
  * as well as a weekly schedule of available time slots.
  */
-public class Doctors extends BasePerson {
+public class Doctor extends BasePerson {
     private static int lastID = 0;
 
     // Lists to track different statuses of appointments for the doctor
@@ -29,7 +29,7 @@ public class Doctors extends BasePerson {
      * @param Gender      The doctor's gender.
      * @param dateHashMap Availability schedule for specific dates.
      */
-    public Doctors(int ID, String Name, Date DOB, Boolean Gender, HashMap<Integer, Boolean[]> dateHashMap) {
+    public Doctor(int ID, String Name, Date DOB, Boolean Gender, HashMap<Integer, Boolean[]> dateHashMap) {
         super(ID, Name, DOB, Gender);
         this.role = ROLE.DOCTOR;
         this.availability = dateHashMap;
@@ -45,7 +45,7 @@ public class Doctors extends BasePerson {
      * @param DOB    The doctor's date of birth.
      * @param Gender The doctor's gender.
      */
-    public Doctors(String Name, Date DOB, Boolean Gender) {
+    public Doctor(String Name, Date DOB, Boolean Gender) {
         super(lastID++, Name, DOB, Gender);
         this.role = ROLE.DOCTOR;
         this.availability = new HashMap<>();
