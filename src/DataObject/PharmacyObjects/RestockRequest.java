@@ -90,12 +90,12 @@ public class RestockRequest {
      * Prints a formatted block of the restock request.
      */
     public void print() {
-        System.out.printf("_______________________________\n");
+        System.out.printf("┌───────────────────────────────┐\n");
         for (Map.Entry<Integer,Integer> e : requestAmmount.entrySet()){
-            System.out.printf("|%-6s:%-8s %-6s:%-8s|\n", "MED ID", MedicineData.getStrID(e.getKey()), "Amount", e.getValue());
+            System.out.printf("│%-6s:%-8s %-6s:%-8s│\n", "MED ID", MedicineData.getStrID(e.getKey()), "Amount", e.getValue());
         }
-        System.out.printf("|%-12s:%-18s|\n", "PharmacistID","PH"+ this.pharmacistID);
-        System.out.println("_______________________________");
+        System.out.printf("│%-12s:%-18s│\n", "PharmacistID","PH"+ this.pharmacistID);
+        System.out.println("└───────────────────────────────┘");
     }
 
     /**
@@ -104,12 +104,12 @@ public class RestockRequest {
      * @param index the index to display before the block
      */
     public void print(int index) {
-        System.out.printf("%2d)_______________________________\n",index);
+        System.out.printf("%2d)┌───────────────────────────────┐\n",index);
         for (Map.Entry<Integer,Integer> e : requestAmmount.entrySet()){
-            System.out.printf("   |%-6s:%-8s %-6s:%-8s|\n", "MED ID", MedicineData.getStrID(e.getKey()), "Amount", e.getValue());
+            System.out.printf("   │%-6s:%-8s %-6s:%-8s│\n", "MED ID", MedicineData.getStrID(e.getKey()), "Amount", e.getValue());
         }
-        System.out.printf("   |%-12s:%-18s|\n", "PharmacistID","PH"+ this.pharmacistID);
-        System.out.println("   _______________________________");
+        System.out.printf("   │%-12s:%-18s│\n", "PharmacistID","PH"+ this.pharmacistID);
+        System.out.println("   └───────────────────────────────┘");
     }
 
 }

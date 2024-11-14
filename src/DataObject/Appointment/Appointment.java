@@ -180,18 +180,18 @@ public class Appointment implements Comparable<Appointment> {
      * @param Patient {@code true} - prints out doctor's name, {@code false} - prints out patient's name
      */
     public void print(boolean Patient) {
-        System.out.println("______________________________");
-        System.out.printf("|%-8s:%-20s|\n", "APT ID", this.appointmentID);
-        System.out.printf("|%-8s:%-20s|\n", "Status", this.status);
-        System.out.printf("|%-8s:%-20s|\n", "Event", this.nameOfApt);
+        System.out.println("┌─────────────────────────────┐");
+        System.out.printf("│%-8s:%-20s│\n", "APT ID", this.appointmentID);
+        System.out.printf("│%-8s:%-20s│\n", "Status", this.status);
+        System.out.printf("│%-8s:%-20s│\n", "Event", this.nameOfApt);
         if (Patient)
-            System.out.printf("|%-8s:%-20s|\n", "Doctor", this.doctorName);
+            System.out.printf("│%-8s:%-20s│\n", "Doctor", this.doctorName);
         else
-            System.out.printf("|%-8s:%-20s|\n", "Patient", this.patientName);
-        System.out.printf("|%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
-        System.out.printf("|%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
-        if (!this.notes.equals("Empty")) System.out.printf("|%-8s:%-20s|\n", "Notes", this.notes);
-        System.out.println("______________________________");
+            System.out.printf("│%-8s:%-20s│\n", "Patient", this.patientName);
+        System.out.printf("│%-8s:%02d-%02d-%04d%-10s│\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
+        System.out.printf("│%-8s:%02d:%02d%-15s│\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
+        if (!this.notes.equals("Empty")) System.out.printf("│%-8s:%-20s│\n", "Notes", this.notes);
+        System.out.println("└─────────────────────────────┘");
     }
 
     /**
@@ -204,34 +204,34 @@ public class Appointment implements Comparable<Appointment> {
      * @param index prints {@code index} beside the appointment block
      */
     public void print(boolean Patient, int index) {
-        System.out.printf("%3d)______________________________\n", index);
-        System.out.printf("    |%-8s:%-20s|\n", "APT ID", this.appointmentID);
-        System.out.printf("    |%-8s:%-20s|\n", "Status", this.status);
-        System.out.printf("    |%-8s:%-20s|\n", "Event", this.nameOfApt);
+        System.out.printf("%3d)┌─────────────────────────────┐\n", index);
+        System.out.printf("    │%-8s:%-20s│\n", "APT ID", this.appointmentID);
+        System.out.printf("    │%-8s:%-20s│\n", "Status", this.status);
+        System.out.printf("    │%-8s:%-20s│\n", "Event", this.nameOfApt);
         if (Patient)
-            System.out.printf("    |%-8s:%-20s|\n", "Doctor", this.doctorName);
+            System.out.printf("    │%-8s:%-20s│\n", "Doctor", this.doctorName);
         else
-            System.out.printf("    |%-8s:%-20s|\n", "Patient", this.patientName);
-        System.out.printf("    |%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
-        System.out.printf("    |%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
-        if (!this.notes.equals("Empty")) System.out.printf("    |%-8s:%-20s|\n", "Notes", this.notes);
-        System.out.println("    ______________________________");
+            System.out.printf("    │%-8s:%-20s│\n", "Patient", this.patientName);
+        System.out.printf("    │%-8s:%02d-%02d-%04d%-10s│\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
+        System.out.printf("    │%-8s:%02d:%02d%-15s│\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
+        if (!this.notes.equals("Empty")) System.out.printf("    │%-8s:%-20s│\n", "Notes", this.notes);
+        System.out.println("    └─────────────────────────────┘");
     }
 
     /**
      * Prints out a formatted appointment block of all the data
      */
     public void print() {
-        System.out.println("______________________________");
-        System.out.printf("|%-8s:%-20s|\n", "APT ID", this.appointmentID);
-        System.out.printf("|%-8s:%-20s|\n", "Status", this.status);
-        System.out.printf("|%-8s:%-20s|\n", "Event", this.nameOfApt);
-        System.out.printf("|%-8s:%-20s|\n", "Doctor", this.doctorName);
-        System.out.printf("|%-8s:%-20s|\n", "Patient", this.patientName);
-        System.out.printf("|%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
-        System.out.printf("|%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
-        if (!this.notes.equals("Empty")) System.out.printf("|%-8s:%-20s|\n", "Notes", this.notes);
-        System.out.println("______________________________");
+        System.out.println("┌─────────────────────────────┐");
+        System.out.printf("│%-8s:%-20s│\n", "APT ID", this.appointmentID);
+        System.out.printf("│%-8s:%-20s│\n", "Status", this.status);
+        System.out.printf("│%-8s:%-20s│\n", "Event", this.nameOfApt);
+        System.out.printf("│%-8s:%-20s│\n", "Doctor", this.doctorName);
+        System.out.printf("│%-8s:%-20s│\n", "Patient", this.patientName);
+        System.out.printf("│%-8s:%02d-%02d-%04d%-10s│\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
+        System.out.printf("│%-8s:%02d:%02d%-15s│\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
+        if (!this.notes.equals("Empty")) System.out.printf("│%-8s:%-20s│\n", "Notes", this.notes);
+        System.out.println("└─────────────────────────────┘");
     }
 
     /**
@@ -243,16 +243,16 @@ public class Appointment implements Comparable<Appointment> {
      * @param index prints {@code index} beside the appointment block
      */
     public void print(int index) {
-        System.out.printf("%3d)______________________________\n",index);
-        System.out.printf("    |%-8s:%-20s|\n", "APT ID", this.appointmentID);
-        System.out.printf("    |%-8s:%-20s|\n", "Status", this.status);
-        System.out.printf("    |%-8s:%-20s|\n", "Event", this.nameOfApt);
-        System.out.printf("    |%-8s:%-20s|\n", "Doctor", this.doctorName);
-        System.out.printf("    |%-8s:%-20s|\n", "Patient", this.patientName);
-        System.out.printf("    |%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
-        System.out.printf("    |%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
-        if (!this.notes.equals("Empty")) System.out.printf("    |%-8s:%-20s|\n", "Notes", this.notes);
-        System.out.println("    ______________________________");
+        System.out.printf("%3d)┌─────────────────────────────┐\n",index);
+        System.out.printf("    │%-8s:%-20s│\n", "APT ID", this.appointmentID);
+        System.out.printf("    │%-8s:%-20s│\n", "Status", this.status);
+        System.out.printf("    │%-8s:%-20s│\n", "Event", this.nameOfApt);
+        System.out.printf("    │%-8s:%-20s│\n", "Doctor", this.doctorName);
+        System.out.printf("    │%-8s:%-20s│\n", "Patient", this.patientName);
+        System.out.printf("    │%-8s:%02d-%02d-%04d%-10s│\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
+        System.out.printf("    │%-8s:%02d:%02d%-15s│\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
+        if (!this.notes.equals("Empty")) System.out.printf("    │%-8s:%-20s│\n", "Notes", this.notes);
+        System.out.println("    └─────────────────────────────┘");
     }
 
     /**
