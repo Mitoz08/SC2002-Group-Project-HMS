@@ -2,16 +2,14 @@ package ObjectUI;
 
 import DataObject.Appointment.Appointment;
 import DataObject.Appointment.AppointmentList;
-import DataObject.PharmacyObjects.MedicineRequest;
 import DataObject.PharmacyObjects.RestockRequest;
 import DepartmentObject.*;
 import HumanObject.Administrator.Administrator;
 import HumanObject.BasePerson;
-import HumanObject.Doctors.Doctors;
+import HumanObject.Doctor.Doctor;
 import HumanObject.Pharmacist.Pharmacist;
 import HumanObject.ROLE;
 import InputHandler.Input;
-import Serialisation.DataSerialisation;
 import Singleton.ServerHMS;
 
 import java.util.ArrayList;
@@ -86,7 +84,7 @@ public class AdminUI implements BaseUI{
                             login.addNewAccount(toAdd);
                             switch (role){
                                 case DOCTOR:
-                                    this.database.getDoctors().add((Doctors) toAdd);
+                                    this.database.getDoctors().add((Doctor) toAdd);
                                     break;
                                 case ADMINISTRATOR:
                                     this.database.getAdministrators().add((Administrator) toAdd);
@@ -146,10 +144,10 @@ public class AdminUI implements BaseUI{
      */
     private void viewHospitalStaff(){
         int numOfStaff = 1;
-        ArrayList<Doctors> doctors = this.database.getDoctors();
+        ArrayList<Doctor> doctors = this.database.getDoctors();
         ArrayList<Pharmacist> pharmacists = this.database.getPharmacists();
         ArrayList<Administrator> administrators = this.database.getAdministrators();
-        for (Doctors doc: doctors){
+        for (Doctor doc: doctors){
             System.out.println(numOfStaff + ". " + "Name: "+ doc.getName() + ", ID: " + doc.getID() + ", Role: " + doc.getRole());
             numOfStaff++;
         }
@@ -294,7 +292,7 @@ public class AdminUI implements BaseUI{
 
         switch (role) {
             case 1:
-                return new Doctors(name, DOB, Gender);
+                return new Doctor(name, DOB, Gender);
             case 2:
                 return new Pharmacist(name, DOB, Gender);
             case 3:
@@ -341,17 +339,17 @@ public class AdminUI implements BaseUI{
                     "3. Administrator");
             switch (choice1) {
                 case 1:
-                    ArrayList<Doctors> docList = this.database.getDoctors();
+                    ArrayList<Doctor> docList = this.database.getDoctors();
                     if (docList.isEmpty()) {
                         System.out.println("There aren't any doctors left in the Hospital");
                         return null;
                     }
-                    for (Doctors doc : docList) {
+                    for (Doctor doc : docList) {
                         System.out.println(index + ": " + "Name: " + doc.getName() + ", ID: " + doc.getID());
                         index++;
                     }
                     choice2 = Input.ScanInt("Choose which doctor to remove\n");
-                    for (Doctors doc : docList) {
+                    for (Doctor doc : docList) {
                         if (i == choice2) {
                             System.out.println("This doctor is to be removed, " + doc.getName() + " with an ID of " + doc.getID());
                             AppointmentList temp = doc.getOngoingApt();

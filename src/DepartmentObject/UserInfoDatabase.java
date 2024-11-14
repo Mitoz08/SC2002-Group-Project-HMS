@@ -1,14 +1,13 @@
 package DepartmentObject;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import DataObject.Appointment.*;
-import DataObject.Prescription.PrescriptionList;
+import DataObject.Prescription.Prescription;
 import HumanObject.Administrator.Administrator;
 import HumanObject.BasePerson;
-import HumanObject.Doctors.Doctors;
+import HumanObject.Doctor.Doctor;
 import HumanObject.Patient.Contact;
 import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
@@ -17,13 +16,11 @@ import InputHandler.Input;
 import Serialisation.DataEncryption;
 import Serialisation.DataSerialisation;
 
-import javax.print.Doc;
-
 
 public class UserInfoDatabase {
 
     private ArrayList<Patient> patients;
-    private ArrayList<Doctors> doctors;
+    private ArrayList<Doctor> doctors;
     private ArrayList<Administrator> administrators;
     private ArrayList<Pharmacist> pharmacists;
     private AppointmentList[] allAppointments; //0-Pending , 1- Ongoing, 2- Completed
@@ -38,7 +35,7 @@ public class UserInfoDatabase {
      */
     public UserInfoDatabase(){
         this.patients = new ArrayList<Patient>();
-        this.doctors = new ArrayList<Doctors>();
+        this.doctors = new ArrayList<Doctor>();
         this.administrators = new ArrayList <Administrator>();
         this.pharmacists = new ArrayList<Pharmacist>();
         this.allAppointments = new AppointmentList[3];
@@ -71,11 +68,11 @@ public class UserInfoDatabase {
         this.patients.add(P);
         Patient.setLastID(1003);
 
-        Doctors D = new Doctors(1001,"Ben", new Date(85,10,23), true, new HashMap<>());
+        Doctor D = new Doctor(1001,"Ben", new Date(85,10,23), true, new HashMap<>());
         this.doctors.add(D);
-        D = new Doctors(1002,"Fae", new Date(70,0,8), false, new HashMap<>());
+        D = new Doctor(1002,"Fae", new Date(70,0,8), false, new HashMap<>());
         this.doctors.add(D);
-        Doctors.setLastID(1003);
+        Doctor.setLastID(1003);
 
         Administrator A = new Administrator(1001, "Summer", new Date(90,11,31), false);
         this.administrators.add(A);
@@ -94,7 +91,7 @@ public class UserInfoDatabase {
     /**
      * Getter functions that return an ArrayList for each ROLE in database
      */
-    public ArrayList<Doctors> getDoctors(){return this.doctors;}
+    public ArrayList<Doctor> getDoctors(){return this.doctors;}
     public ArrayList<Pharmacist> getPharmacists(){return this.pharmacists;}
     public ArrayList<Administrator> getAdministrators(){return this.administrators;}
     public ArrayList<Patient> getPatients(){return this.patients;}
@@ -118,7 +115,7 @@ public class UserInfoDatabase {
                 System.out.println("Patient not found in dataBase");
                 break;
             case DOCTOR:
-                for (Doctors doc : this.doctors) {
+                for (Doctor doc : this.doctors) {
                     if (doc.getID() == id) {
                         return doc;
                     }
@@ -167,7 +164,7 @@ public class UserInfoDatabase {
                 System.out.println("Patient not found in dataBase");
                 break;
             case DOCTOR:
-                for (Doctors doc : this.doctors) {
+                for (Doctor doc : this.doctors) {
                     if (doc.getName().equals(name)) {
                         return doc;
                     }
@@ -224,7 +221,7 @@ public class UserInfoDatabase {
 
         //To add the appointment inside Ongoing for Doctors
         int docID = apt.getDoctorID();
-        Doctors foundDoc =  (Doctors) getPerson(docID, ROLE.DOCTOR);
+        Doctor foundDoc =  (Doctor) getPerson(docID, ROLE.DOCTOR);
         if (foundDoc == null){
             System.out.println("Doctor is not found in the database");
             return;
@@ -296,7 +293,7 @@ public class UserInfoDatabase {
         //To remove the appointment inside Ongoing/ Pending for Doctors and patients
         i=0;
         int docID = toCancelApt.getDoctorID();
-        Doctors foundDoc = (Doctors) getPerson(docID, ROLE.DOCTOR);
+        Doctor foundDoc = (Doctor) getPerson(docID, ROLE.DOCTOR);
         if (foundDoc == null){
             System.out.println("The doctor was not found in the database, not in the list of Pending/Ongoing Appointments ");
             return;
@@ -406,7 +403,7 @@ public class UserInfoDatabase {
 
         //To remove the appointment inside Ongoing for Doctors
         int docID = completedApt.getDoctorID();
-        Doctors foundDoc = (Doctors) getPerson(docID, ROLE.DOCTOR);
+        Doctor foundDoc = (Doctor) getPerson(docID, ROLE.DOCTOR);
         if (foundDoc == null){
             System.out.println("The doctor was not found in the database, possibly not in the list of Ongoing Appointments ");
             return;
@@ -500,7 +497,7 @@ public class UserInfoDatabase {
         //To remove the appointment inside Ongoing for Doctors
         i=0;
         int docID = acceptApt.getDoctorID();
-        Doctors foundDoc = (Doctors)getPerson(docID,ROLE.DOCTOR);
+        Doctor foundDoc = (Doctor)getPerson(docID,ROLE.DOCTOR);
         if (foundDoc == null){
             System.out.println("Check if this is the correct doctor\n");
             return;
@@ -650,7 +647,7 @@ public class UserInfoDatabase {
                     String[] textArray = temp[1].split("/");
                     int index = 0;
                     Patient.setLastID(Integer.parseInt(textArray[index++]));
-                    Doctors.setLastID(Integer.parseInt(textArray[index++]));
+                    Doctor.setLastID(Integer.parseInt(textArray[index++]));
                     Pharmacist.setLastID(Integer.parseInt(textArray[index++]));
                     Administrator.setLastID(Integer.parseInt(textArray[index++]));
                     break;
@@ -685,7 +682,7 @@ public class UserInfoDatabase {
             }
             Appointment apt = DataSerialisation.DeserialiseAppointment(decrypted);
             Patient patient = (Patient) getPerson(apt.getPatientID(),ROLE.PATIENT);
-            Doctors doctor = (Doctors) getPerson(apt.getDoctorID(),ROLE.DOCTOR);
+            Doctor doctor = (Doctor) getPerson(apt.getDoctorID(),ROLE.DOCTOR);
             switch (apt.getStatus()) {
                 case PENDING:
                     patient.getPending().addAppointment(apt);
@@ -699,6 +696,9 @@ public class UserInfoDatabase {
                     break;
                 case COMPLETED:
                     patient.getCompleted().addAppointment(apt);
+                    for (Prescription p : apt.getPrescriptionList()) {
+                        if (p.isPrescribed())patient.getMedicine().addPrescription(p,0);
+                    }
                     doctor.getCompletedApt().addAppointment(apt);
                     allAppointments[2].addAppointment(apt);
                     break;
@@ -757,10 +757,10 @@ public class UserInfoDatabase {
     private void saveAccount(FileWriter fileWriter) throws IOException {
 
         for (Patient P: patients) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialisePatient(P)) + "\n");
-        for (Doctors D: doctors) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialiseDoctor(D)) + "\n");
+        for (Doctor D: doctors) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialiseDoctor(D)) + "\n");
         for (Pharmacist P : pharmacists) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialisePharmacist(P)) + "\n");
         for (Administrator A: administrators) fileWriter.write(DataEncryption.cipher(DataSerialisation.SerialiseAdministrator(A)) + "\n");
-        String[] textArray = new String[] {String.valueOf(Patient.getLastID()), String.valueOf(Doctors.getLastID()), String.valueOf(Pharmacist.getLastID()),
+        String[] textArray = new String[] {String.valueOf(Patient.getLastID()), String.valueOf(Doctor.getLastID()), String.valueOf(Pharmacist.getLastID()),
                 String.valueOf(Administrator.getLastID())};
         String text = "Static&" + DataSerialisation.convertStringArraytoString(textArray, "/");
         fileWriter.write(DataEncryption.cipher(text));

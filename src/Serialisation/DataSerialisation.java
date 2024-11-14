@@ -4,7 +4,7 @@ import DataObject.Appointment.*;
 import DataObject.PharmacyObjects.*;
 import DataObject.Prescription.*;
 import HumanObject.Administrator.Administrator;
-import HumanObject.Doctors.Doctors;
+import HumanObject.Doctor.Doctor;
 import HumanObject.Patient.Contact;
 import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
@@ -137,7 +137,7 @@ public class DataSerialisation {
      * @param doctor {@code Doctor} to be serialised
      * @return formatted {@code Doctor} String
      */
-    public static String SerialiseDoctor(Doctors doctor) {
+    public static String SerialiseDoctor(Doctor doctor) {
         String[] StringArray = new String[]
                 { String.valueOf(doctor.getID()), doctor.getName(), SerialiseDate(doctor.getDOB()),
                 String.valueOf(doctor.getGender()), SerialiseDrAvailability(doctor.getAvailability()) };
@@ -237,7 +237,6 @@ public class DataSerialisation {
         String notes = Data[index++];
         PrescriptionList list = new PrescriptionList();
         while (index < Data.length && !Data[index].equals("Empty")) {
-            System.out.println("test");
             try {
                 Prescription prescription = DeserialisePrescription(Data[index++]);
                 list.addPrescription(prescription);
@@ -317,7 +316,7 @@ public class DataSerialisation {
      * @param Serialised serialised String to be created into {@code Contact}
      * @return a {@code Contact}
      */
-    public static Contact DeerialiseContact (String Serialised) {
+    public static Contact DeserialiseContact(String Serialised) {
         String[] StringArray = Serialised.split("\\|");
         return new Contact(StringArray[0],StringArray[1]);
     }
@@ -335,7 +334,7 @@ public class DataSerialisation {
          Date DOB = DeserialiseDate(StringArray[index++]);
          boolean Gender = Boolean.parseBoolean(StringArray[index++]);
          String bloodType = StringArray[index++];
-         Contact contact = DeerialiseContact(StringArray[index++]);
+         Contact contact = DeserialiseContact(StringArray[index++]);
          return new Patient(ID, name, DOB, Gender, bloodType, contact);
     }
 
@@ -344,7 +343,7 @@ public class DataSerialisation {
      * @param Serialised serialised String to be created into {@code Doctor}
      * @return a {@code Doctor}
      */
-    public static Doctors DeserialiseDoctor(String Serialised) {
+    public static Doctor DeserialiseDoctor(String Serialised) {
          String[] StringArray = Serialised.split("/");
          int index = 0;
          int ID = Integer.parseInt(StringArray[index++]);
@@ -352,7 +351,7 @@ public class DataSerialisation {
          Date DOB = DeserialiseDate(StringArray[index++]);
          boolean Gender = Boolean.parseBoolean(StringArray[index++]);
          HashMap<Integer, Boolean[]> map = DeserialiseDrAvailability(StringArray[index++]);
-         return new Doctors(ID, name, DOB, Gender, map);
+         return new Doctor(ID, name, DOB, Gender, map);
     }
 
     /**

@@ -52,8 +52,8 @@ public class PrescriptionList implements Iterable<Prescription> {
     }
 
     /**
-     * Adds prescription into the list in ascending order
-     * @param prescription
+     * Adds {@code Prescription} into the list in ascending order
+     * @param prescription {@code Prescription} to be added
      */
     public void addPrescription(Prescription prescription) {
         PrescriptionNode insert = new PrescriptionNode();
@@ -78,9 +78,42 @@ public class PrescriptionList implements Iterable<Prescription> {
     }
 
     /**
-     * Removes the prescription by index starting from 0
-     * @param index
-     * @return
+     * Adds {@code Prescription} into the list by index
+     * <l>
+     *     <li>when {@code index} > {@code count} - adds to that index </li>
+     *     <li>when {@code index} < 0 or >= {@code count}  adds to the end</li>
+     * </l>
+     * @param prescription {@code Prescription} to be added
+     */
+    public void addPrescription(Prescription prescription, int index) {
+        PrescriptionNode insert = new PrescriptionNode();
+        insert.prescription = prescription;
+
+        if (this.headRef == null) {
+            this.headRef = insert;
+            this.tailRef = insert;
+        } else {
+            if (index == 0) {
+                insert.nextNode = this.headRef;
+                this.headRef = insert;
+            } else if (index >= this.count || index < 0) {
+                this.tailRef.nextNode = insert;
+                insert.nextNode = this.tailRef;
+            } else {
+                PrescriptionNode curRef = headRef;
+                while (index-- > 1) curRef = curRef.nextNode; // Traverse to the n-1 node to insert the n node
+                if (curRef.nextNode == null) this.tailRef = insert;
+                insert.nextNode = curRef.nextNode;
+                curRef.nextNode = insert;
+            }
+        }
+        this.count++;
+    }
+
+    /**
+     * Removes the {@code Prescription} by index starting from 0
+     * @param index {@code index} to be removed
+     * @return the {@code Prescription} at that index
      */
     public int removePrescription(int index){ // Remove by index return 0 if successful -1 if unsuccessful
         if (count == 0 || index < 0 || index >= count) return -1;
@@ -99,9 +132,9 @@ public class PrescriptionList implements Iterable<Prescription> {
     }
 
     /**
-     * Find and returns prescription based on the medicine name
-     * @param medicineName
-     * @return
+     * Find and returns {@code Prescription} based on the medicine name
+     * @param medicineName medicine name to be searched
+     * @return {@code Prescription} with the given name
      */
     public Prescription getPrescription(String medicineName) { // Takes medicine name and returns the prescription object (Assuming no duplicate)
         PrescriptionNode curRef = this.headRef;
@@ -114,8 +147,8 @@ public class PrescriptionList implements Iterable<Prescription> {
 
     /**
      * Find and returns prescription based on the index starting from 0
-     * @param index
-     * @return
+     * @param index {@code index} to be returned
+     * @return {@code Prescription} at that index
      */
     public Prescription getPrescription(int index) { // Takes index and returns the prescription object (Assuming no duplicate)
         if (index >= count) return null;
@@ -128,7 +161,7 @@ public class PrescriptionList implements Iterable<Prescription> {
     }
     /**
      * Used for iterating through the LinkedList
-     * @return
+     * @return the {@code Iterator} object
      */
     @Override
     public Iterator iterator() {

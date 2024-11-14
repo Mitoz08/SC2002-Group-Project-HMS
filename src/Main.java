@@ -1,20 +1,11 @@
-import DataObject.Appointment.Appointment;
 import DepartmentObject.*;
 import HumanObject.Administrator.Administrator;
-import HumanObject.Doctors.Doctors;
-import HumanObject.Patient.Contact;
+import HumanObject.Doctor.Doctor;
 import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
 import InputHandler.Input;
 import ObjectUI.*;
 import Singleton.ServerHMS;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 
 
 public class Main {
@@ -46,7 +37,7 @@ public class Main {
                             }
                             break;
                         case "DR":
-                            for (Doctors d : database.getDoctors()) {
+                            for (Doctor d : database.getDoctors()) {
                                 if (d.getID() == ID) {
                                     new DoctorUI(d);
                                     break;

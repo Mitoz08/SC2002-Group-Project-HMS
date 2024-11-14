@@ -3,12 +3,11 @@ package ObjectUI;
 import DataObject.PharmacyObjects.MedicineData;
 import DataObject.PharmacyObjects.MedicineRequest;
 import DataObject.Prescription.Prescription;
-import HumanObject.Doctors.Doctors;
+import HumanObject.Doctor.Doctor;
 import DataObject.Appointment.Appointment;
 import HumanObject.Patient.Patient;
 import HumanObject.ROLE;
 import InputHandler.Input;
-import Serialisation.DataSerialisation;
 
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import java.util.Map;
  * set availability, manage appointments, and more.
  */
 public class DoctorUI implements BaseUI {
-    private Doctors doctor;
+    private Doctor doctor;
     private int choice;
 
     /**
@@ -31,7 +30,7 @@ public class DoctorUI implements BaseUI {
      *
      * @param doctor the Doctors object representing the doctor using this interface
      */
-    public DoctorUI(Doctors doctor) {
+    public DoctorUI(Doctor doctor) {
         this.doctor = doctor;
 
         do {
