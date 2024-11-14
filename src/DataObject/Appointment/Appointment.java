@@ -1,11 +1,9 @@
 package DataObject.Appointment;
 
 import DataObject.Prescription.*;
-import Serialisation.DataSerialisation;
 
 
 import java.util.Date;
-import java.util.Scanner;
 
 /**
  * A class that stores the information of an appointment
@@ -22,14 +20,13 @@ public class Appointment implements Comparable<Appointment> {
     private int patientID;
     private String patientName;
     private int doctorID;
-    private String doctorname;
+    private String doctorName;
     private Date appointmentTime;
-    private int time;
     private String notes;
     private PrescriptionList prescriptionList;
     private String appointmentID;
-    private static int lastID = 0;
 
+    private static int lastID = 0;
     public static final int IDLength = 10;
     public static final String IDPrefix = "APT";
 
@@ -52,7 +49,7 @@ public class Appointment implements Comparable<Appointment> {
         this.patientID = patientID;
         this.patientName = patientName;
         this.doctorID = doctorID;
-        this.doctorname = doctorName;
+        this.doctorName = doctorName;
         this.appointmentTime = date;
         this.notes = "Empty";
         this.prescriptionList = new PrescriptionList();
@@ -80,7 +77,7 @@ public class Appointment implements Comparable<Appointment> {
         this.patientID = patientID;
         this.patientName = patientName; //To be added, maybe a database function that returns name when given the ID
         this.doctorID = doctorID;
-        this.doctorname = doctorName; //To be added, maybe a database function that returns name when given the ID
+        this.doctorName = doctorName; //To be added, maybe a database function that returns name when given the ID
         this.appointmentTime = date;
         this.notes = notes;
         this.prescriptionList = prescriptionList;
@@ -124,7 +121,7 @@ public class Appointment implements Comparable<Appointment> {
      * Gets the doctor's name for the {@code Appointment}
      * @return the doctor's name for the {@code Appointment}
      */
-    public String getDoctorName() {return this.doctorname;}
+    public String getDoctorName() {return this.doctorName;}
 
     /**
      * Gets the {@code Appointment} date and time
@@ -188,7 +185,7 @@ public class Appointment implements Comparable<Appointment> {
         System.out.printf("|%-8s:%-20s|\n", "Status", this.status);
         System.out.printf("|%-8s:%-20s|\n", "Event", this.nameOfApt);
         if (Patient)
-            System.out.printf("|%-8s:%-20s|\n", "Doctor", this.doctorname);
+            System.out.printf("|%-8s:%-20s|\n", "Doctor", this.doctorName);
         else
             System.out.printf("|%-8s:%-20s|\n", "Patient", this.patientName);
         System.out.printf("|%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
@@ -212,7 +209,7 @@ public class Appointment implements Comparable<Appointment> {
         System.out.printf("    |%-8s:%-20s|\n", "Status", this.status);
         System.out.printf("    |%-8s:%-20s|\n", "Event", this.nameOfApt);
         if (Patient)
-            System.out.printf("    |%-8s:%-20s|\n", "Doctor", this.doctorname);
+            System.out.printf("    |%-8s:%-20s|\n", "Doctor", this.doctorName);
         else
             System.out.printf("    |%-8s:%-20s|\n", "Patient", this.patientName);
         System.out.printf("    |%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
@@ -229,7 +226,7 @@ public class Appointment implements Comparable<Appointment> {
         System.out.printf("|%-8s:%-20s|\n", "APT ID", this.appointmentID);
         System.out.printf("|%-8s:%-20s|\n", "Status", this.status);
         System.out.printf("|%-8s:%-20s|\n", "Event", this.nameOfApt);
-        System.out.printf("|%-8s:%-20s|\n", "Doctor", this.doctorname);
+        System.out.printf("|%-8s:%-20s|\n", "Doctor", this.doctorName);
         System.out.printf("|%-8s:%-20s|\n", "Patient", this.patientName);
         System.out.printf("|%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
         System.out.printf("|%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
@@ -250,7 +247,7 @@ public class Appointment implements Comparable<Appointment> {
         System.out.printf("    |%-8s:%-20s|\n", "APT ID", this.appointmentID);
         System.out.printf("    |%-8s:%-20s|\n", "Status", this.status);
         System.out.printf("    |%-8s:%-20s|\n", "Event", this.nameOfApt);
-        System.out.printf("    |%-8s:%-20s|\n", "Doctor", this.doctorname);
+        System.out.printf("    |%-8s:%-20s|\n", "Doctor", this.doctorName);
         System.out.printf("    |%-8s:%-20s|\n", "Patient", this.patientName);
         System.out.printf("    |%-8s:%02d-%02d-%04d%-10s|\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
         System.out.printf("    |%-8s:%02d:%02d%-15s|\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
