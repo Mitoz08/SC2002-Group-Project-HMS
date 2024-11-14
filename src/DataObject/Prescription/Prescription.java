@@ -21,7 +21,6 @@ public class Prescription implements Comparable<Prescription> {
      * Constructs a {@code prescription} object and prompts input (Used for creating a new prescription)
      */
     public Prescription () {
-        Scanner sc = new Scanner(System.in);
         this.status = MED_STATUS.PENDING;
         do {
             this.medicineName = Input.ScanString("Enter name of medicine: ");
