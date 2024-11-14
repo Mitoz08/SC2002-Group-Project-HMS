@@ -1,3 +1,7 @@
+import DataObject.Appointment.Appointment;
+import DataObject.PharmacyObjects.MedicineRequest;
+import DataObject.PharmacyObjects.RestockRequest;
+import DataObject.Prescription.Prescription;
 import DepartmentObject.*;
 import HumanObject.Administrator.Administrator;
 import HumanObject.Doctor.Doctor;
@@ -5,6 +9,7 @@ import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
 import InputHandler.Input;
 import ObjectUI.*;
+import Serialisation.DataSerialisation;
 import Singleton.ServerHMS;
 
 

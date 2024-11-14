@@ -234,8 +234,8 @@ public class PharmacistUI implements BaseUI {
         boolean canPrescribe = false;
         for (Prescription o: list) {
             o.print();
-            System.out.printf("|%-14s:%-14s|\n", "Fulfillable", pharmacy.checkFulfillable(o.getMedicineName(),o.getAmount()));
-            System.out.println("_______________________________");
+            System.out.printf(" %-14s:%-14s \n", "Fulfillable", pharmacy.checkFulfillable(o.getMedicineName(),o.getAmount()));
+            System.out.println("───────────────────────────────");
             if (!canPrescribe && pharmacy.checkFulfillable(o.getMedicineName(),o.getAmount())) canPrescribe = true;
         }
         if (!canPrescribe) {

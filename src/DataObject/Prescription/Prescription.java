@@ -72,11 +72,11 @@ public class Prescription implements Comparable<Prescription> {
      * </l>
      */
     public void print() {
-        System.out.println("_______________________________");
-        System.out.printf("|%-8s:%-20s|\n", "Medicine", this.medicineName);
-        System.out.printf("|%-8s:%-20d|\n", "Amount", this.amount);
-        System.out.printf("|%-8s:%-20s|\n", "Status", this.status);
-        System.out.println("_______________________________");
+        System.out.println("┌─────────────────────────────┐");
+        System.out.printf("│%-8s:%-20s│\n", "Medicine", this.medicineName);
+        System.out.printf("│%-8s:%-20d│\n", "Amount", this.amount);
+        System.out.printf("│%-8s:%-20s│\n", "Status", this.status);
+        System.out.println("└─────────────────────────────┘");
     }
 
     /**

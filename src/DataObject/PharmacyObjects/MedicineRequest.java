@@ -101,11 +101,11 @@ public class MedicineRequest {
      * </l>
      */
     public void print() {
-        System.out.printf("______________________________\n");
-        System.out.printf("|%-10s:%-18s|\n", "APT ID", this.appointmentID);
-        System.out.printf("|%-10s:%-18s|\n", "PatientID", "PA"+ this.patientID);
-        System.out.printf("|%-10s:%-18s|\n", "DoctorID", "DR" + this.doctorID);
-        System.out.println("______________________________");
+        System.out.printf("┌─────────────────────────────┐\n");
+        System.out.printf("│%-10s:%-18s│\n", "APT ID", this.appointmentID);
+        System.out.printf("│%-10s:%-18s│\n", "PatientID", "PA"+ this.patientID);
+        System.out.printf("│%-10s:%-18s│\n", "DoctorID", "DR" + this.doctorID);
+        System.out.println("└─────────────────────────────┘");
     }
 
     /**
@@ -120,10 +120,10 @@ public class MedicineRequest {
      * @param index the index to display before the block
      */
     public void print(int index) {
-        System.out.printf("%2d)______________________________\n", index);
-        System.out.printf("   |%-10s:%-18s|\n", "APT ID", this.appointmentID);
-        System.out.printf("   |%-10s:%-18s|\n", "PatientID","PA"+  this.patientID);
-        System.out.printf("   |%-10s:%-18s|\n", "DoctorID","DR"+  this.doctorID);
-        System.out.println("   ______________________________");
+        System.out.printf("%2d)┌─────────────────────────────┐\n", index);
+        System.out.printf("   │%-10s:%-18s│\n", "APT ID", this.appointmentID);
+        System.out.printf("   │%-10s:%-18s│\n", "PatientID","PA"+  this.patientID);
+        System.out.printf("   │%-10s:%-18s│\n", "DoctorID","DR"+  this.doctorID);
+        System.out.println("   └─────────────────────────────┘");
     }
 }
