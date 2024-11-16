@@ -113,6 +113,13 @@ public class Pharmacy {
         addMedicine(m3);
     }
 
+    public boolean checkLowStatus() {
+        for(Map.Entry<Integer,MedicineData> entry : this.medicineStorage.entrySet()){
+            if (entry.getValue().getLevelStatus()) return true;
+        }
+        return false;
+    }
+
     /**
      * Adds a {@code MedicineRequest} into the queue
      * @param request request to be added

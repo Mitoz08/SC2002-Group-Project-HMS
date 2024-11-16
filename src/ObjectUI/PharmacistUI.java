@@ -32,12 +32,12 @@ public class PharmacistUI implements BaseUI {
         int choice;
         do {
             Input.ClearConsole();
-            System.out.println("Pharmacist UI \n" +
+            System.out.printf("Pharmacist UI \n" +
                     "1: View Appointment Outcome\n" +
                     "2: Update Prescription Status\n" +
-                    "3: View Medication Inventory\n" +
+                    "3: View Medication Inventory %-5s\n" +
                     "4: Submit Replenishment Request\n" +
-                    "5: Logout");
+                    "5: Logout\n", (pharmacy.checkLowStatus()? "(LOW)": ""));
             choice = Input.ScanInt("Choose an option:");
 
             switch (choice) {
