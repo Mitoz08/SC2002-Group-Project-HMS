@@ -27,7 +27,8 @@ public class Administrator extends BasePerson {
     }
     //This constructor is used to add to TXT file
     /**
-     * Constructor used for creating an {@code Administrator} object and adding it to a text file.
+     * Constructor used for creating an {@code Administrator} object and adding it to the text file {@code HMS.txt}.
+     * The role is set to {@code ROLE.ADMINISTRATOR}.
      *
      * @param Name   The name of the administrator.
      * @param DOB    The date of birth of the administrator.
@@ -40,7 +41,7 @@ public class Administrator extends BasePerson {
     }
     //This constructor is used to initialise it from TXT file
     /**
-     * Constructor used for initializing an {@code Administrator} object from a text file.
+     * Constructor used for initializing an {@code Administrator} object from the text file {@code HMS.txt}.
      *
      * @param ID     The unique identifier of the administrator.
      * @param Name   The name of the administrator.
