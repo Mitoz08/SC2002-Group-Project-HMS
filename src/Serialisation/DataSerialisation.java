@@ -226,7 +226,6 @@ public class DataSerialisation {
         int index = 0;
         String[] Data = Serialised.split("/");
         String aptID = Data[index++];
-        System.out.println(Data[index]);
         APT_STATUS status = APT_STATUS.values()[Integer.parseInt(Data[index++])];
         String nameOfApt = Data[index++];
         int patientID = Integer.parseInt(Data[index++]);

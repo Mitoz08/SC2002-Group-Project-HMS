@@ -352,6 +352,7 @@ public class Pharmacy {
             loadData(file);
             file.close();
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Error reading Pharmacy file");
             return;
         } finally {
@@ -369,11 +370,10 @@ public class Pharmacy {
      */
     private void loadData(Scanner fileReader) {
         while (fileReader.hasNextLine()) {
-            String text = fileReader.nextLine();
+            String text = fileReader.next();
             while (true) {
-                text = fileReader.nextLine();
+                text = fileReader.next();
                 text = DataEncryption.decipher(text);
-                //System.out.println(text);
                 if (text.equals("RestockRequest")) break;
                 MedicineRequest request = DataSerialisation.DeserialiseMedicineReq(text);
                 if (request.isApproved()) pastMedReq.add(request);
@@ -381,9 +381,8 @@ public class Pharmacy {
             }
 
             while (true) {
-                text = fileReader.nextLine();
+                text = fileReader.next();
                 text = DataEncryption.decipher(text);
-                //System.out.println(text);
                 if (text.equals("MedicineData")) break;
                 RestockRequest request = DataSerialisation.DeserialiseRestockReq(text);
                 if (request.isApproved()) pastRestockReq.add(request);
@@ -394,9 +393,12 @@ public class Pharmacy {
             }
 
             while (fileReader.hasNextLine()) {
-                text = fileReader.nextLine();
+                try {
+                    text = fileReader.next();
+                } catch (NoSuchElementException e) {
+                    break;
+                }
                 text = DataEncryption.decipher(text);
-                //System.out.println(text);
                 MedicineData medicineData = DataSerialisation.DeserialiseMedicineData(text);
                 medicineStorage.put(medicineData.ID, medicineData);
 //                System.out.println(medicineData.name + medicineData.ID);

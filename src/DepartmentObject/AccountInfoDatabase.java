@@ -276,7 +276,11 @@ public class AccountInfoDatabase {
         }
 
         while (fileReader.hasNextLine()) {
-            textLine.add(fileReader.nextLine());
+            try {
+                textLine.add(fileReader.next());
+            } catch (NoSuchElementException e) {
+                break;
+            }
         }
 
         for (int i = textLine.size(); i < slot; i++) {

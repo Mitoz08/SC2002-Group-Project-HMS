@@ -24,6 +24,7 @@ public class DataEncryption {
             char ch = text.charAt(i);
             ch += (char) (keyWord.charAt(i%keyWord.length()) - 'A');
             cipherText += ch;
+            System.out.println((int)ch);
         }
         return cipherText;
     }
