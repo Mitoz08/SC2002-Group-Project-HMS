@@ -617,7 +617,6 @@ public class UserInfoDatabase {
         } finally {
 //            System.out.println("Finish load function");
         }
-
         savefile = new File(APTFileName);
         try {
             file = new Scanner(savefile);
@@ -647,8 +646,8 @@ public class UserInfoDatabase {
      */
     private void loadAccount(Scanner fileReader) {
         while (fileReader.hasNextLine()){
-            String text = fileReader.nextLine();
-            text = DataEncryption.decipher(text);
+            String text = fileReader.next();
+            text = DataEncryption.decipher(text);;
             String[] temp = text.split("&");
             switch (temp[0]) {
                 case "PA":
@@ -670,7 +669,7 @@ public class UserInfoDatabase {
                     Doctor.setLastID(Integer.parseInt(textArray[index++]));
                     Pharmacist.setLastID(Integer.parseInt(textArray[index++]));
                     Administrator.setLastID(Integer.parseInt(textArray[index++]));
-                    break;
+                    return;
             }
         }
     }
@@ -694,7 +693,7 @@ public class UserInfoDatabase {
      */
     private void loadAppointment(Scanner fileWriter) {
         while (fileWriter.hasNextLine()) {
-            String decrypted = DataEncryption.decipher(fileWriter.nextLine());
+            String decrypted = DataEncryption.decipher(fileWriter.next());
             if (decrypted.substring(0,7).equals("Static&")) {
                 int lastID = Integer.valueOf(decrypted.substring(7));
                 Appointment.setLastID(lastID);

@@ -9,6 +9,7 @@ import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
 import InputHandler.Input;
 import ObjectUI.*;
+import Serialisation.DataEncryption;
 import Serialisation.DataSerialisation;
 import Singleton.ServerHMS;
 

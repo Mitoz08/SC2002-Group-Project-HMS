@@ -2,6 +2,7 @@ package HumanObject.Patient;
 
 import DataObject.Appointment.Appointment;
 import DataObject.Appointment.AppointmentList;
+import DataObject.Prescription.Prescription;
 import DataObject.Prescription.PrescriptionList;
 import HumanObject.BasePerson;
 import HumanObject.ROLE;
@@ -165,6 +166,14 @@ public class Patient extends BasePerson {
         else {
             for (Appointment apt : this.getCompleted()) {
                 System.out.println(apt.getAppointmentID() + ": " + apt.getNotes());
+                boolean b = false;
+                for (Prescription p : apt.getPrescriptionList()) {
+                    if (!b) {
+                        b = true;
+                        System.out.println("Prescriptions:");
+                    }
+                    System.out.println(p.getAmount() + " tablets of " + p.getMedicineName());
+                }
             }
         }
     }
