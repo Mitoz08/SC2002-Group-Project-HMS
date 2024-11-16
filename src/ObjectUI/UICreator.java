@@ -6,6 +6,9 @@ import HumanObject.Doctor.Doctor;
 import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
 
+/**
+ * A class used to initialise a BaseUI with the given BasePerson object
+ */
 public class UICreator {
 
     /**
