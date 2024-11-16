@@ -113,6 +113,10 @@ public class Pharmacy {
         addMedicine(m3);
     }
 
+    /**
+     * Method to check if any of the medicine is low on stock
+     * @return {@code true} when there is a medicine low on stock
+     */
     public boolean checkLowStatus() {
         for(Map.Entry<Integer,MedicineData> entry : this.medicineStorage.entrySet()){
             if (entry.getValue().getLevelStatus()) return true;
