@@ -277,7 +277,7 @@ public class AccountInfoDatabase {
 
         while (fileReader.hasNextLine()) {
             try {
-                textLine.add(fileReader.next());
+                textLine.add(fileReader.nextLine());
             } catch (NoSuchElementException e) {
                 break;
             }
