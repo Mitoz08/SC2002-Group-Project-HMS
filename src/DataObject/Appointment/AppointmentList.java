@@ -8,7 +8,10 @@ import java.util.Iterator;
  * <P> Used for implementing a LinkedList</P>
  */
 class AppointmentNode {
+    /** The {@code Appointment} stored in the node. */
     Appointment appointment;
+
+    /** The next node of the linked list. */
     AppointmentNode nextNode;
 }
 
@@ -20,9 +23,17 @@ class AppointmentNode {
 public class AppointmentList implements Iterable<Appointment> {
 
     // Private attributes
+
+    /** The head node of the linked list. */
     private AppointmentNode headRef;
+
+    /** The tail node of the linked list. */
     private AppointmentNode tailRef;
+
+    /** The number of node in the linked list. */
     private int count;
+
+    /** The boolean variable to determine whether appointments are stored in ascending or descending. */
     private boolean ascending;
 
     // Constructor

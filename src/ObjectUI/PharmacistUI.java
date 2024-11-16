@@ -24,6 +24,7 @@ import java.util.HashMap;
 public class PharmacistUI implements BaseUI {
 
     // Attribute
+    /** The pharmacist associated with this user interface, represented by the {@code Pharmacist} class. */
     private Pharmacist pharmacist;
 
     /**

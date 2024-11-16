@@ -10,7 +10,10 @@ import java.util.Iterator;
  * @see Prescription
  */
 class PrescriptionNode {
+    /** The {@code Prescription} stored in the node. */
     Prescription prescription;
+
+    /** The next node of the linked list. */
     PrescriptionNode nextNode;
 }
 
@@ -20,8 +23,13 @@ class PrescriptionNode {
 public class PrescriptionList implements Iterable<Prescription> {
 
     // Private attributes
+    /** The head node of the linked list. */
     private PrescriptionNode headRef;
+
+    /** The tail node of the linked list. */
     private PrescriptionNode tailRef;
+
+    /** The number of node in the linked list. */
     private int count;
 
     // Constructor
