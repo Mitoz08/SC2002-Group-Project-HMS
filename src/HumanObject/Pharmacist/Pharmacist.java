@@ -10,6 +10,7 @@ import java.util.Date;
 public class Pharmacist extends BasePerson {
 
     // Private
+    /** A static field to keep track of the last assigned pharmacist ID.*/
     private static int lastID = 0;
 
     // Public
