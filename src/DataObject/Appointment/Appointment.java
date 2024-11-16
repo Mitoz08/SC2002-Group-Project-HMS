@@ -215,7 +215,6 @@ public class Appointment implements Comparable<Appointment> {
             System.out.printf("│%-8s:%-20s│\n", "Patient", this.patientName);
         System.out.printf("│%-8s:%02d-%02d-%04d%-10s│\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
         System.out.printf("│%-8s:%02d:%02d%-15s│\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
-        if (!this.notes.equals("Empty")) System.out.printf("│%-8s:%-20s│\n", "Notes", this.notes);
         System.out.println("└─────────────────────────────┘");
     }
 
@@ -239,7 +238,6 @@ public class Appointment implements Comparable<Appointment> {
             System.out.printf("    │%-8s:%-20s│\n", "Patient", this.patientName);
         System.out.printf("    │%-8s:%02d-%02d-%04d%-10s│\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
         System.out.printf("    │%-8s:%02d:%02d%-15s│\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
-        if (!this.notes.equals("Empty")) System.out.printf("    │%-8s:%-20s│\n", "Notes", this.notes);
         System.out.println("    └─────────────────────────────┘");
     }
 
@@ -255,7 +253,6 @@ public class Appointment implements Comparable<Appointment> {
         System.out.printf("│%-8s:%-20s│\n", "Patient", this.patientName);
         System.out.printf("│%-8s:%02d-%02d-%04d%-10s│\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
         System.out.printf("│%-8s:%02d:%02d%-15s│\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
-        if (!this.notes.equals("Empty")) System.out.printf("│%-8s:%-20s│\n", "Notes", this.notes);
         System.out.println("└─────────────────────────────┘");
     }
 
@@ -276,7 +273,6 @@ public class Appointment implements Comparable<Appointment> {
         System.out.printf("    │%-8s:%-20s│\n", "Patient", this.patientName);
         System.out.printf("    │%-8s:%02d-%02d-%04d%-10s│\n", "Date", this.appointmentTime.getDate(), this.appointmentTime.getMonth()+1, this.appointmentTime.getYear()+1900, "");
         System.out.printf("    │%-8s:%02d:%02d%-15s│\n", "Time", this.appointmentTime.getHours(), this.appointmentTime.getMinutes(), "");
-        if (!this.notes.equals("Empty")) System.out.printf("    │%-8s:%-20s│\n", "Notes", this.notes);
         System.out.println("    └─────────────────────────────┘");
     }
 

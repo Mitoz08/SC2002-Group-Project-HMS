@@ -112,13 +112,6 @@ public class DoctorUI implements BaseUI {
             Patient patient = (Patient) database.getPerson(choice, ROLE.PATIENT);
             patient.printMedicalRecord();
 
-            // Display the patient's completed appointment history with this doctor.
-            for (Appointment apt : doctor.getCompletedApt()) {
-                if (apt.getPatientID() == choice) {
-                    apt.print(false);
-                }
-            }
-
             // Wait for user input before returning to the main menu.
             Input.ScanString("Enter to continue...");
         }
@@ -332,6 +325,7 @@ public class DoctorUI implements BaseUI {
         if (flag == 0) {
             System.out.println("There are currently no ongoing appointments");
         }
+        Input.ScanString("Enter to continue...");
     }
 
 
