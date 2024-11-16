@@ -15,19 +15,44 @@ import java.util.Date;
 public class Appointment implements Comparable<Appointment> {
 
     // Private attributes
+    /** Enumeration for the status of the Appointment. */
     private APT_STATUS status;
+
+    /** The type of service of the Appointment. */
     private String nameOfApt;
+
+    /** The patient's ID in the Appointment. */
     private int patientID;
+
+    /** The patient's name in the Appointment. */
     private String patientName;
+
+    /** The doctor's ID in the Appointment. */
     private int doctorID;
+
+    /** The doctor's name in the Appointment. */
     private String doctorName;
+
+    /** The Date and Time of the Appointment. */
     private Date appointmentTime;
+
+    /** The doctor's diagnosis/remarks for the Appointment. */
     private String notes;
+
+    /** The list of prescription given to the patient. */
     private PrescriptionList prescriptionList;
+
+    /** The unique ID for the Appointment. */
     private String appointmentID;
 
+
+    /** The last used integer ID for the Appointment class. */
     private static int lastID = 0;
+
+    /** The length of the formatted ID string. */
     public static final int IDLength = 10;
+
+    /** The prefix of the formatted ID string. */
     public static final String IDPrefix = "APT";
 
     // Constructor
