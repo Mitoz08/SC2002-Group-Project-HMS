@@ -65,20 +65,4 @@ public class Administrator extends BasePerson {
      * @return The last assigned ID.
      */
     public static int getLastID() {return lastID;}
-
-    public void addPatient(){
-        //Uses updateFile
-        //remember to update number of Patients
-
-    }
-    public void addStaff(){
-        //Uses updateFile
-        //remember to add number of staff(Doctors, Pharmacists, Administrator respectively)
-
-    }
-    public void fireStaff(){
-        //Uses updateFile
-        //remember to add number of staff(Doctors, Pharmacists, Administrator respectively)
-    }
-
 }
