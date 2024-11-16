@@ -218,12 +218,12 @@ public class PatientUI implements BaseUI {
         for (Doctor doctor : doctorsArrayList) {
             Boolean[] availability = doctor.getTimeSlot(date);
             if (availability == null || !availability[timeSlot]) {
-                System.out.println(doctor.getName() + " is available during this timeslot.\n");
+                System.out.println(doctor.getName() + " is available during this timeslot.");
                 check = true;
             }
         }
         if (!check) {
-            System.out.println("No doctors available at this timeslot, please pick another!\n");
+            System.out.println("No doctors available at this timeslot, please pick another!");
             Input.ScanString("Press enter to continue...\n");
             return;
         }
@@ -324,12 +324,12 @@ public class PatientUI implements BaseUI {
             for (Doctor doctor : doctorsArrayList) {
                 Boolean[] availability = doctor.getTimeSlot(date);
                 if (availability == null || !availability[timeSlot]) {
-                    System.out.println(doctor.getID() + ": " + doctor.getName() + " is available during this timeslot\n");
+                    System.out.println(doctor.getID() + ": " + doctor.getName() + " is available during this timeslot");
                     check = true;
                 }
             }
             if (!check) {
-                System.out.println("No doctors available at this timeslot, please book again.\n");
+                System.out.println("No doctors available at this timeslot, please book again.");
                 Input.ScanString("Press enter to continue...\n");
                 return null;
             }
@@ -340,7 +340,7 @@ public class PatientUI implements BaseUI {
             int doctorID = Input.ScanInt("Enter the doctor ID: \n");
             Doctor doctor = (Doctor) database.getPerson(doctorID, ROLE.DOCTOR);
             if (doctor == null) {
-                System.out.println("Invalid Doctor ID. Please try again\n");
+                System.out.println("Invalid Doctor ID. Please try again");
                 continue;
             }
             apt = new Appointment(service, patient.getID(),patient.getName(), doctor.getID(), doctor.getName() ,requestDate);
