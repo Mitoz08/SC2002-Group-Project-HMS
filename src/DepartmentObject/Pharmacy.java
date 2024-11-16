@@ -246,7 +246,7 @@ public class Pharmacy {
      * Prints out the stock of the medicine in {@code medicineStorage} with its pending amount in {@code pendingAmount}
      */
     public void viewStock() {
-        System.out.println("_____________________________________________");
+        System.out.println("─────────────────────────────────────────────");
         for (Map.Entry<Integer, MedicineData> o: medicineStorage.entrySet()) {
             String MedID = o.getValue().getIDString();
             String MedName = o.getValue().name;
@@ -255,7 +255,7 @@ public class Pharmacy {
             int PedAmt = pendingAmount.get(o.getKey());
             System.out.printf("%-8s:%-16s Min:%-5d Low:%-5s\n", MedID, MedName, MinAmt, o.getValue().getLevelStatus());
             System.out.printf("In Stock:%-6d Pending:%-6d\n", CurAmt, PedAmt);
-            System.out.println("_____________________________________________");
+            System.out.println("─────────────────────────────────────────────");
         }
     }
 
