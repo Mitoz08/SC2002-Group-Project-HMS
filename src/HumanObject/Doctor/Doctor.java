@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * The Doctors class represents a doctor in the system, with functionality for managing appointments,
+ * The Doctor class represents a doctor in the system, with functionality for managing appointments,
  * availability, and schedules. Doctors have ongoing, completed, and pending appointments,
  * as well as a weekly schedule of available time slots.
  */
@@ -26,19 +26,42 @@ public class Doctor extends BasePerson {
     /** The list of pending appointments for the doctor, represented by the {@code AppointmentList} class.*/
     private AppointmentList Pending;
 
-    /** A map representing the doctor's availability schedule.
-     * The key is an integer (e.g., representing a day), and the value is a {@code Boolean[]}
-     * array indicating availability for different time slots throughout the day. */
+    /** A map that tracks the availability of Doctor for specific time slots.
+     *
+     * <p>
+     * The key is an (@code Integer), representing the dates
+     * The value is an array of {@code Boolean[]} values, where each element represents the time available.
+     * </p>
+     *
+     * <ul>
+     *     <li>{@code true} indicates that Doctor is avaialable at that timing</li>
+     *     <li>{@code false} indicates that Doctor is unavaialable at that timing</li>
+     * </ul>
+     */
     private HashMap<Integer, Boolean[]>availability;
 
     /**
-     * Constructor for initializing a Doctor object from a data file.
+     * Constructs a new {@code Doctor} object with the specified ID, name, date of birth, gender,
+     * and availability information. This constructor is typically used for initializing a {@code Doctor}
+     * object from a record in the text file {@code HMS.txt}. The role is set to {@code ROLE.DOCTOR}.
      *
-     * @param ID          The doctor's unique identifier.
-     * @param Name        The doctor's name.
-     * @param DOB         The doctor's date of birth.
-     * @param Gender      The doctor's gender.
-     * @param dateHashMap Availability schedule for specific dates.
+     * @param ID            The unique identifier for the doctor.
+     * @param Name          The name of the doctor.
+     * @param DOB           The date of birth of the doctor.
+     * @param Gender        The gender of the doctor, where {@code true} represents male
+     *                      and {@code false} represents female.
+     * @param dateHashMap   A {@code HashMap<Integer, Boolean[]>} representing the doctor's availability.
+     *                      The key is an integer date (e.g., in YYYYMMDD format), and the value is an
+     *                      array of booleans indicating availability for different time slots.
+     *
+     * <p>
+     * This constructor also initializes the following internal lists:
+     * </p>
+     * <ul>
+     *   <li>{@code Ongoing} - An {@code AppointmentList} for managing ongoing appointments, initialized to an empty list.</li>
+     *   <li>{@code Completed} - An {@code AppointmentList} for managing completed appointments, initialized to an empty list.</li>
+     *   <li>{@code Pending} - An {@code AppointmentList} for managing pending appointments, initialized to an empty list.</li>
+     * </ul>
      */
     public Doctor(int ID, String Name, Date DOB, Boolean Gender, HashMap<Integer, Boolean[]> dateHashMap) {
         super(ID, Name, DOB, Gender);
@@ -50,11 +73,25 @@ public class Doctor extends BasePerson {
     }
 
     /**
-     * Constructor for creating a new Doctor object with a unique ID.
+     * Constructs a new {@code Doctor} object with the specified name, date of birth, and gender.
+     * This constructor automatically assigns a unique ID by incrementing {@code lastID}, ensuring each doctor
+     * has a distinct identifier. It is typically used when creating new {@code Doctor} objects
+     * that will be added to the text file {@code HMS.txt}. The role is set to {@code ROLE.DOCTOR}.
      *
-     * @param Name   The doctor's name.
-     * @param DOB    The doctor's date of birth.
-     * @param Gender The doctor's gender.
+     * @param Name    The name of the doctor.
+     * @param DOB     The date of birth of the doctor.
+     * @param Gender  The gender of the doctor, where {@code true} represents male and {@code false} represents female.
+     *
+     * <p>
+     * This constructor also initializes the following:
+     * </p>
+     * <ul>
+     *   <li>{@code availability} - A {@code HashMap<Integer, Boolean[]>} initialized to an empty map,
+     *   representing the doctor's availability for appointments.</li>
+     *   <li>{@code Ongoing} - An {@code AppointmentList} for managing ongoing appointments, initialized to an empty list.</li>
+     *   <li>{@code Completed} - An {@code AppointmentList} for managing completed appointments, initialized to an empty list.</li>
+     *   <li>{@code Pending} - An {@code AppointmentList} for managing pending appointments, initialized to an empty list.</li>
+     * </ul>
      */
     public Doctor(String Name, Date DOB, Boolean Gender) {
         super(lastID++, Name, DOB, Gender);

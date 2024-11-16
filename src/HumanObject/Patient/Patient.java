@@ -51,30 +51,31 @@ public class Patient extends BasePerson {
 
     //This constructor is used to initialise from TXT file
     /**
-     * Constructs a new {@code Patient} with the specified ID, name, date of birth,
-     * gender, blood type, and contact information.
+     * Constructs a new {@code Patient} object with the specified name, date of birth, gender,
+     * blood type, and contact information. This constructor automatically assigns a unique ID
+     * by incrementing {@code lastID}, ensuring each patient has a distinct identifier.
      * <p>
-     * This constructor is used when
-     * loading patient data from an external text file source.
+     * This version of the constructor is used to initialize a {@code Patient} object
+     * from a record stored in the text file {@code HMS.txt}.
+     * The role is set to {@code ROLE.PATIENT}.
      * </p>
      *
-     * @param ID         The unique identifier of the patient.
      * @param Name       The name of the patient.
      * @param DOB        The date of birth of the patient.
      * @param Gender     The gender of the patient, where {@code true} represents male
      *                   and {@code false} represents female.
-     * @param bloodType  The blood type of the patient.
+     * @param bloodType  The blood type of the patient (e.g., "A+", "O-", "AB+").
      * @param contact    The {@code Contact} information associated with the patient.
      *
      * <p>
-     * This constructor initializes the following fields:
-     * <ul>
-     *   <li>{@code role} - Set to {@code ROLE.PATIENT} by default.</li>
-     *   <li>{@code Pending} - Holds pending appointments, initialized to {@code true}.</li>
-     *   <li>{@code Ongoing} - Holds ongoing appointments, initialized to {@code true}.</li>
-     *   <li>{@code Completed} - Holds completed appointments, initialized to {@code false}.</li>
-     * </ul>
+     * This constructor also initializes the following:
      * </p>
+     * <ul>
+     *   <li>{@code Pending} - An {@code AppointmentList} object for managing pending appointments, initialized to an empty list.</li>
+     *   <li>{@code Ongoing} - An {@code AppointmentList} object for managing ongoing appointments, initialized to an empty list.</li>
+     *   <li>{@code Completed} - An {@code AppointmentList} object for managing completed appointments, initialized to an empty list.</li>
+     *   <li>{@code Medicine} - A {@code PrescriptionList} object for managing the patient's prescriptions.</li>
+     * </ul>
      */
     public Patient(int ID, String Name, Date DOB, Boolean Gender, String bloodType, Contact contact){
         super(ID,Name, DOB, Gender);
@@ -89,29 +90,31 @@ public class Patient extends BasePerson {
 
     //This constructor is used to add to TXT file
     /**
-     * Constructs a new {@code Patient} with the specified name, date of birth, gender,
-     * blood type, and contact information. This constructor automatically assigns a
-     * unique ID by incrementing {@code lastID}, ensuring each patient has a distinct identifier.
+     * Constructs a new {@code Patient} object with the specified name, date of birth, gender,
+     * blood type, and contact information. This constructor automatically assigns a unique ID
+     * by incrementing {@code lastID}, ensuring each patient has a distinct identifier.
      * <p>
-     * This version of the constructor is used when creating new patient records
-     * for saving to a text file.
+     * This version of the constructor is used when creating new {@code Patient} objects that will be
+     * added to the text file {@code HMS.txt}.
+     * The role is set to {@code ROLE.PATIENT}.
      * </p>
      *
      * @param Name       The name of the patient.
      * @param DOB        The date of birth of the patient.
      * @param Gender     The gender of the patient, where {@code true} represents male
      *                   and {@code false} represents female.
-     * @param bloodType  The blood type of the patient.
+     * @param bloodType  The blood type of the patient (e.g., "A+", "O-", "AB+").
      * @param contact    The {@code Contact} information associated with the patient.
      *
      * <p>
-     * This constructor initializes three {@code AppointmentList} objects:
-     * <ul>
-     *   <li>{@code Pending} - Manages pending appointments, initialized to {@code true}.</li>
-     *   <li>{@code Ongoing} - Manages ongoing appointments, initialized to {@code true}.</li>
-     *   <li>{@code Completed} - Manages completed appointments, initialized to {@code false}.</li>
-     * </ul>
+     * This constructor also initializes the following internal lists:
      * </p>
+     * <ul>
+     *   <li>{@code Pending} - An {@code AppointmentList} for managing pending appointments, initialized to an empty list.</li>
+     *   <li>{@code Ongoing} - An {@code AppointmentList} for managing ongoing appointments, initialized to an empty list.</li>
+     *   <li>{@code Completed} - An {@code AppointmentList} for managing completed appointments, initialized to an empty list.</li>
+     *   <li>{@code Medicine} - A {@code PrescriptionList} for managing the patient's prescriptions, initialized to an empty list.</li>
+     * </ul>
      */
     public Patient(String Name, Date DOB, Boolean Gender, String bloodType, Contact contact) {
         super(lastID++, Name, DOB, Gender);
