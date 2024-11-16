@@ -25,7 +25,7 @@ import java.util.Date;
  */
 public class Patient extends BasePerson {
 
-    /** A static field to keep track of the last assigned patient ID. */
+    /** A static field to keep track of the last assigned patient ID.*/
     private static int lastID=0;
 
     /** The blood type of the patient (e.g., "A+", "O-", etc.). */
@@ -37,16 +37,16 @@ public class Patient extends BasePerson {
     /** A list of doctors assigned to the patient. */
     private ArrayList<String> doctorAssigned;
 
-    /** The list of pending appointments for the patient. */
+    /** The list of pending appointments for the patient, represented by the {@code AppointmentList} class. */
     private AppointmentList Pending;
 
-    /** The list of ongoing appointments for the patient. */
+    /** The list of ongoing appointments for the patient, represented by the {@code AppointmentList} class. */
     private AppointmentList Ongoing;
 
-    /** The list of completed appointments for the patient. */
+    /** The list of completed appointments for the patient, represented by the {@code AppointmentList} class. */
     private AppointmentList Completed;
 
-    /** The list of prescribed medications for the patient. */
+    /** The list of prescribed medications for the patient, represented by the {@code PrescriptionList} class. */
     private PrescriptionList Medicine;
 
     //This constructor is used to initialise from TXT file
@@ -279,7 +279,7 @@ public class Patient extends BasePerson {
     /**
      * Gets the last assigned ID for the patients.
      *
-     * @return The last assigned patient ID.
+     * @return The most recently assigned patient ID.
      */
     public static int getLastID() {return lastID;}
 }
