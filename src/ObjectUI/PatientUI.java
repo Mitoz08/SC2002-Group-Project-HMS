@@ -19,9 +19,9 @@ import java.util.Date;
  *
  * <p>This class allows patients to:
  * <ul>
- *   <li>View and update personal information</li>
+ *   <li>View medical records and update personal information</li>
  *   <li>Schedule, reschedule, and cancel appointments</li>
- *   <li>View available appointment slots and outcomes of past appointments</li>
+ *   <li>View available appointment slots, scheduled appointments and outcomes of past appointments</li>
  * </ul>
  * </p>
  */
