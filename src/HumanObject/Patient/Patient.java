@@ -31,7 +31,7 @@ public class Patient extends BasePerson {
     /** The blood type of the patient (e.g., "A+", "O-", etc.). */
     private String bloodType;
 
-    /** The contact information of the patient, represented by the {@code Contact} class. */
+    /** The contact information of the patient (email and contact number), represented by the {@code Contact} class. */
     private Contact contact;
 
     /** A list of doctors assigned to the patient. */
