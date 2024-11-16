@@ -26,9 +26,18 @@ public class Doctor extends BasePerson {
     /** The list of pending appointments for the doctor, represented by the {@code AppointmentList} class.*/
     private AppointmentList Pending;
 
-    /** A map representing the doctor's availability schedule.
-     * The key is an integer (e.g., representing a day), and the value is a {@code Boolean[]}
-     * array indicating availability for different time slots throughout the day. */
+    /** A map that tracks the availability of Doctor for specific time slots.
+     *
+     * <p>
+     * The key is an (@code Integer), representing the dates
+     * The value is an array of {@code Boolean[]} values, where each element represents the time available.
+     * </p>
+     *
+     * <ul>
+     *     <li>{@code true} indicates that Doctor is avaialable at that timing</li>
+     *     <li>{@code false} indicates that Doctor is unavaialable at that timing</li>
+     * </ul>
+     */
     private HashMap<Integer, Boolean[]>availability;
 
     /**
