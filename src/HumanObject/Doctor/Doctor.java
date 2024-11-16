@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * The Doctors class represents a doctor in the system, with functionality for managing appointments,
+ * The Doctor class represents a doctor in the system, with functionality for managing appointments,
  * availability, and schedules. Doctors have ongoing, completed, and pending appointments,
  * as well as a weekly schedule of available time slots.
  */
