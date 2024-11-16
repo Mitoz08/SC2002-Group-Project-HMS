@@ -20,7 +20,11 @@ import java.util.Map;
  * set availability, manage appointments, and more.
  */
 public class DoctorUI implements BaseUI {
+
+    /** The doctor associated with this user interface, represented by the {@code Doctor} class. */
     private Doctor doctor;
+
+    /** The user's choice input, used to determine actions within the user interface. */
     private int choice;
 
     /**
