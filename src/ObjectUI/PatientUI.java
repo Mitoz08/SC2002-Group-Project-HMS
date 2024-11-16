@@ -27,9 +27,6 @@ import java.util.Date;
  */
 public class PatientUI implements BaseUI {
 
-    /** The patient associated with this user interface, represented by the {@code Patient} class.*/
-    private Patient patient;
-
     /** The appointment associated with this patient, represented by the {@code Appointment} class.*/
     private Appointment apt;
 
@@ -41,7 +38,6 @@ public class PatientUI implements BaseUI {
      * @param patient the {@code Patient} for whom the UI is created
      */
     public PatientUI(Patient patient) {
-        this.patient = patient;
         int choice;
         do {
             Input.ClearConsole();
@@ -69,19 +65,19 @@ public class PatientUI implements BaseUI {
 //                    patient = (Patient) database.getPerson(patient.getID(), ROLE.PATIENT);
                     break;
                 case 2: // Update Patient's personal information
-                    updateContact();
+                    updateContact(patient);
                     break;
                 case 3:
                     viewAvailableAppointments();
                     break;
                 case 4:
-                    database.scheduleApt(scheduleApt());
+                    database.scheduleApt(scheduleApt(patient));
                     break;
                 case 5:
-                    rescheduleApt();
+                    rescheduleApt(patient);
                     break;
                 case 6:
-                    database.cancelApt(cancelApt());
+                    database.cancelApt(cancelApt(patient));
                     break;
                 case 7:
                     if (patient.getOngoing().getCount() == 0) {
@@ -117,7 +113,7 @@ public class PatientUI implements BaseUI {
      * Allows the patient to update their contact information, including email address
      * and contact number, based on their selection from a provided menu.
      */
-    public void updateContact(){
+    public void updateContact(Patient patient){
         int C2Choice;
         do{
             Input.ClearConsole();
@@ -240,7 +236,7 @@ public class PatientUI implements BaseUI {
      * </p>
      *
      */
-    public Appointment scheduleApt() {
+    public Appointment scheduleApt(Patient patient) {
         Input.ClearConsole();
         boolean check;
         Input.ClearConsole();
@@ -355,13 +351,13 @@ public class PatientUI implements BaseUI {
      * <p>
      * First checks if the patient has any ongoing or pending appointments.
      * If no appointments are available, the method terminates.
-     * If appointments are available, it prompts the user to select an appointment to cancel via {@link #cancelApt()}.
-     * After successfully canceling the existing appointment, it prompts the user to schedule a new appointment via {@link #scheduleApt()}.
+     * If appointments are available, it prompts the user to select an appointment to cancel via {@link #cancelApt(Patient)}.
+     * After successfully canceling the existing appointment, it prompts the user to schedule a new appointment via {@link #scheduleApt(Patient)}.
      * If either the cancellation or new scheduling process is canceled or fails, the method terminates.
      * If both processes succeed, the appointment is rescheduled in the database.
      * </p>
      */
-    public void rescheduleApt(){
+    public void rescheduleApt(Patient patient){
         Input.ClearConsole();
         if (patient.getOngoing().getCount()==0 && patient.getPending().getCount() == 0) {
             System.out.println("No existing appointments to reschedule.");
@@ -369,14 +365,14 @@ public class PatientUI implements BaseUI {
             return;
         }
 
-        Appointment cancel = cancelApt();
+        Appointment cancel = cancelApt(patient);
         if (cancel == null) {
             System.out.println("Reschedule cancelled as existing appointment was not cancelled");
             Input.ScanString("Press enter to continue...\n");
             return;
         }
 
-        Appointment add = scheduleApt();
+        Appointment add = scheduleApt(patient);
         if (add == null) {
             System.out.println("Reschedule cancelled as new appointment was not created");
             Input.ScanString("Press enter to continue...\n");
@@ -396,7 +392,7 @@ public class PatientUI implements BaseUI {
      * </p>
      */
 
-    public Appointment cancelApt(){
+    public Appointment cancelApt(Patient patient){
         Input.ClearConsole();
         if (patient.getOngoing().getCount()==0 && patient.getPending().getCount() == 0) {
             System.out.println("No existing appointments to cancel.");

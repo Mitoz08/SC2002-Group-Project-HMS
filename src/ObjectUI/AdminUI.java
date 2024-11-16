@@ -19,7 +19,6 @@ public class AdminUI implements BaseUI{
 
     //Attribute
     private AccountInfoDatabase login;
-    private Administrator admin;
 
     /**
      * Constructs an AdminUI for managing hospital administrative functions for a given Administrator.
@@ -52,7 +51,6 @@ public class AdminUI implements BaseUI{
      */
     public AdminUI(Administrator admin){
         this.login = ServerHMS.getInstance().getLogin();
-        this.admin = admin;
 
         int choice=0;
 
@@ -118,7 +116,7 @@ public class AdminUI implements BaseUI{
                     break;
                 case 5: //Approve Replenishment Requests
                     Input.ClearConsole();
-                    ApproveReplenishmentRequests();
+                    ApproveReplenishmentRequests(admin);
                     break;
                 case 6: //Logging out of Admin Account
                     Input.ClearConsole();
@@ -234,7 +232,7 @@ public class AdminUI implements BaseUI{
      * <p><strong>Note:</strong> If the user enters an invalid choice (a number outside the valid range),
      * the method displays an error message.</p>
      */
-    private void ApproveReplenishmentRequests(){
+    private void ApproveReplenishmentRequests(Administrator administrator){
         int choice;
         int size = this.pharmacy.viewRestockRequest();
         if (size == 0) {
@@ -250,7 +248,7 @@ public class AdminUI implements BaseUI{
             break;
         }while(true);
         RestockRequest request = this.pharmacy.getRestockRequest(choice - 1);
-        request.ApprovedRequest(this.admin.getID());
+        request.ApprovedRequest(administrator.getID());
         this.pharmacy.approveRestock(choice - 1);
 
     }

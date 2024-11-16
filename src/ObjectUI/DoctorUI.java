@@ -21,9 +21,6 @@ import java.util.Map;
  */
 public class DoctorUI implements BaseUI {
 
-    /** The doctor associated with this user interface, represented by the {@code Doctor} class. */
-    private Doctor doctor;
-
     /** The user's choice input, used to determine actions within the user interface. */
     private int choice;
 
@@ -35,7 +32,6 @@ public class DoctorUI implements BaseUI {
      * @param doctor the Doctors object representing the doctor using this interface
      */
     public DoctorUI(Doctor doctor) {
-        this.doctor = doctor;
 
         do {
             Input.ClearConsole();
@@ -52,25 +48,25 @@ public class DoctorUI implements BaseUI {
 
             switch (choice) {
                 case 1:
-                    viewPatient();
+                    viewPatient(doctor);
                     break;
                 case 2:
-                    updatePatientMR();
+                    updatePatientMR(doctor);
                     break;
                 case 3:
-                    viewSchedule();
+                    viewSchedule(doctor);
                     break;
                 case 4:
-                    setAvailability();
+                    setAvailability(doctor);
                     break;
                 case 5:
-                    aptReq();
+                    aptReq(doctor);
                     break;
                 case 6:
-                    viewOngoingAPT();
+                    viewOngoingAPT(doctor);
                     break;
                 case 7:
-                    recordAptOutcome();
+                    recordAptOutcome(doctor);
                     break;
                 default:
                     break;
@@ -84,7 +80,7 @@ public class DoctorUI implements BaseUI {
      * If no patients are under the doctor's care, a message is displayed.
      * Otherwise, the doctor can enter a patient ID to view the corresponding medical record and appointment history.
      */
-    public void viewPatient() {
+    public void viewPatient(Doctor doctor) {
         Input.ClearConsole();
         int flag = 0;
         ArrayList<Integer> list = new ArrayList<>();
@@ -139,7 +135,7 @@ public class DoctorUI implements BaseUI {
      * 3. If the patient has past appointments, asks if the doctor wants to edit the latest notes.
      * 4. Updates the notes if confirmed by the doctor.
      */
-    public void updatePatientMR() { // Change check test case 10
+    public void updatePatientMR(Doctor doctor) { // Change check test case 10
         Input.ClearConsole();
         int flag = 0;
         // Display ongoing appointments
@@ -177,7 +173,7 @@ public class DoctorUI implements BaseUI {
      * Clears the console, then prints the first week's time slots using the doctor's
      * `printFirstWeekTimeSlot` method. Waits for user input before returning to the main menu.
      */
-    public void viewSchedule() {
+    public void viewSchedule(Doctor doctor) {
         Input.ClearConsole();
         doctor.printFirstWeekTimeSlot();
         Input.ScanString("Enter to continue...");
@@ -189,9 +185,9 @@ public class DoctorUI implements BaseUI {
      * to select a date and time slot to update. It also verifies the chosen slot's availability status
      * and ensures there are no conflicts with existing appointments before updating the availability.
      */
-    public void setAvailability() {
+    public void setAvailability(Doctor doctor) {
         Input.ClearConsole();
-        viewSchedule();
+        viewSchedule(doctor);
         System.out.println("Which date and time do you want to change your availability?");
 
         // Prompt the doctor to select a future date to modify
@@ -267,12 +263,12 @@ public class DoctorUI implements BaseUI {
      * selecting an appointment ID, and choosing to accept or decline the appointment.
      * If no pending appointments are available, a message is displayed to indicate this.
      */
-    public void aptReq() {
+    public void aptReq(Doctor doctor) {
         Input.ClearConsole();
         int flag = 0;
 
         // Display the list of pending appointments for the doctor
-        for (Appointment apt : this.doctor.getPendingApt()) {
+        for (Appointment apt : doctor.getPendingApt()) {
             System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName() + ", Appointment ID: " + apt.getAppointmentID());
             flag = 1;
         }
@@ -283,7 +279,7 @@ public class DoctorUI implements BaseUI {
             String choice;
             do {
                 choice = Input.ScanString("Enter appointment ID to accept/decline");
-                for (Appointment apt : this.doctor.getPendingApt()){
+                for (Appointment apt : doctor.getPendingApt()){
                     if(choice.equals(apt.getAppointmentID())){
                         flag = 1;
                         break;
@@ -322,12 +318,12 @@ public class DoctorUI implements BaseUI {
      * If there are ongoing appointments, each appointment's patient ID, patient name, and appointment ID are displayed.
      * If there are no ongoing appointments, a message is shown to indicate this.
      */
-    public void viewOngoingAPT() {
+    public void viewOngoingAPT(Doctor doctor) {
         Input.ClearConsole();
         int flag = 0;
 
         // Loop through the doctor's ongoing appointments and display each appointment's details
-        for (Appointment apt : this.doctor.getOngoingApt()) {
+        for (Appointment apt : doctor.getOngoingApt()) {
             System.out.println("Patient ID: " + apt.getPatientID() + ", Patient Name: " + apt.getPatientName() + ", Appointment ID: " + apt.getAppointmentID());
             flag = 1;
         }
@@ -346,7 +342,7 @@ public class DoctorUI implements BaseUI {
      * if desired, then finalizes the appointment with consultation notes.
      * If there are no ongoing appointments, it displays a message and exits.
      */
-    public void recordAptOutcome() {
+    public void recordAptOutcome(Doctor doctor) {
         Input.ClearConsole();
 
         // Retrieve the first ongoing appointment
