@@ -26,7 +26,11 @@ import java.util.Date;
  * </p>
  */
 public class PatientUI implements BaseUI {
+
+    /** The patient associated with this user interface, represented by the {@code Patient} class.*/
     private Patient patient;
+
+    /** The appointment associated with this patient, represented by the {@code Appointment} class.*/
     private Appointment apt;
 
     /**
