@@ -25,14 +25,28 @@ import java.util.Date;
  */
 public class Patient extends BasePerson {
 
+    /** A static field to keep track of the last assigned patient ID. */
     private static int lastID=0;
 
+    /** The blood type of the patient (e.g., "A+", "O-", etc.). */
     private String bloodType;
+
+    /** The contact information of the patient, represented by the {@code Contact} class. */
     private Contact contact;
+
+    /** A list of doctors assigned to the patient. */
     private ArrayList<String> doctorAssigned;
+
+    /** The list of pending appointments for the patient. */
     private AppointmentList Pending;
+
+    /** The list of ongoing appointments for the patient. */
     private AppointmentList Ongoing;
+
+    /** The list of completed appointments for the patient. */
     private AppointmentList Completed;
+
+    /** The list of prescribed medications for the patient. */
     private PrescriptionList Medicine;
 
     //This constructor is used to initialise from TXT file
@@ -43,7 +57,6 @@ public class Patient extends BasePerson {
      * This constructor is used when
      * loading patient data from an external text file source.
      * </p>
-     *
      *
      * @param ID         The unique identifier of the patient.
      * @param Name       The name of the patient.
@@ -257,16 +270,16 @@ public class Patient extends BasePerson {
     public void setMedicine(PrescriptionList medicine) {this.Medicine = medicine;}
 
     /**
-     * Sets the last used ID for the patients.
+     * Sets the last assigned ID for the patients.
      *
-     * @param ID The ID value to set as the last used patient ID.
+     * @param ID The ID value to set as the last assigned patient ID.
      */
     public static void setLastID(int ID) {lastID = ID;}
 
     /**
-     * Gets the last used ID for the patients.
+     * Gets the last assigned ID for the patients.
      *
-     * @return The last used patient ID.
+     * @return The last assigned patient ID.
      */
     public static int getLastID() {return lastID;}
 }
