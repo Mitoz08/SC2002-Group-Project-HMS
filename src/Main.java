@@ -31,42 +31,7 @@ public class Main {
                 case 1: // Logging In
                     String UserID = login.login();
                     if (UserID == null) break;
-                    String role = UserID.substring(0,2);
-                    int ID = Integer.parseInt(UserID.substring(2));
-                    switch (role) {
-                        case "PA":
-                            for (Patient p : database.getPatients()) {
-                                if (p.getID() == ID) {
-                                    new PatientUI(p);
-                                    break;
-                                }
-                            }
-                            break;
-                        case "DR":
-                            for (Doctor d : database.getDoctors()) {
-                                if (d.getID() == ID) {
-                                    new DoctorUI(d);
-                                    break;
-                                }
-                            }
-                            break;
-                        case "PH":
-                            for (Pharmacist p : database.getPharmacists()) {
-                                if (p.getID() == ID) {
-                                    new PharmacistUI(p);
-                                    break;
-                                }
-                            }
-                            break;
-                        case "AD":
-                            for (Administrator a : database.getAdministrators()) {
-                                if (a.getID() == ID) {
-                                    new AdminUI(a);
-                                    break;
-                                }
-                            }
-                            break;
-                    }
+                    BaseUI UI_interface = UICreator.createUI(database.getPerson(UserID));
                     break;
                 case 2: // Changing Password
                     login.changePassword();

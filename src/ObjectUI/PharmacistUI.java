@@ -23,16 +23,11 @@ import java.util.HashMap;
  */
 public class PharmacistUI implements BaseUI {
 
-    // Attribute
-    /** The pharmacist associated with this user interface, represented by the {@code Pharmacist} class. */
-    private Pharmacist pharmacist;
-
     /**
      * Constructs an object that runs the Command-Line Interface
      * @param pharmacist User's pharmacist object
      */
     public PharmacistUI(Pharmacist pharmacist) {
-        this.pharmacist = pharmacist;
 
         int choice;
         do {
@@ -45,25 +40,18 @@ public class PharmacistUI implements BaseUI {
                     "5: Logout");
             choice = Input.ScanInt("Choose an option:");
 
-            int index;
-            Patient p;
-            MedicineRequest request;
-            PrescriptionList list;
-            Appointment appointment = null;
-            AppointmentList appointments;
-
             switch (choice) {
                 case 1:
-                    Option1();
+                    Option1(pharmacist);
                     break;
                 case 2:
-                    Option2();
+                    Option2(pharmacist);
                     break;
                 case 3:
                     Option3();
                     break;
                 case 4:
-                    Option4();
+                    Option4(pharmacist);
                     break;
                 default:
                     break;
@@ -83,7 +71,7 @@ public class PharmacistUI implements BaseUI {
      * @see #printFulfillable(PrescriptionList) Method to check for fulfillable medicine
      * @see #providePrescription(PrescriptionList, Patient)  Method for prescribing medicine
      */
-    private void Option1() {
+    private void Option1(Pharmacist pharmacist) {
         Input.ClearConsole();
         int index;
         MedicineRequest request;
@@ -152,7 +140,7 @@ public class PharmacistUI implements BaseUI {
      * @see #printFulfillable(PrescriptionList) Method to check for fulfillable medicine
      * @see #providePrescription(PrescriptionList, Patient)  Method for prescribing medicine
      */
-    private void Option2() {
+    private void Option2(Pharmacist pharmacist) {
         Input.ClearConsole();
         MedicineRequest request;
         Patient p;
@@ -217,12 +205,12 @@ public class PharmacistUI implements BaseUI {
      *     Creates a {@code RestockRequest} and adds it into the {@code Pharmacy}'s restock request list
      * </p>
      *
-     * @see #createRestockReq() Function to create a restock request
+     * @see #createRestockReq(Pharmacist ) Function to create a restock request
      * @see Pharmacy#requestRestock(RestockRequest) Function to add the restock requst to the Pharmacy
      */
-    private void Option4() {
+    private void Option4(Pharmacist pharmacist) {
         Input.ClearConsole();
-        pharmacy.requestRestock(createRestockReq());
+        pharmacy.requestRestock(createRestockReq(pharmacist));
     }
 
     /**
@@ -308,7 +296,7 @@ public class PharmacistUI implements BaseUI {
      * Creates a {@code RestockRequest} and asks the {@code Pharmacist} for the medicine they want to indent
      * @return {@code null} if no indent is made, else returns {@code RestockRequest} object with the indent details
      */
-    private RestockRequest createRestockReq(){
+    private RestockRequest createRestockReq(Pharmacist pharmacist){
         Input.ClearConsole();
         HashMap<Integer,Integer> indentStock = new HashMap<>();
         pharmacy.viewStock();

@@ -13,6 +13,7 @@ import HumanObject.Patient.Patient;
 import HumanObject.Pharmacist.Pharmacist;
 import HumanObject.ROLE;
 import InputHandler.Input;
+import ObjectUI.BaseUI;
 import Serialisation.DataEncryption;
 import Serialisation.DataSerialisation;
 
@@ -165,6 +166,22 @@ public class UserInfoDatabase {
         return notReal;
     }
 
+
+    public BasePerson getPerson (String UserID) {
+        String role = UserID.substring(0,2);
+        int ID = Integer.parseInt(UserID.substring(2));
+        switch (role) {
+            case "PA":
+                return this.getPerson(ID, ROLE.PATIENT);
+            case "DR":
+                return this.getPerson(ID, ROLE.DOCTOR);
+            case "PH":
+                return this.getPerson(ID, ROLE.PHARMACIST);
+            case "AD":
+                return this.getPerson(ID, ROLE.ADMINISTRATOR);
+        }
+        return null;
+    }
 
     /**
      * Getter to get a BasePerson based given the BasePerson Name and ROLE
