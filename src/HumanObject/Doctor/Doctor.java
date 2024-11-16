@@ -14,10 +14,28 @@ import java.util.*;
 public class Doctor extends BasePerson {
     private static int lastID = 0;
 
-    // Lists to track different statuses of appointments for the doctor
-    private AppointmentList Ongoing;
-    private AppointmentList Completed;
+    /** The list of pending appointments for the Doctor. */
     private AppointmentList Pending;
+
+    /** The list of ongoing appointments for the Doctor. */
+    private AppointmentList Ongoing;
+
+    /** The list of completed appointments for the Doctor. */
+    private AppointmentList Completed;
+
+    /**
+     * A map that tracks the availability of Doctor for specific time slots.
+     *
+     * <p>
+     * The key is an {@code Integer} representing the dates
+     * The value is an array of {@code Boolean} values, where each element represents the time available
+     * </p>
+     *
+     * <ul>
+     * <li>{@code true} indicates that Doctor is available at that timing</li>
+     * <li>{@code false} indicates that Doctor is unavailable at that timing</li>
+     * </ul>
+     */
     private HashMap<Integer, Boolean[]>availability;
 
     /**
@@ -150,30 +168,66 @@ public class Doctor extends BasePerson {
             }
         }
     }
-
-    // Static methods to manage unique ID
+    /**
+     * Sets the last assigned ID for a Doctor.
+     * This method is used to update the static field {@code lastID}.
+     *
+     * @param ID the new last ID to be assigned
+     */
     public static void setLastID(int ID) {
         lastID = ID;
     }
-
+    /**
+     * Retrieves the last assigned ID for a Doctor.
+     * This method returns the current value of the static field {@code lastID}.
+     *
+     * @return the last assigned ID
+     */
     public static int getLastID() {
         return lastID;
     }
 
-    // Getters for appointment lists
+    /**
+     * Retrieves the list of ongoing appointments for the Doctor.
+     *
+     * @return an {@code AppointmentList} containing the ongoing appointments
+     */
     public AppointmentList getOngoingApt() {
         return Ongoing;
     }
 
+    /**
+     * Retrieves the list of completed appointments for the Doctor.
+     *
+     * @return an {@code AppointmentList} containing the completed appointments
+     */
     public AppointmentList getCompletedApt() {
         return Completed;
     }
 
+    /**
+     * Retrieves the list of pending appointments for the Doctor.
+     *
+     * @return an {@code AppointmentList} containing the pending appointments
+     */
     public AppointmentList getPendingApt() {
         return Pending;
     }
 
-    // Getter for the availability map
+    /**
+     * Retrieves the availability map for the Doctor.
+     *
+     * <p>
+     * The map tracks the Doctor's availability for specific dates and time slots.
+     * </p>
+     *
+     * @return a {@code HashMap<Integer, Boolean[]>} where:
+     *         <ul>
+     *         <li>The key is an {@code Integer} representing the date.</li>
+     *         <li>The value is an array of {@code Boolean} values indicating availability
+     *             for each time slot on that date.</li>
+     *         </ul>
+     */
     public HashMap<Integer, Boolean[]> getAvailability() {
         return availability;
     }
