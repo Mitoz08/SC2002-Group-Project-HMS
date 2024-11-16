@@ -30,7 +30,10 @@ import java.util.regex.Pattern;
  */
 public class AccountInfoDatabase {
 
+    /** The file name to read and write from. */
     private String fileName;
+
+    /** The requirement of the Password. */
     private static String passwordRegex =   "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()]).{8,20}$";
 
     /**

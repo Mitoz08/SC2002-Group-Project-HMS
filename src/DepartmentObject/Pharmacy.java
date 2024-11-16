@@ -32,13 +32,29 @@ import java.util.*;
 public class Pharmacy {
 
     // Attributes
+
+    /** The HashMap storing the name of the medicine to its integer ID. */
     private HashMap<String, Integer> nameToID;
+
+    /** The HashMap storing medicine ID to its pending amount (Current restock request). */
     private HashMap<Integer,Integer> pendingAmount;
+
+    /** The HashMap storing medicine ID to its medicine data. */
     private HashMap<Integer, MedicineData> medicineStorage;
+
+    /** The ArrayList storing the ongoing medicine request. */
     private ArrayList<MedicineRequest> medicineRequests;
+
+    /** The ArrayList storing the ongoing restock request. */
     private ArrayList<RestockRequest> restockRequests;
+
+    /** The ArrayList storing the past medicine request. */
     private ArrayList<MedicineRequest> pastMedReq;
+
+    /** The ArrayList storing the past restock request. */
     private ArrayList<RestockRequest> pastRestockReq;
+
+    /** The file name to read and write to. */
     private String pharmacyFileName;
 
     // Methods

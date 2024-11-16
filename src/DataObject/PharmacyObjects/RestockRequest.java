@@ -10,9 +10,16 @@ import java.util.Map;
 public class RestockRequest {
 
     // Private
+    /** The HashMap storing the ID and amount of medicine for restocking. */
     private HashMap<Integer,Integer> requestAmmount;
+
+    /** The ID of pharmacist that requested the replenishment. */
     private int pharmacistID;
+
+    /** The boolean variable storing the status of the request. */
     private boolean approved;
+
+    /** The ID of administrator that approved the replenishment. */
     private int administratorID;
 
     // Public

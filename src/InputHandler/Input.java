@@ -10,10 +10,11 @@ import java.util.Scanner;
  */
 public class Input {
 
+    /** Scanner to read from the command-line. */
     private static final Scanner sc = new Scanner(System.in);
 
     /**
-     * Function to clear the terminal
+     * Function to clear the terminal.
      */
     public static void ClearConsole() {
         try

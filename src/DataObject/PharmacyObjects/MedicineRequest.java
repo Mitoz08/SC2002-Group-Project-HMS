@@ -7,10 +7,19 @@ package DataObject.PharmacyObjects;
 public class MedicineRequest {
 
     // Private
+    /** The ID of patient receiving the medicine. */
     private int patientID;
+
+    /** The ID of doctor prescribing the medicine. */
     private int doctorID;
+
+    /** The ID of the Appointment to refer to. */
     private String appointmentID;
+
+    /** The boolean variable storing the status of the request. */
     private boolean approved;
+
+    /** The ID of pharmacist fulfilling the request. */
     private int pharmacistID;
 
 

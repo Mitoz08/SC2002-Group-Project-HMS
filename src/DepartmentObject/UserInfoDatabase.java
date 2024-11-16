@@ -19,12 +19,25 @@ import Serialisation.DataSerialisation;
 
 public class UserInfoDatabase {
 
+    /** The ArrayList storing the patient object. */
     private ArrayList<Patient> patients;
+
+    /** The ArrayList storing the doctor object. */
     private ArrayList<Doctor> doctors;
+
+    /** The ArrayList storing the administrator object. */
     private ArrayList<Administrator> administrators;
+
+    /** The ArrayList storing the pharmacist object. */
     private ArrayList<Pharmacist> pharmacists;
+
+    /** The Array storing 3 AppointmentList (Pending, Ongoing and Completed AppointmentList). */
     private AppointmentList[] allAppointments; //0-Pending , 1- Ongoing, 2- Completed
+
+    /** The HMS file name to read and write to. */
     private String HMSFileName;
+
+    /** The APT file name to read and write to. */
     private String APTFileName;
 
 
@@ -45,11 +58,18 @@ public class UserInfoDatabase {
 
     }
 
-
+    /**
+     * Sets the HMS file for the {@code UserInfoDatabase} instance to read from
+     * @param fileName file to read from
+     */
     public void setHMSFileName(String fileName) {
         this.HMSFileName = fileName;
     }
 
+    /**
+     * Sets the APT file for the {@code UserInfoDatabase} instance to read from
+     * @param fileName file to read from
+     */
     public void setAPTFileName(String fileName) {
         this.APTFileName = fileName;
     }

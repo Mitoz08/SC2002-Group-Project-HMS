@@ -12,8 +12,13 @@ public class Prescription implements Comparable<Prescription> {
 
 
     // Private attributes
+    /** Enumeration for the status of the Prescription. */
     private MED_STATUS status;
+
+    /** The name of the medicine. */
     private String medicineName;
+
+    /** The amount of medicine. */
     private int amount;
 
     // Constructor

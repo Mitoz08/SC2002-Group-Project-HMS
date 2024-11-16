@@ -13,11 +13,19 @@ import DepartmentObject.UserInfoDatabase;
  */
 public class ServerHMS {
 
+    /** The only instance of the {@code ServerHMS} Object. */
     private static ServerHMS instance = null;
+
+    /** The boolean variable for using debug mode. */
     private static boolean mode;
 
+    /** The instance of the {@code UserInfoDatabase} in {@code ServerHMS} Object. */
     private UserInfoDatabase database;
+
+    /** The instance of the {@code AccountInfoDatabase} in {@code ServerHMS} Object. */
     private AccountInfoDatabase login;
+
+    /** The instance of the {@code Pharmacy} in {@code ServerHMS} Object. */
     private Pharmacy pharmacy;
 
     /**

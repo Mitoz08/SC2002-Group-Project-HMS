@@ -5,12 +5,23 @@ package DataObject.PharmacyObjects;
  * It includes details such as the medicine's unique ID, name, quantity, and minimum stock level.
  */
 public class MedicineData {
+
+    /** The ID of the medicine. */
     public int ID;
+
+    /** The name of the medicine. */
     public String name;
+
+    /** The amount in stock. */
     public int amount;
+
+    /** The minimum amount required in stock. */
     public int minStock;
 
+    /** The length of the formatted ID string. */
     public static final int IDLength = 8;
+
+    /** The prefix of the formatted ID string. */
     public static final String IDPrefix = "MED";
 
     // Constructor

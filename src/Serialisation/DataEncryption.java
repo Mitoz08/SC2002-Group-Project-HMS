@@ -5,7 +5,10 @@ import java.security.MessageDigest;
 
 public class DataEncryption {
 
+    /** The keys used for encrypting the text. */
     private static String[] key = new String[] {"SMACBEST", "OBJECT", "ORIENTED", "PROGRAMMING"};
+
+    /** The number of encryption key. */
     private static int noOfKey = 4;
 
     /**
