@@ -267,7 +267,7 @@ public class Pharmacy {
      * @param currentRequest {@code HashMap<Integer,Integer>} storing the indenting amount
      */
     public void viewStock(HashMap<Integer,Integer> currentRequest) {
-        System.out.println("_____________________________________________");
+        System.out.println("─────────────────────────────────────────────");
         for (Map.Entry<Integer, MedicineData> o: medicineStorage.entrySet()) {
             String MedID = o.getValue().getIDString();
             String MedName = o.getValue().name;
@@ -278,7 +278,7 @@ public class Pharmacy {
             if (currentRequest.get(o.getKey()) != null) ReqAmt += currentRequest.get(o.getKey());
             System.out.printf("%-8s:%-16s Min:%-5d Low:%-5s\n", MedID, MedName, MinAmt, o.getValue().getLevelStatus());
             System.out.printf("In Stock:%-6d Pending:%-6d Indent:%-6d\n", CurAmt, PedAmt, ReqAmt);
-        System.out.println("_____________________________________________");
+        System.out.println("─────────────────────────────────────────────");
         }
     }
 
@@ -400,7 +400,6 @@ public class Pharmacy {
                 text = fileReader.next();
                 text = DataEncryption.decipher(text);
                 if (text.equals("MedicineData")) break;
-                System.out.println(text);
                 RestockRequest request = DataSerialisation.DeserialiseRestockReq(text);
                 if (request.isApproved()) pastRestockReq.add(request);
                 else {
