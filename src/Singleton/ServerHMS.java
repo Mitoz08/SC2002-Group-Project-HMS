@@ -55,7 +55,7 @@ public class ServerHMS {
             database.setAPTFileName("APT.txt");
             pharmacy.setPharmacyFileName("Pharmacy.txt");
             login.setFileName("Login.txt");
-            database.loadFile(); // Change back to private before submitting code
+            database.loadFile(); 
             pharmacy.loadFile();
         }
     }
