@@ -290,8 +290,13 @@ public class Pharmacy {
     public void updatePendingRestock( boolean Add , RestockRequest request ) {
         for (Map.Entry<Integer, Integer> o: request.getRequestAmount().entrySet()) {
             int ID = o.getKey();
-            if (Add) pendingAmount.replace(ID,pendingAmount.get(ID),pendingAmount.get(ID) + o.getValue());
-            else pendingAmount.replace(ID,pendingAmount.get(ID),pendingAmount.get(ID) - o.getValue());
+            if (pendingAmount.containsKey(ID)) {
+                if (Add) pendingAmount.replace(ID,pendingAmount.get(ID),pendingAmount.get(ID) + o.getValue());
+                else pendingAmount.replace(ID,pendingAmount.get(ID),pendingAmount.get(ID) - o.getValue());
+            } else {
+                if (Add) pendingAmount.put(ID,o.getValue());
+                else pendingAmount.put(ID, -o.getValue());
+            }
         }
     }
 
@@ -395,6 +400,7 @@ public class Pharmacy {
                 text = fileReader.next();
                 text = DataEncryption.decipher(text);
                 if (text.equals("MedicineData")) break;
+                System.out.println(text);
                 RestockRequest request = DataSerialisation.DeserialiseRestockReq(text);
                 if (request.isApproved()) pastRestockReq.add(request);
                 else {

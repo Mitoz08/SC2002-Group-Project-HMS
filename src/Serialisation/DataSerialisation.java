@@ -90,9 +90,11 @@ public class DataSerialisation {
                 {String.valueOf(request.getPharmacistID()), String.valueOf(request.isApproved()), String.valueOf(request.getAdministratorID()),""};
         String HashMap = "";
         for (Map.Entry<Integer,Integer> o: request.getRequestAmount().entrySet()) {
-            HashMap += o.getKey() + '-' + o.getValue() + '/';
+            System.out.println(o.getKey() + "-" + o.getValue());
+            HashMap = HashMap + o.getKey() + '-' + o.getValue() + '/';
         }
-        HashMap.substring(0,HashMap.length()-1);
+        HashMap = HashMap.substring(0,HashMap.length()-1);
+        System.out.println(HashMap);
         StringArray[StringArray.length-1] += HashMap;
         return convertStringArraytoString(StringArray, "/");
     }
