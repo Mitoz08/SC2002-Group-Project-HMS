@@ -94,7 +94,6 @@ public class DataSerialisation {
             HashMap = HashMap + o.getKey() + '-' + o.getValue() + '/';
         }
         HashMap = HashMap.substring(0,HashMap.length()-1);
-        System.out.println(HashMap);
         StringArray[StringArray.length-1] += HashMap;
         return convertStringArraytoString(StringArray, "/");
     }
