@@ -113,8 +113,8 @@ public class DoctorUI implements BaseUI {
             patient.printMedicalRecord();
 
             // Wait for user input before returning to the main menu.
-            Input.ScanString("Enter to continue...");
         }
+        Input.ScanString("Enter to continue...");
     }
 
     /**
@@ -158,6 +158,9 @@ public class DoctorUI implements BaseUI {
                 patient.getCompleted().getAppointment(0).setNotes(notes);
                 Input.ScanString("Notes edited\nEnter to continue...");
             }
+        } else {
+            System.out.println("There are no patients under you now.");
+            Input.ScanString("Enter to continue...");
         }
     }
 

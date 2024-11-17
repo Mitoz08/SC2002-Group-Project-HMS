@@ -157,6 +157,7 @@ public class AdminUI implements BaseUI{
             System.out.println(numOfStaff + ". " +"Name: "+ ad.getName() + ", ID: " + ad.getID() + ", Role: " + ad.getRole());
             numOfStaff++;
         }
+        Input.ScanString("Enter to continue...");
         return;
     }
 
@@ -200,7 +201,7 @@ public class AdminUI implements BaseUI{
             }
 
         }
-
+        Input.ScanString("Enter to continue...");
     }
 
     /**
@@ -209,6 +210,7 @@ public class AdminUI implements BaseUI{
      */
     private void viewMedicationInventory(){
         this.pharmacy.viewStock();
+        Input.ScanString("Enter to continue...");
     }
 
     /**
