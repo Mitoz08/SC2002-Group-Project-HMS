@@ -236,22 +236,22 @@ public class AdminUI implements BaseUI{
      */
     private void ApproveReplenishmentRequests(Administrator administrator){
         int choice;
-        int size = this.pharmacy.viewRestockRequest();
+        int size = pharmacy.viewRestockRequest();
         if (size == 0) {
             Input.ScanString("No existing request\nEnter to continue...");
             return;
         }
         do {
             choice = Input.ScanInt("Which restock do you want to fulfill");
-            if (choice > this.pharmacy.viewRestockRequest()){
+            if (choice > size){
                 System.out.println("Invalid option please try again");
                 continue;
             }
             break;
         }while(true);
-        RestockRequest request = this.pharmacy.getRestockRequest(choice - 1);
+        RestockRequest request = pharmacy.getRestockRequest(choice - 1);
         request.ApprovedRequest(administrator.getID());
-        this.pharmacy.approveRestock(choice - 1);
+        pharmacy.approveRestock(choice - 1);
 
     }
 
@@ -339,7 +339,7 @@ public class AdminUI implements BaseUI{
                     "3. Administrator");
             switch (choice1) {
                 case 1:
-                    ArrayList<Doctor> docList = this.database.getDoctors();
+                    ArrayList<Doctor> docList = database.getDoctors();
                     if (docList.isEmpty()) {
                         System.out.println("There aren't any doctors left in the Hospital");
                         return null;
@@ -355,21 +355,21 @@ public class AdminUI implements BaseUI{
                             AppointmentList temp = doc.getOngoingApt();
                             for (Appointment toRemove : temp) {
                                 System.out.println("The upcoming appointment for " + toRemove.getPatientName() + " has been removed as well!");
-                                this.database.cancelApt(toRemove);
+                                database.cancelApt(toRemove);
                             }
                             temp = doc.getPendingApt();
                             for (Appointment toRemove : temp) {
                                 System.out.println("The pending appointmeent for " + toRemove.getPatientName() + " has been removed as well!");
-                                this.database.cancelApt(toRemove);
+                                database.cancelApt(toRemove);
                             }
-                            this.database.getDoctors().remove(doc);
+                            database.getDoctors().remove(doc);
                             return doc;
                         }
                         i++;
                     }
                     break;
                 case 2:
-                    ArrayList<Pharmacist> pharList = this.database.getPharmacists();
+                    ArrayList<Pharmacist> pharList = database.getPharmacists();
                     if (pharList.isEmpty()) {
                         System.out.println("There aren't any pharmacist left in the hospital");
                         return null;
@@ -382,14 +382,14 @@ public class AdminUI implements BaseUI{
                     for (Pharmacist ph : pharList) {
                         if (i == choice2) {
                             System.out.println("This pharmacist is to be removed\n");
-                            this.database.getPharmacists().remove(ph);
+                            database.getPharmacists().remove(ph);
                             return ph;
                         }
                         i++;
                     }
                     break;
                 case 3:
-                    ArrayList<Administrator> adList = this.database.getAdministrators();
+                    ArrayList<Administrator> adList = database.getAdministrators();
                     if (adList.isEmpty()) {
                         System.out.println("There aren't any administrators left in the hospital");
                         return null;
@@ -402,7 +402,7 @@ public class AdminUI implements BaseUI{
                     for (Administrator ad : adList) {
                         if (i == choice2) {
                             System.out.println("This administrator is to be removed\n");
-                            this.database.getAdministrators().remove(ad);
+                            database.getAdministrators().remove(ad);
                             return ad;
                         }
                         i++;

@@ -127,6 +127,7 @@ public class AccountInfoDatabase {
                 continue;
             }
             String newPass = checkPassword();
+            Input.ScanString("Successfully changed password.\nEnter to continue...");
             return addNewPassword(username,oldPass,newPass);
         }
     }
