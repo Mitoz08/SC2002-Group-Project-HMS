@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.*;
 
 import DataObject.Appointment.*;
+import DataObject.PharmacyObjects.MedicineData;
+import DataObject.PharmacyObjects.MedicineRequest;
+import DataObject.PharmacyObjects.RestockRequest;
 import DataObject.Prescription.Prescription;
 import HumanObject.Administrator.Administrator;
 import HumanObject.BasePerson;
@@ -17,7 +20,18 @@ import ObjectUI.BaseUI;
 import Serialisation.DataEncryption;
 import Serialisation.DataSerialisation;
 
-
+/**
+ * The {@code UserInfoDatabase} class manages the user's information for the Hospital Management System
+ * <p>
+ *     An instance of this class works off of one database (one text file), allowing
+ *     the Hospital Management System to include multiple UserInfoDatabase department if needed.
+ * </p>
+ * <p>
+ *     This class uses the {@code BasePerson} class and its derived classes to store information for each user in the hospital
+ * </p>
+ *
+ * @see BasePerson The Base class for all the users
+ */
 public class UserInfoDatabase {
 
     /** The ArrayList storing the patient object. */
@@ -82,6 +96,9 @@ public class UserInfoDatabase {
         saveFile();
     }
 
+    /**
+     * A method used to test run the program by initialising the default medicine
+     */
     public void testRun() {
         Patient P = new Patient(1001,"John", new Date(99,1,21), true, "O+", new Contact("John@gmail.com", "91234590"));
         this.patients.add(P);
@@ -110,18 +127,42 @@ public class UserInfoDatabase {
 
 
     /**
-     * Getter functions that return an ArrayList for each ROLE in database
+     * Gets the ArrayList of {@code Doctor}
+     * @return ArrayList of {@code Doctor}
      */
     public ArrayList<Doctor> getDoctors(){return this.doctors;}
+
+    /**
+     * Gets the ArrayList of {@code Pharmacist}
+     * @return ArrayList of {@code Pharmacist}
+     */
     public ArrayList<Pharmacist> getPharmacists(){return this.pharmacists;}
+
+    /**
+     * Gets the ArrayList of {@code Administrator}
+     * @return ArrayList of {@code Administrator}
+     */
     public ArrayList<Administrator> getAdministrators(){return this.administrators;}
+
+    /**
+     * Gets the ArrayList of {@code Patient}
+     * @return ArrayList of {@code Patient}
+     */
     public ArrayList<Patient> getPatients(){return this.patients;}
+
+    /**
+     * Gets the Array of {@code AppointmentList}
+     * @return Array of {@code AppointmentList}
+     */
     public AppointmentList[] getAllAppointments(){return this.allAppointments;}
 
     /**
      * Getter to get a BasePerson based given the BasePerson ID and ROLE
      * Gets the ROLE and uses the switch case to loop through the correct ArrayList of Staff or Patient
      * Prints a statement when the Person is not found and returns null
+     * @param id ID of the user
+     * @param role role of the user
+     * @return the person with the correct {@code role} and {@code ID}
      */
     public BasePerson getPerson(int id, ROLE role){
 
@@ -166,7 +207,11 @@ public class UserInfoDatabase {
         return notReal;
     }
 
-
+    /**
+     * Finds the person with the correct {@code role} and {@code ID}
+     * @param UserID String ID of the user
+     * @return the person with the correct {@code role} and {@code ID}
+     */
     public BasePerson getPerson (String UserID) {
         String role = UserID.substring(0,2);
         int ID = Integer.parseInt(UserID.substring(2));
@@ -187,6 +232,9 @@ public class UserInfoDatabase {
      * Getter to get a BasePerson based given the BasePerson Name and ROLE
      * Gets the ROLE and uses the switch case to loop through the correct ArrayList of Staff or Patient
      * Prints a statement when the Person is not found and returns null
+     * @param name Name of the User
+     * @param role Role of the user
+     * @return the person with the correct {@code role} and {@code name}
      */
     public BasePerson getPerson(String name, ROLE role){
 

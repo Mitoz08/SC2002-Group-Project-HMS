@@ -60,7 +60,7 @@ public class Patient extends BasePerson {
      * from a record stored in the text file {@code HMS.txt}.
      * The role is set to {@code ROLE.PATIENT}.
      * </p>
-     *
+     * @param ID         The ID of the patient.
      * @param Name       The name of the patient.
      * @param DOB        The date of birth of the patient.
      * @param Gender     The gender of the patient, where {@code true} represents male

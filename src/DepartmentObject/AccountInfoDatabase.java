@@ -37,6 +37,12 @@ public class AccountInfoDatabase {
     private static String passwordRegex =   "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()]).{8,20}$";
 
     /**
+     * Default Constructor
+     */
+    private AccountInfoDatabase() {
+    }
+
+    /**
      * Sets the file name or the {@code database} for the instance to read from and write to
      * @param fileName the text file to be read or written
      */
@@ -410,12 +416,12 @@ public class AccountInfoDatabase {
 
     /**
      * Checks for a new password and making sure it meets the requirements of:
-     * <l>
+     * <ul>
      *     <li>8 - 14 characters long</li>
      *     <li>Contains digit</li>
      *     <li>Contains upper and lower case</li>
-     *     <lI>Contains special characters {e.g. ! @ # $ % ^ & * ( ) }</lI>
-     * </l>
+     *     <li>Contains special characters {e.g. ! @ # $ % ^ & * ( ) }</li>
+     * </ul>
      * @return the new password to be changed to
      */
     public static String checkPassword() {

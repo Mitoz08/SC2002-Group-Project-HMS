@@ -18,12 +18,12 @@ import java.util.Date;
  * a {@code Patient} instance to perform various patient-related operations.
  *
  * <p>This class allows patients to:
+ * </p>
  * <ul>
  *   <li>View medical records and update personal information</li>
  *   <li>Schedule, reschedule, and cancel appointments</li>
  *   <li>View available appointment slots, scheduled appointments and outcomes of past appointments</li>
  * </ul>
- * </p>
  */
 public class PatientUI implements BaseUI {
 
@@ -112,6 +112,7 @@ public class PatientUI implements BaseUI {
     /**
      * Allows the patient to update their contact information, including email address
      * and contact number, based on their selection from a provided menu.
+     * @param patient the current {@code Patient}
      */
     public void updateContact(Patient patient){
         int C2Choice;
@@ -234,7 +235,8 @@ public class PatientUI implements BaseUI {
      * available, allows the patient to select a doctor and book the appointment. If this process succeeds,
      * appointment is added into the database.
      * </p>
-     *
+     * @param patient the current {@code Patient}
+     * @return {@code Appointment} to be scheduled
      */
     public Appointment scheduleApt(Patient patient) {
         ArrayList<Integer> availableDoc = new ArrayList<>();
@@ -362,6 +364,7 @@ public class PatientUI implements BaseUI {
      * If either the cancellation or new scheduling process is canceled or fails, the method terminates.
      * If both processes succeed, the appointment is rescheduled in the database.
      * </p>
+     * @param patient the current {@code Patient}
      */
     public void rescheduleApt(Patient patient){
         Input.ClearConsole();
@@ -396,6 +399,9 @@ public class PatientUI implements BaseUI {
      * allowing them to choose which to cancel. The patient is prompted to confirm the cancellation
      * before proceeding. If there are no existing appointments, the method terminates.
      * </p>
+     *
+     * @param patient the current {@code Patient}
+     * @return {@code Appointment} to be cancelled
      */
 
     public Appointment cancelApt(Patient patient){

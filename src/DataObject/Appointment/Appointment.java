@@ -7,10 +7,10 @@ import java.util.Date;
 
 /**
  * A class that stores the information of an appointment
- * <l>
+ * <ul>
  *     <li> When created, it stores the timing and people involved in the appointment</li>
  *     <li> When completed, it additionally stores the prescription and outcome of the appointment</li>
- * </l>
+ * </ul>
  */
 public class Appointment implements Comparable<Appointment> {
 
@@ -278,13 +278,14 @@ public class Appointment implements Comparable<Appointment> {
 
     /**
      * To return the specific time slot of the appointment
-     * @return <l>
+     * <ul>
      *     <li>10AM - 11AM: returns 0</li>
      *     <li>11AM - 12PM: returns 1</li>
      *     <li> 1PM -  2PM: returns 2</li>
      *     <li> 2PM -  3PM: returns 3</li>
      *     <li> 3PM -  4PM: returns 4</li>
-     * </l>
+     * </ul>
+     * @return an {@code Integer} for the time slot
      */
     public int getTimeSlot() {
         return switch (appointmentTime.getHours()) {
@@ -311,18 +312,22 @@ public class Appointment implements Comparable<Appointment> {
      * Compares the current appointment's time with the argument appointment's time
      *
      * @param o the object to be compared.
-     *
-     * @return <l>
-     *     <li> 0 - if {@code Date} are equal.</il>
-     *     <li> less than 0 - if object's {@code Date} is before the argument's {@code Date}.</il>
-     *     <li> more than 0 - if object's {@code Date} is after the argument's {@code Date}.</il>
-     * </l>
+     * <ul>
+     *     <li> 0 - if {@code Date} are equal.</li>
+     *     <li> less than 0 - if object's {@code Date} is before the argument's {@code Date}.</li>
+     *     <li> more than 0 - if object's {@code Date} is after the argument's {@code Date}.</li>
+     * </ul>
+     * @return {@code Integer} based on comparison
      */
     @Override
     public int compareTo(Appointment o) {
         return this.appointmentTime.compareTo(o.appointmentTime);
     }
 
+    /**
+     * Check if everything in the list is prescribed
+     * @return {@code false} if 1 is not prescribed
+     */
     public boolean isPrescribed() {
         for (Prescription o: prescriptionList) {
             if (!o.isPrescribed()) return false;
@@ -351,9 +356,7 @@ public class Appointment implements Comparable<Appointment> {
      *      <li> {@code IDPrefix} for the prefix of the ID</li>
      *      <li> {@code IDLength} for the maximum length of the ID</li>
      * </l>
-
-     *
-     * @return
+     * @return A Appointment ID String
      */
     private static String AppointmentIDGenerator() {
         StringBuilder str = new StringBuilder();

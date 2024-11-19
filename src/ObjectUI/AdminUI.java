@@ -15,6 +15,11 @@ import Singleton.ServerHMS;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * AdminUI class represents the user interface for admin-related functionalities.
+ * It allows the admin to interact with the system to view and update the database,
+ * manage appointments, and more.
+ */
 public class AdminUI implements BaseUI{
 
     //Attribute
