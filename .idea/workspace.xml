@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="53bce176-a443-4ce8-ac44-246e002c34a2" name="Changes" comment="Fixed&#10;1. Patient can book a doctor when he is unavailable">
+      <change beforePath="$PROJECT_DIR$/src/DataObject/Appointment/APT_STATUS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataObject/Appointment/APT_STATUS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataObject/Appointment/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataObject/Appointment/Appointment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataObject/Appointment/AppointmentList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataObject/Appointment/AppointmentList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataObject/PharmacyObjects/MedicineRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataObject/PharmacyObjects/MedicineRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataObject/Prescription/MED_STATUS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataObject/Prescription/MED_STATUS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataObject/Prescription/Prescription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataObject/Prescription/Prescription.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataObject/Prescription/PrescriptionList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataObject/Prescription/PrescriptionList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DepartmentObject/AccountInfoDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DepartmentObject/AccountInfoDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DepartmentObject/Pharmacy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DepartmentObject/Pharmacy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DepartmentObject/UserInfoDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DepartmentObject/UserInfoDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HumanObject/Patient/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HumanObject/Patient/Patient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HumanObject/ROLE.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HumanObject/ROLE.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ObjectUI/AdminUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ObjectUI/AdminUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ObjectUI/DoctorUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ObjectUI/DoctorUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ObjectUI/PatientUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ObjectUI/PatientUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Serialisation/DataEncryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Serialisation/DataEncryption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Serialisation/DataSerialisation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Serialisation/DataSerialisation.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Mitoz08&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Mitoz08/SC2002-Group-Project-HMS.git&quot;,
+    &quot;accountId&quot;: &quot;c23e05fd-5743-4cfc-b6dd-d37bdbc94d79&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;Mitoz08&quot;,
+    &quot;repository&quot;: &quot;SC2002-Group-Project-HMS&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2ovNlCnwaWAeiGQgknC9AKzSE9I" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.Unnamed.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Tim's-Javadoc",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/65841/OneDrive/Desktop/IdeaProjects/SC2002",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\65841\OneDrive\Desktop\IdeaProjects\SC2002" />
+      <recent name="C:\Users\65841\OneDrive\Desktop\IdeaProjects\SC2002\src" />
+      <recent name="C:\Users\65841\OneDrive\Desktop\IdeaProjects\SC2002\out" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="SC2002 Group Project HMS" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="53bce176-a443-4ce8-ac44-246e002c34a2" name="Changes" comment="" />
+      <created>1731746237379</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1731746237379</updated>
+      <workItem from="1731746238453" duration="5854000" />
+      <workItem from="1731763318525" duration="52000" />
+      <workItem from="1731763402433" duration="13795000" />
+      <workItem from="1731783746930" duration="745000" />
+      <workItem from="1731834658107" duration="1636000" />
+      <workItem from="1731849822583" duration="6082000" />
+      <workItem from="1731858002601" duration="9000" />
+      <workItem from="1731916829702" duration="269000" />
+      <workItem from="1731918119522" duration="1000" />
+      <workItem from="1732021623987" duration="7981000" />
+    </task>
+    <task id="LOCAL-00001" summary="Added&#10;1. JavaDoc to attributes of AccountInfoDatabase,AppointmentList, DataEncryption, Input, MedicineData, MedicineRequest, PharmacistUI, Pharmacy, Prescription, PrescriptionList, RestockRequest, ServerHMS, UserInfoDatabase">
+      <option name="closed" value="true" />
+      <created>1731747702174</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1731747702174</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added&#10;1. Printing past prescriptions when checking Medical Record for patient&#10;2. Added one appointment into the APT.txt for presentation&#10;&#10;Fixed&#10;1. Minor issue when loading and reading from file">
+      <option name="closed" value="true" />
+      <created>1731752099217</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1731752099217</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Remove&#10;1. A Print statement in DataEncryption">
+      <option name="closed" value="true" />
+      <created>1731764445511</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1731764445511</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Fixed&#10;1. Read and write for AccountInfoDatabase">
+      <option name="closed" value="true" />
+      <created>1731765857488</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1731765857488</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Changes&#10;1. Remove person attributes from UI classes.&#10;&#10;Added&#10;1. New UICreator class to create UI object.">
+      <option name="closed" value="true" />
+      <created>1731769201224</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1731769201224</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Changes&#10;1. Remove person attributes from UI classes.&#10;&#10;Added&#10;1. New UICreator class to create UI object.">
+      <option name="closed" value="true" />
+      <created>1731769241622</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1731769241623</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Added&#10;1. Medicine's low level alert is added.">
+      <option name="closed" value="true" />
+      <created>1731770951748</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1731770951748</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added&#10;1. JavaDoc for checkLowStatus()">
+      <option name="closed" value="true" />
+      <created>1731772284588</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1731772284588</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Fixed&#10;1. Removed printing Appointment for doctor's view Patient medical record.&#10;2. Appointment removed printing of notes in block.&#10;3. Change Pharmacy's view storage print's underscore to box character">
+      <option name="closed" value="true" />
+      <created>1731775293356</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1731775293356</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Fixed&#10;1. Certain options not pausing (With an input scan) to show command-line details before clearing">
+      <option name="closed" value="true" />
+      <created>1731852002785</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1731852002785</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Added&#10;1. JavaDoc for BaseUI">
+      <option name="closed" value="true" />
+      <created>1731852507412</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1731852507412</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Added&#10;1. JavaDoc for BaseUI">
+      <option name="closed" value="true" />
+      <created>1731852642743</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1731852642743</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Fixed&#10;1. AdminUI Prints additional request when approving restock request&#10;2. Change password will now prompt &quot;Enter to continue&quot;">
+      <option name="closed" value="true" />
+      <created>1731854750978</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1731854750978</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Fixed&#10;1. Pharmacy RestockRequest saving and loading issue">
+      <option name="closed" value="true" />
+      <created>1731857010228</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1731857010228</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Fixed&#10;1. Change Underscore in Pharmacy's viewStock to Box characters&#10;2. Removed debug printing for checking saving and loading of Restock request">
+      <option name="closed" value="true" />
+      <created>1731857805593</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1731857805593</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Fixed&#10;1. Patient can book a doctor when he is unavailable">
+      <option name="closed" value="true" />
+      <created>1732028170939</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1732028170939</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Fixed&#10;1. Patient can book a doctor when he is unavailable">
+      <option name="closed" value="true" />
+      <created>1732028642346</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1732028642346</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added&#10;1. JavaDoc to attributes of AccountInfoDatabase,AppointmentList, DataEncryption, Input, MedicineData, MedicineRequest, PharmacistUI, Pharmacy, Prescription, PrescriptionList, RestockRequest, ServerHMS, UserInfoDatabase" />
+    <MESSAGE value="Added&#10;1. Printing past prescriptions when checking Medical Record for patient&#10;2. Added one appointment into the APT.txt for presentation&#10;&#10;Fixed&#10;1. Minor issue when loading and reading from file" />
+    <MESSAGE value="Remove&#10;1. A Print statement in DataEncryption" />
+    <MESSAGE value="Fixed&#10;1. Read and write for AccountInfoDatabase" />
+    <MESSAGE value="Changes&#10;1. Remove person attributes from UI classes.&#10;&#10;Added&#10;1. New UICreator class to create UI object." />
+    <MESSAGE value="Added&#10;1. Medicine's low level alert is added." />
+    <MESSAGE value="Added&#10;1. JavaDoc for checkLowStatus()" />
+    <MESSAGE value="Fixed&#10;1. Removed printing Appointment for doctor's view Patient medical record.&#10;2. Appointment removed printing of notes in block.&#10;3. Change Pharmacy's view storage print's underscore to box character" />
+    <MESSAGE value="Fixed&#10;1. Certain options not pausing (With an input scan) to show command-line details before clearing" />
+    <MESSAGE value="Added&#10;1. JavaDoc for BaseUI" />
+    <MESSAGE value="Fixed&#10;1. AdminUI Prints additional request when approving restock request" />
+    <MESSAGE value="Fixed&#10;1. AdminUI Prints additional request when approving restock request&#10;2. Change password will now prompt &quot;Enter to continue&quot;" />
+    <MESSAGE value="Fixed&#10;1. Pharmacy RestockRequest saving and loading issue" />
+    <MESSAGE value="Fixed&#10;1. Change Underscore in Pharmacy's viewStock to Box characters&#10;2. Removed debug printing for checking saving and loading of Restock request" />
+    <MESSAGE value="Fixed&#10;1. Patient can book a doctor when he is unavailable" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed&#10;1. Patient can book a doctor when he is unavailable" />
+  </component>
+</project>
