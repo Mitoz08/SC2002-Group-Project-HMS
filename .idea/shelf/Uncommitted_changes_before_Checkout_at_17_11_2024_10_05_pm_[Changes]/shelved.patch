@@ -1,0 +1,52 @@
+Index: APT.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>OQ]42C>1941E=Dqie~;Vy33C>28Nq{|0:42D=Cnr1D@5652@?9653@>0Yettqf}eo\u0082z!yvg\u0086qsrfgw.gxv\"~|fn$rtwo85/\u0083osjgg\u0087onxp/E>\r\ne\u0080avjg8D
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/APT.txt b/APT.txt
+--- a/APT.txt	(revision abc8a875ea2808cea4f247758c94c27c3c1dc7ca)
++++ b/APT.txt	(date 1731770703466)
+@@ -1,2 +1,3 @@
++S\T214BCB=/30EADB<11KszA=0223Tx;1451CC?=9/24?CAQmru}AX|t{
+ OQ]42C>1941E=Dqie~;Vy33C>28Nq{|0:42D=Cnr1D@5652@?9653@>0Yettqf}eoz!yvgqsrfgw.gxv"~|fn$rtwo85/osjggonxp/E>
+-eavjg8D
+\ No newline at end of file
++eavjg8E
+\ No newline at end of file
+Index: HMS.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>bM&314CB\\{hp0=K@C923.4?CA\u0080rwf3a>AVojoDy\u0080sul0ds\u007F\u008FK=2559KC\n_R47A0>;Un\u007F>B>9>09=9:6<A=lrl\u007Fq7NH<@[g\u008A@{\u0081|yu~|<i\u0080m\u0088D9D9EFA7\nRc.5=C52Pvv3EH14>>:7:C13=\u0085zyrB55BB85E@jdz\u0084m1\u0081\u0085yh;wip\u0080x1io}{i:yeo\u0081v\nRc.5=C62Trm3DC13;I54:C3io}{i<Xqs\u0082\u008A\n_Y47A0=;Xug\u0081rv5J99?5B3?>>5wax\u007Fm\nbT&314DBiunuus\u0080BHA-6.6D@B901uv\u0087x\nOE/52C?0\\yo\u0080ss8=2@?2673@>.93htztn\nOU.5=C62O}nvrw3<G>81A@40>@|v\u0082x\na\u0085ixvv*4>A;3>C46=B84@B53>D
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/HMS.txt b/HMS.txt
+--- a/HMS.txt	(revision abc8a875ea2808cea4f247758c94c27c3c1dc7ca)
++++ b/HMS.txt	(date 1731770703465)
+@@ -1,6 +1,6 @@
+ bM&314CB\{hp0=K@C923.4?CArwf3a>AVojoDysul0dsK=2559KC
+ _R47A0>;Un>B>9>09=9:6<A=lrlq7NH<@[g@{|yu~|<imD9D9EFA7
+-Rc.5=C52Pvv3EH14>>:7:C13=zyrB55BB85E@jdzm1yh;wipx1io}{i:yeov
++Sc47A0=;Jrt>IC3B09>;:6<A=zuq;9?:@A?>>fmx{r3k>fmx{r3urzyv-rmtkB@:B0=E5xv;lrlq5sg{s3waxm:lp}k
+ Rc.5=C62Trm3DC13;I54:C3io}{i<Xqs
+ _Y47A0=;Xugrv5J99?5B3?>>5waxm
+ bT&314DBiunuusBHA-6.6D@B901uvx
+Index: Login.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\r\n\r\n\r\n\r\naa8f7c5e6cbed3df1a64f4f5972ae5710d5ffff0e9654b95fda70993a2c613ad/e31f2d150a8148baa58a02750f5bad5e22d1b143928d99842d7e10cfa6990938/^B:42D\r\n\r\n\r\n\r\n\r\n\r\n\r\n338d88c3171687d9c4b2a94530004e57656f011fc6c4fba2160b62fe31ae50ca/545e50bcc34933b23852a89857e05d6a524b2101e79858d6f65c99a36be4e862/SP1215\r\n\r\ndbb60423f0207a9d60687ae3d010ff27eb692db5b13ef4261296d30097f888e0/545e50bcc34933b23852a89857e05d6a524b2101e79858d6f65c99a36be4e862/OU94=E\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n2c832d0677409c79ca180c170464051af18358fad0023a86271a4edc08fd724d/545e50bcc34933b23852a89857e05d6a524b2101e79858d6f65c99a36be4e862/Rc94=E\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nf0f9b5491ebfeadfc9100c11eecd938c2a5319391e31378bfab0cc4ffaf02994/545e50bcc34933b23852a89857e05d6a524b2101e79858d6f65c99a36be4e862/^R94=E\r\n920293a41dd6a7008656c72214ad11009984b0bdf9059b27d0bdb725734ea867/e31f2d150a8148baa58a02750f5bad5e22d1b143928d99842d7e10cfa6990938/Sc?6A1\r\n\r\n\r\n\r\n\r\n9c6e06950af564820c2798318eb1d4c8b6619936bb13e3a4ccf1568812a0f7d2/545e50bcc34933b23852a89857e05d6a524b2101e79858d6f65c99a36be4e862/bT1216\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n4638294694d74736f3c317817f90f988b6dad9d9d4ece12e0f4b053dada1a759/e31f2d150a8148baa58a02750f5bad5e22d1b143928d99842d7e10cfa6990938/^I:42D\r\n
+===================================================================
+diff --git a/Login.txt b/Login.txt
+--- a/Login.txt	(revision abc8a875ea2808cea4f247758c94c27c3c1dc7ca)
++++ b/Login.txt	(date 1731765675540)
+@@ -41,7 +41,7 @@
+ 
+ 
+ 
+-9c6e06950af564820c2798318eb1d4c8b6619936bb13e3a4ccf1568812a0f7d2/545e50bcc34933b23852a89857e05d6a524b2101e79858d6f65c99a36be4e862/bT1216
++9c6e06950af564820c2798318eb1d4c8b6619936bb13e3a4ccf1568812a0f7d2/e31f2d150a8148baa58a02750f5bad5e22d1b143928d99842d7e10cfa6990938/bT1216
+ 
+ 
+ 
