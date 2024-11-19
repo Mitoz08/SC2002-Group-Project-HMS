@@ -39,7 +39,7 @@ public class AccountInfoDatabase {
     /**
      * Default Constructor
      */
-    private AccountInfoDatabase() {
+    public AccountInfoDatabase() {
     }
 
     /**
