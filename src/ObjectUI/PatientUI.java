@@ -336,7 +336,7 @@ public class PatientUI implements BaseUI {
         String service = Input.ScanString("What service are you booking for?\n");
         do {
             int doctorID = Input.ScanInt("Enter the doctor ID: \n");
-            if (availableDoc.contains(doctorID)) {
+            if (!availableDoc.contains(doctorID)) {
                 System.out.println("Invalid Doctor ID. Please try again");
                 continue;
             }
