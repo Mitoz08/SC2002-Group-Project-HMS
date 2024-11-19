@@ -93,7 +93,7 @@ public class AccountInfoDatabase {
             }
             System.out.println("Login successful.");
             if (password.equals("Password")) {
-                System.out.println("Please change you default password");
+                System.out.println("Please change your default password");
                 Input.ScanString("Enter to continue...");
                 String newPass = checkPassword();
                 addNewPassword(username,password,newPass);
