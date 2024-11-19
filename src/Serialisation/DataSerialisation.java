@@ -90,7 +90,6 @@ public class DataSerialisation {
                 {String.valueOf(request.getPharmacistID()), String.valueOf(request.isApproved()), String.valueOf(request.getAdministratorID()),""};
         String HashMap = "";
         for (Map.Entry<Integer,Integer> o: request.getRequestAmount().entrySet()) {
-            System.out.println(o.getKey() + "-" + o.getValue());
             HashMap = HashMap + o.getKey() + '-' + o.getValue() + '/';
         }
         HashMap = HashMap.substring(0,HashMap.length()-1);

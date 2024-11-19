@@ -237,6 +237,7 @@ public class PatientUI implements BaseUI {
      *
      */
     public Appointment scheduleApt(Patient patient) {
+        ArrayList<Integer> availableDoc = new ArrayList<>();
         Input.ClearConsole();
         boolean check;
         Input.ClearConsole();
@@ -315,11 +316,12 @@ public class PatientUI implements BaseUI {
                     return null;
                 }
             }
-
+            availableDoc.clear();
             ArrayList<Doctor> doctorsArrayList = database.getDoctors();
             for (Doctor doctor : doctorsArrayList) {
                 Boolean[] availability = doctor.getTimeSlot(date);
                 if (availability == null || !availability[timeSlot]) {
+                    availableDoc.add(doctor.getID());
                     System.out.println(doctor.getID() + ": " + doctor.getName() + " is available during this timeslot");
                     check = true;
                 }
@@ -334,6 +336,10 @@ public class PatientUI implements BaseUI {
         String service = Input.ScanString("What service are you booking for?\n");
         do {
             int doctorID = Input.ScanInt("Enter the doctor ID: \n");
+            if (availableDoc.contains(doctorID)) {
+                System.out.println("Invalid Doctor ID. Please try again");
+                continue;
+            }
             Doctor doctor = (Doctor) database.getPerson(doctorID, ROLE.DOCTOR);
             if (doctor == null) {
                 System.out.println("Invalid Doctor ID. Please try again");
