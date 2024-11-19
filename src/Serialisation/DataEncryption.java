@@ -3,6 +3,9 @@ package Serialisation;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
+/**
+ * A Class to encrypt and decrypt datas
+ */
 public class DataEncryption {
 
     /** The keys used for encrypting the text. */

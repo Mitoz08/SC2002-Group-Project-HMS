@@ -233,7 +233,7 @@ public class Pharmacy {
      * Prescribes the medicine by deducting given {@code amount} from {@code medicineName} in the {@code medicineStorage}
      * @param medicineName name of medicine
      * @param amount amount of that medicine
-     * @return
+     * @return {@code true} if medicine is prescribed from {@code Pharmacy}
      */
     public boolean prescribeMedicine(String medicineName, int amount){
         int medicineID = convertNameToID(medicineName);

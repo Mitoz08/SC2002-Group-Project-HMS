@@ -65,6 +65,7 @@ public class AppointmentList implements Iterable<Appointment> {
      * @param Patient {@code true} - prints out doctor's name, {@code false} - prints out patient's name
      *
      * @see Appointment#print(boolean, int)  Appointment print function
+     * @return the index of the {@code Appointment}
      */
     public int print(boolean Patient) {
         AppointmentNode curRef = this.headRef;
@@ -84,6 +85,7 @@ public class AppointmentList implements Iterable<Appointment> {
      * @param Patient {@code true} - prints out doctor's name, {@code false} - prints out patient's name
      * @param startIndex the index of the first {@code Appointment} in the List
      * @see Appointment#print(boolean, int)  Appointment print function
+     * @return the index of the {@code Appointment}
      */
     public int print(boolean Patient, int startIndex) {
         AppointmentNode curRef = this.headRef;
@@ -171,7 +173,7 @@ public class AppointmentList implements Iterable<Appointment> {
 
     /**
      * Used for iterating through the LinkedList
-     * @return
+     * @return the Iterator Object
      */
     @Override
     public Iterator<Appointment> iterator() {

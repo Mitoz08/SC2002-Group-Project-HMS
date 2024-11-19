@@ -79,6 +79,7 @@ public class DoctorUI implements BaseUI {
      * Displays the list of ongoing patients under the doctor's care and allows the doctor to view a selected patient's medical record.
      * If no patients are under the doctor's care, a message is displayed.
      * Otherwise, the doctor can enter a patient ID to view the corresponding medical record and appointment history.
+     * @param doctor the current {@code doctor}
      */
     public void viewPatient(Doctor doctor) {
         Input.ClearConsole();
@@ -127,6 +128,7 @@ public class DoctorUI implements BaseUI {
      * 2. Prompts the doctor to enter a patient ID.
      * 3. If the patient has past appointments, asks if the doctor wants to edit the latest notes.
      * 4. Updates the notes if confirmed by the doctor.
+     * @param doctor the current {@code doctor}
      */
     public void updatePatientMR(Doctor doctor) { // Change check test case 10
         Input.ClearConsole();
@@ -168,6 +170,7 @@ public class DoctorUI implements BaseUI {
      * Displays the doctor's availability schedule for the upcoming week.
      * Clears the console, then prints the first week's time slots using the doctor's
      * `printFirstWeekTimeSlot` method. Waits for user input before returning to the main menu.
+     * @param doctor the current {@code doctor}
      */
     public void viewSchedule(Doctor doctor) {
         Input.ClearConsole();
@@ -180,6 +183,7 @@ public class DoctorUI implements BaseUI {
      * The method first displays the current week's schedule, then prompts the doctor
      * to select a date and time slot to update. It also verifies the chosen slot's availability status
      * and ensures there are no conflicts with existing appointments before updating the availability.
+     * @param doctor the current {@code doctor}
      */
     public void setAvailability(Doctor doctor) {
         Input.ClearConsole();
@@ -258,6 +262,7 @@ public class DoctorUI implements BaseUI {
      * Allows the doctor to manage pending appointment requests by viewing the list of pending appointments,
      * selecting an appointment ID, and choosing to accept or decline the appointment.
      * If no pending appointments are available, a message is displayed to indicate this.
+     * @param doctor the current {@code doctor}
      */
     public void aptReq(Doctor doctor) {
         Input.ClearConsole();
@@ -313,6 +318,7 @@ public class DoctorUI implements BaseUI {
      * Displays the list of ongoing appointments for the doctor.
      * If there are ongoing appointments, each appointment's patient ID, patient name, and appointment ID are displayed.
      * If there are no ongoing appointments, a message is shown to indicate this.
+     * @param doctor the current {@code doctor}
      */
     public void viewOngoingAPT(Doctor doctor) {
         Input.ClearConsole();
@@ -338,6 +344,7 @@ public class DoctorUI implements BaseUI {
      * The method prompts the doctor to add medicines to the patient's prescription
      * if desired, then finalizes the appointment with consultation notes.
      * If there are no ongoing appointments, it displays a message and exits.
+     * @param doctor the current {@code doctor}
      */
     public void recordAptOutcome(Doctor doctor) {
         Input.ClearConsole();

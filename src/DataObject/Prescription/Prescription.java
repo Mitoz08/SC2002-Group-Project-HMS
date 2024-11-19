@@ -70,11 +70,11 @@ public class Prescription implements Comparable<Prescription> {
     /**
      * Prints out a formatted prescription block
      * <p>Prints:</p>
-     * <l>
+     * <ul>
      *     <li> Medicine name</li>
      *     <li> Medicine amount</li>
      *     <li> Prescribe status</li>
-     * </l>
+     * </ul>
      */
     public void print() {
         System.out.println("┌─────────────────────────────┐");
@@ -93,19 +93,23 @@ public class Prescription implements Comparable<Prescription> {
         // More code can be added if necessary
     }
 
+    /**
+     * Checks if medicine is prescribed
+     * @return {@code true} if prescribed
+     */
     public boolean isPrescribed() {
         return this.status == MED_STATUS.PRESCRIBED;
     }
 
     /**
      * Compares the current prescription with the argument prescription
-     * <l>
+     * <ul>
      *     <li>when current medicine is smaller than the argument medicine (alphabetically) returns less than 0</li>
      *     <li>when current medicine is larger than the argument medicine (alphabetically) returns more than 0</li>
      *     <li>when current medicine is equal to the argument medicine, returns the difference in the amount</li>
-     * </l>
+     * </ul>
      * @param o the object to be compared.
-     * @return
+     * @return an {@code Integer} base on the comparison
      */
     @Override
     public int compareTo(Prescription o) {

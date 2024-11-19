@@ -13,6 +13,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A class for converting between String and Objects
+ */
 public class DataSerialisation {
 
     // Object to String
@@ -411,9 +414,9 @@ public class DataSerialisation {
 
     /**
      * Concatenate all the strings in the array with the delimiter
-     * @param StringArray
-     * @param delimiter
-     * @return
+     * @param StringArray Strings to be concatenated
+     * @param delimiter delimiter to be inserted between Strings
+     * @return concatenated String
      */
     public static String convertStringArraytoString (String[] StringArray, String delimiter) {
         if (StringArray.length == 0) return "";

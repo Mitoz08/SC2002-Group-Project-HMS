@@ -87,11 +87,15 @@ public class PrescriptionList implements Iterable<Prescription> {
 
     /**
      * Adds {@code Prescription} into the list by index
-     * <l>
-     *     <li>when {@code index} > {@code count} - adds to that index </li>
-     *     <li>when {@code index} < 0 or >= {@code count}  adds to the end</li>
-     * </l>
+     * <p>
+     * when {@code index} is less than {@code count} - adds to that index
+     * </p>
+     * <p>
+     * when {@code index} is less than 0 / more than or equal {@code count}  adds to the end
+     * </p>
+     *
      * @param prescription {@code Prescription} to be added
+     * @param index {@code index} to start from
      */
     public void addPrescription(Prescription prescription, int index) {
         PrescriptionNode insert = new PrescriptionNode();

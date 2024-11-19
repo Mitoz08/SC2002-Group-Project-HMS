@@ -103,11 +103,11 @@ public class MedicineRequest {
     /**
      * Prints a formatted block of the medicine request.
      * <p>Prints:</p>
-     * <l>
+     * <ul>
      *     <li> Appointment ID</li>
      *     <li> Patient ID</li>
      *     <li> Doctor ID</li>
-     * </l>
+     * </ul>
      */
     public void print() {
         System.out.printf("┌─────────────────────────────┐\n");
@@ -120,11 +120,11 @@ public class MedicineRequest {
     /**
      * Prints a formatted block of the medicine request with an index.
      * <p>Prints:</p>
-     * <l>
+     * <ul>
      *     <li> Appointment ID</li>
      *     <li> Patient ID</li>
      *     <li> Doctor ID</li>
-     * </l>
+     * </ul>
      *
      * @param index the index to display before the block
      */

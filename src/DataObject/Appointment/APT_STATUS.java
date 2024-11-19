@@ -1,5 +1,12 @@
 package DataObject.Appointment;
 
-
-public enum APT_STATUS { PENDING, ONGOING, COMPLETED} // Will CANCELLED and REJECTED be used?
-
+/**
+ * Enumeration for appointment status
+ */
+public enum APT_STATUS {
+    /** For pending Appointment */
+    PENDING,
+    /** For ongoing Appointment */
+    ONGOING,
+    /** For completed Appointment */
+    COMPLETED}
