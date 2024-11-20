@@ -248,7 +248,7 @@ public class AdminUI implements BaseUI{
         }
         do {
             choice = Input.ScanInt("Which restock do you want to fulfill");
-            if (choice > size){
+            if (choice > size || choice <= 0){
                 System.out.println("Invalid option please try again");
                 continue;
             }
