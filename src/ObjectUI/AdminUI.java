@@ -102,7 +102,7 @@ public class AdminUI implements BaseUI{
                             System.out.println("The Staff has been added to the Database\n");
                             break;
                         case 2:
-                            BasePerson toRemove = removeStaff();
+                            BasePerson toRemove = removeStaff(admin);
                             if (toRemove == null){
                                 break;
                             }
@@ -334,10 +334,10 @@ public class AdminUI implements BaseUI{
      *     <li>The method will keep prompting the user to select an option until a valid choice is provided.</li>
      * </ul>
      */
-    private BasePerson removeStaff() {
-        int choice1, choice2, i = 1;
-        int index = 1;
+    private BasePerson removeStaff(Administrator admin) {
+        int choice1, choice2;
         do {
+            int index = 1, i =1;
             choice1 = Input.ScanInt("Do you want to fire a\n" +
                     "1. Doctor\n" +
                     "2. Pharmacist\n" +
@@ -346,14 +346,20 @@ public class AdminUI implements BaseUI{
                 case 1:
                     ArrayList<Doctor> docList = database.getDoctors();
                     if (docList.isEmpty()) {
-                        System.out.println("There aren't any doctors left in the Hospital");
+                        System.out.println("There aren't any doctors left in the Hospital\n");
                         return null;
                     }
                     for (Doctor doc : docList) {
                         System.out.println(index + ": " + "Name: " + doc.getName() + ", ID: " + doc.getID());
                         index++;
                     }
-                    choice2 = Input.ScanInt("Choose which doctor to remove\n");
+                    do{
+                        choice2 = Input.ScanInt("Choose which doctor to remove\n");
+                        if (choice2>0 && choice2<=docList.size()){
+                            break;
+                        }
+                        System.out.println("Invalid input! Please try again\n");
+                    }while (true);
                     for (Doctor doc : docList) {
                         if (i == choice2) {
                             System.out.println("This doctor is to be removed, " + doc.getName() + " with an ID of " + doc.getID());
@@ -376,14 +382,20 @@ public class AdminUI implements BaseUI{
                 case 2:
                     ArrayList<Pharmacist> pharList = database.getPharmacists();
                     if (pharList.isEmpty()) {
-                        System.out.println("There aren't any pharmacist left in the hospital");
+                        System.out.println("There aren't any pharmacist left in the hospital\n");
                         return null;
                     }
                     for (Pharmacist ph : pharList) {
                         System.out.println(index + ": " + "Name: " + ph.getName() + ", ID: " + ph.getID());
                         index++;
                     }
-                    choice2 = Input.ScanInt("Choose which Pharmacist to remove\n");
+                    do{
+                        choice2 = Input.ScanInt("Choose which Pharmacist to remove\n");
+                        if (choice2>0 && choice2<=pharList.size()){
+                            break;
+                        }
+                        System.out.println("Invalid input! Please try again\n");
+                    }while (true);
                     for (Pharmacist ph : pharList) {
                         if (i == choice2) {
                             System.out.println("This pharmacist is to be removed\n");
@@ -396,16 +408,26 @@ public class AdminUI implements BaseUI{
                 case 3:
                     ArrayList<Administrator> adList = database.getAdministrators();
                     if (adList.isEmpty()) {
-                        System.out.println("There aren't any administrators left in the hospital");
+                        System.out.println("There aren't any administrators left in the hospital\n");
                         return null;
                     }
                     for (Administrator ad : adList) {
                         System.out.println(index + ": " + "Name: " + ad.getName() + ", ID: " + ad.getID());
                         index++;
                     }
-                    choice2 = Input.ScanInt("Choose which Administrator to remove\n");
+                    do{
+                        choice2 = Input.ScanInt("Choose which Administrator to remove\n");
+                        if (choice2>0 && choice2<=adList.size()){
+                            break;
+                        }
+                        System.out.println("Invalid option! Please try again\n");
+                    }while(true);
                     for (Administrator ad : adList) {
                         if (i == choice2) {
+                            if (ad.equals(admin)){
+                                System.out.println("Please try again! Cannot remove the administrator currently logged in!");
+                                break;
+                            }
                             System.out.println("This administrator is to be removed\n");
                             database.getAdministrators().remove(ad);
                             return ad;
