@@ -86,7 +86,7 @@ public class PharmacistUI implements BaseUI {
             return;
         }
         do {
-            index = Input.ScanInt("Choose an request to view:") - 1;
+            index = Input.ScanInt("Choose a request to view:") - 1;
             if (index >= size) System.out.println("Incorrect index.");
         } while (index >= size);
         request = pharmacy.getMedRequest(index);
@@ -112,7 +112,7 @@ public class PharmacistUI implements BaseUI {
 
         if (printFulfillable(prescriptions)) return;
 
-        if (!Input.ScanBoolean("Do you want to prescribe the medicine?")) {
+        if (!Input.ScanBoolean("Do you want to dispense the medicine?")) {
             Input.ScanString("Press enter to exit...");
             return;
         }
@@ -168,7 +168,7 @@ public class PharmacistUI implements BaseUI {
 
         if (printFulfillable(prescriptions)) return;
 
-        if (!Input.ScanBoolean("Do you want to prescribe the medicine?")) {
+        if (!Input.ScanBoolean("Do you want to dispense the medicine?")) {
             Input.ScanString("Press enter to exit...");
             return;
         }
@@ -274,7 +274,7 @@ public class PharmacistUI implements BaseUI {
                     }
                     else System.out.println("Error dispensing medicine.");
                 }
-                Input.ScanString("Medicine prescribed. Press enter to return...");
+                Input.ScanString("Medicine dispensed. Press enter to return...");
                 return true;
             } else if (choice == prescriptions.size() + 1) {
                 Input.ScanString("Stopped dispensing medicine. Press enter to return...");
@@ -288,7 +288,7 @@ public class PharmacistUI implements BaseUI {
                 else System.out.println("Error dispensing medicine.");
             }
         }
-        Input.ScanString("Medicine prescribed. Press enter to return...");
+        Input.ScanString("Medicine dispensed. Press enter to return...");
         return false;
     }
 
